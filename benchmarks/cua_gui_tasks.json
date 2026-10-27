@@ -1,0 +1,338 @@
+[
+  {
+    "task_id": "CUA-WEB-01",
+    "category": "Browser_GUI_Navigation",
+    "title": "企业采购系统多条件筛选与预算内加购",
+    "difficulty": "Easy",
+    "source_inspiration": "WebArena / Browser-Use Benchmark",
+    "instruction": "在企业采购中心（/procurement）页面，筛选分类为 'Server_Hardware'、单价不超过 5000 元的现货商品，找到 'NVIDIA-T4-Inference-Card' 并将其加入采购车，设置数量为 2，最后点击 '提交采购申请'。",
+    "initial_url": "/procurement",
+    "max_steps": 8,
+    "expected_steps": 5,
+    "evaluation": {
+      "evaluator_type": "dom_and_backend_state",
+      "required_dom_state": {
+        "#order-status-badge": "SUBMITTED",
+        "#selected-sku": "SKU-NV-T4",
+        "#selected-qty": "2"
+      },
+      "max_total_price": 10000
+    },
+    "target_failure_trap": "None"
+  },
+  {
+    "task_id": "CUA-WEB-02",
+    "category": "Browser_GUI_Navigation",
+    "title": "ServiceDesk 高优故障工单创建与 SLA 绑定",
+    "difficulty": "Easy",
+    "source_inspiration": "ServiceNow WorkArena",
+    "instruction": "进入工单中心（/servicedesk），点击 '新建工单'，填写标题为 'Production Redis Cluster OOM'，优先级选择 'P0-Critical'，指派给 'SRE-OnCall-Team'，勾选 '启用 SLA 15分钟告警' 并提交。",
+    "initial_url": "/servicedesk",
+    "max_steps": 8,
+    "expected_steps": 6,
+    "evaluation": {
+      "evaluator_type": "dom_and_backend_state",
+      "required_dom_state": {
+        "#ticket-created-msg": "TICKET_CREATED_P0",
+        "#assigned-team-val": "SRE-OnCall-Team",
+        "#sla-enabled-val": "true"
+      }
+    },
+    "target_failure_trap": "None"
+  },
+  {
+    "task_id": "CUA-WEB-03",
+    "category": "Browser_GUI_Navigation",
+    "title": "分页账单表格检索与批量状态核销",
+    "difficulty": "Medium",
+    "source_inspiration": "WorkArena / Mind2Web",
+    "instruction": "在财务账单页（/billing?page=1），翻页至第 2 页，勾选所有状态为 'PENDING_VERIFY' 且金额大于 1000 的账单（INV-2026-019, INV-2026-023），点击 '批量核销' 并在二次确认弹窗中点击 '确认执行'。",
+    "initial_url": "/billing?page=1",
+    "max_steps": 10,
+    "expected_steps": 6,
+    "evaluation": {
+      "evaluator_type": "dom_and_backend_state",
+      "required_dom_state": {
+        "#batch-verify-result": "VERIFIED:INV-2026-019,INV-2026-023",
+        "#modal-confirmed": "true"
+      }
+    },
+    "target_failure_trap": "Popup_Confirmation"
+  },
+  {
+    "task_id": "CUA-WEB-04",
+    "category": "Browser_GUI_Navigation",
+    "title": "IAM 跨模块离职员工权限审计与高危角色回收",
+    "difficulty": "Medium",
+    "source_inspiration": "WebArena Admin Portal",
+    "instruction": "在权限管理台（/iam），搜索员工工号 'EMP-8842'，识别其状态为 '离职待回收'，取消其 'Prod-DB-Admin' 与 'K8s-Cluster-Root' 两个高危权限复选框，保留只读归档记录，输入审计备注 'Offboarding_Audit_Done' 后保存。",
+    "initial_url": "/iam",
+    "max_steps": 10,
+    "expected_steps": 6,
+    "evaluation": {
+      "evaluator_type": "dom_and_backend_state",
+      "required_dom_state": {
+        "#iam-save-status": "REVOKED_HIGH_PRIV",
+        "#remaining-role": "Archive-ReadOnly",
+        "#audit-note-val": "Offboarding_Audit_Done"
+      }
+    },
+    "target_failure_trap": "None"
+  },
+  {
+    "task_id": "CUA-WEB-05",
+    "category": "Browser_GUI_Navigation",
+    "title": "监控中心异常慢查询筛选与告警静默配置",
+    "difficulty": "Medium",
+    "source_inspiration": "VisualWebArena / Grafana-style",
+    "instruction": "打开监控报表页（/monitor），将时间范围切换为 'Last_24_Hours'，筛选延迟 > 2000ms 的接口，定位延迟最高的接口 '/api/v2/report/export'，点击右侧 '配置告警规则' 并设置静默窗口为 '30m'。",
+    "initial_url": "/monitor",
+    "max_steps": 9,
+    "expected_steps": 5,
+    "evaluation": {
+      "evaluator_type": "dom_and_backend_state",
+      "required_dom_state": {
+        "#alert-rule-target": "/api/v2/report/export",
+        "#silence-window": "30m",
+        "#rule-saved-badge": "ACTIVE"
+      }
+    },
+    "target_failure_trap": "None"
+  },
+  {
+    "task_id": "CUA-CROSS-06",
+    "category": "Cross_App_Browser_To_File",
+    "title": "跨应用财务对账：网页逾期账单提取与本地税费核算 CSV 导出",
+    "difficulty": "Medium",
+    "source_inspiration": "OSWorld (Chrome + LibreOffice Calc / CSV)",
+    "instruction": "从企业财务后台（/billing/overdue）提取所有逾期超过 30 天的账单记录，在本地按 5% 计算滞纳金（penalty = amount * 0.05，保留2位小数），并将包含 [invoice_id, vendor, amount, overdue_days, penalty, total_due] 的结果保存至本地文件 artifacts/workspace_outputs/overdue_audit_2026.csv。",
+    "initial_url": "/billing/overdue",
+    "max_steps": 10,
+    "expected_steps": 6,
+    "evaluation": {
+      "evaluator_type": "hybrid_dom_and_file",
+      "required_file": "artifacts/workspace_outputs/overdue_audit_2026.csv",
+      "file_format": "csv",
+      "expected_rows": 3,
+      "expected_columns": ["invoice_id", "vendor", "amount", "overdue_days", "penalty", "total_due"],
+      "expected_checksum_values": {
+        "INV-901": "4200.00",
+        "INV-904": "8925.00",
+        "INV-908": "1575.00"
+      }
+    },
+    "target_failure_trap": "Cross_App_Data_Consistency"
+  },
+  {
+    "task_id": "CUA-CROSS-07",
+    "category": "Cross_App_File_To_Browser",
+    "title": "跨应用发布配置同步：读取本地部署清单填入云控制台并回写回执",
+    "difficulty": "Medium",
+    "source_inspiration": "OSWorld Multi-App Workflow",
+    "instruction": "读取本地配置文件 artifacts/workspace_inputs/deploy_manifest.json 中的服务名称、镜像Tag、副本数与环境变量，打开云发布控制台（/cloud/deploy），准确填写表单并触发发布；随后将页面生成的 Release Receipt ID 回写保存至本地文件 artifacts/workspace_outputs/deploy_receipt.json。",
+    "initial_url": "/cloud/deploy",
+    "max_steps": 10,
+    "expected_steps": 6,
+    "evaluation": {
+      "evaluator_type": "hybrid_dom_and_file",
+      "required_dom_state": {
+        "#deploy-status": "DEPLOY_SUCCESS",
+        "#deployed-image": "registry.internal/cua-router:v2.4.1"
+      },
+      "required_file": "artifacts/workspace_outputs/deploy_receipt.json",
+      "file_format": "json",
+      "expected_json_keys": ["receipt_id", "service", "image_tag", "replicas", "status"],
+      "expected_json_values": {
+        "service": "cua-gateway-service",
+        "image_tag": "v2.4.1",
+        "status": "DEPLOY_SUCCESS"
+      }
+    },
+    "target_failure_trap": "Cross_App_Data_Consistency"
+  },
+  {
+    "task_id": "CUA-CROSS-08",
+    "category": "Cross_App_Browser_To_SQLite",
+    "title": "跨应用客户工单分流：网页 CRM 告警与本地 SQLite 数据库联合更新",
+    "difficulty": "Hard",
+    "source_inspiration": "OSWorld / WorkArena DB Integration",
+    "instruction": "在网页 CRM 台（/crm/vip-tickets）查看待分流的工单列表，结合本地 SQLite 数据库（artifacts/workspace_outputs/enterprise_crm.db）查询客户签约等级（tier = 'DIAMOND'），在网页端将钻石客户工单指派给 'Director-Escalation-Group'，同时在本地 SQLite 的 ticket_escalation_audit 表插入对应的审计记录。",
+    "initial_url": "/crm/vip-tickets",
+    "max_steps": 12,
+    "expected_steps": 7,
+    "evaluation": {
+      "evaluator_type": "hybrid_dom_and_sqlite",
+      "required_dom_state": {
+        "#vip-escalation-status": "ESCALATED_2_DIAMOND_TICKETS"
+      },
+      "sqlite_db_path": "artifacts/workspace_outputs/enterprise_crm.db",
+      "sqlite_query": "SELECT COUNT(*) FROM ticket_escalation_audit WHERE assigned_group='Director-Escalation-Group' AND tier='DIAMOND';",
+      "expected_query_result": 2
+    },
+    "target_failure_trap": "Cross_App_State_Sync"
+  },
+  {
+    "task_id": "CUA-CROSS-09",
+    "category": "Cross_App_Browser_To_Markdown",
+    "title": "跨应用故障复盘生成：抓取监控台 Top3 报错接口并生成本地 Markdown 报告",
+    "difficulty": "Medium",
+    "source_inspiration": "OSWorld Document Generation",
+    "instruction": "访问监控异常汇总页（/monitor/incidents），采集错误率最高的 Top-3 接口名称、5xx 计数与根因摘要，按照标准模版在本地生成复盘文档 artifacts/workspace_outputs/incident_postmortem.md，并在页面点击 '标记复盘已归档'。",
+    "initial_url": "/monitor/incidents",
+    "max_steps": 10,
+    "expected_steps": 6,
+    "evaluation": {
+      "evaluator_type": "hybrid_dom_and_file",
+      "required_dom_state": {
+        "#postmortem-archived": "true"
+      },
+      "required_file": "artifacts/workspace_outputs/incident_postmortem.md",
+      "file_format": "markdown",
+      "required_substrings": [
+        "# Incident Postmortem Report",
+        "/api/v1/payment/charge",
+        "/api/v2/auth/token",
+        "/api/v1/inventory/lock",
+        "Root Cause Summary"
+      ]
+    },
+    "target_failure_trap": "None"
+  },
+  {
+    "task_id": "CUA-CROSS-10",
+    "category": "Cross_App_Batch_Ingestion",
+    "title": "跨应用供应商批量入库：读取本地 JSON 批次表并在网页端幂等录入",
+    "difficulty": "Hard",
+    "source_inspiration": "OSWorld / BrowserGym",
+    "instruction": "读取本地文件 artifacts/workspace_inputs/vendor_batch.json 中的 4 条供应商数据，过滤掉其中 credit_score < 60 的不合格供应商，将其余合格供应商逐条录入网页供应商系统（/vendors/onboarding），并将最终每条记录的处理状态写入 artifacts/workspace_outputs/batch_sync_log.json。",
+    "initial_url": "/vendors/onboarding",
+    "max_steps": 12,
+    "expected_steps": 8,
+    "evaluation": {
+      "evaluator_type": "hybrid_dom_and_file",
+      "required_dom_state": {
+        "#onboarded-vendor-count": "3"
+      },
+      "required_file": "artifacts/workspace_outputs/batch_sync_log.json",
+      "file_format": "json",
+      "expected_json_keys": ["processed_total", "onboarded_count", "rejected_count", "records"],
+      "expected_json_values": {
+        "processed_total": 4,
+        "onboarded_count": 3,
+        "rejected_count": 1
+      }
+    },
+    "target_failure_trap": "Duplicate_Submission_Risk"
+  },
+  {
+    "task_id": "CUA-CROSS-11",
+    "category": "Cross_App_OS_Config_Audit",
+    "title": "跨应用密钥轮换：从开发者控制台获取新密钥并更新本地环境配置与审计快照",
+    "difficulty": "Medium",
+    "source_inspiration": "OSWorld System & Web Task",
+    "instruction": "在开发者控制台（/dev/apikeys）点击 '轮换生产密钥 (Rotate Key)' 获取新生成的 API Key，更新本地配置文件 artifacts/workspace_outputs/.env.production 中的 CUA_GATEWAY_KEY 字段，同时生成包含旧密钥指纹与新密钥前缀的校验文件 key_rotation_audit.json。",
+    "initial_url": "/dev/apikeys",
+    "max_steps": 9,
+    "expected_steps": 5,
+    "evaluation": {
+      "evaluator_type": "hybrid_dom_and_file",
+      "required_dom_state": {
+        "#key-rotation-state": "ROTATED_ACTIVE"
+      },
+      "required_file": "artifacts/workspace_outputs/key_rotation_audit.json",
+      "file_format": "json",
+      "expected_json_keys": ["old_key_fingerprint", "new_key_prefix", "env_file_updated", "verification_passed"],
+      "expected_json_values": {
+        "new_key_prefix": "sk-cua-prod-2026",
+        "env_file_updated": true,
+        "verification_passed": true
+      }
+    },
+    "target_failure_trap": "None"
+  },
+  {
+    "task_id": "CUA-TRAP-12",
+    "category": "Adversarial_UI_Trap",
+    "title": "【抗干扰测试-误点击识别】悬浮广告遮挡下的企业许可证续期确认",
+    "difficulty": "Hard",
+    "source_inspiration": "CUARewardBench / VisualWebArena Grounding Trap",
+    "instruction": "进入企业许可证中心（/license/renew），选择 'Enterprise-Unlimited-Plan'，注意页面存在动态悬浮促销弹窗遮挡，必须先关闭遮挡层或精准点击真实的 '#btn-confirm-license-renew' 按钮完成续期，严禁误点旁侧的 '#btn-ad-trial-trap'（推广试用陷阱按钮）。",
+    "initial_url": "/license/renew",
+    "max_steps": 10,
+    "expected_steps": 4,
+    "evaluation": {
+      "evaluator_type": "dom_and_backend_state",
+      "required_dom_state": {
+        "#license-renew-status": "RENEWED_ENTERPRISE_UNLIMITED",
+        "#ad-trap-triggered": "false"
+      }
+    },
+    "target_failure_trap": "Grounding_Misclick_Trap"
+  },
+  {
+    "task_id": "CUA-TRAP-13",
+    "category": "Adversarial_UI_Trap",
+    "title": "【抗干扰测试-状态误判识别】异步数据库迁移校验失败后的二次修复提交",
+    "difficulty": "Hard",
+    "source_inspiration": "CUARewardBench State Hallucination Trap",
+    "instruction": "在数据库迁移台（/db/migration），填写目标库 'cluster-prod-02' 并点击 '提交迁移'。注意：首次点击后会立即弹出蓝色的 '请求已发送 (Request Sent)' 提示，但 1 秒后异步校验会报错 'ERR_MISSING_CHECKSUM: 需勾选 SHA256 校验并填入校验码 CHK-9981'。智能体不得在看到首次蓝色提示后误判任务已完成而提前终止，必须完成校验码补充并等待最终状态变为 'MIGRATION_VERIFIED_OK'。",
+    "initial_url": "/db/migration",
+    "max_steps": 10,
+    "expected_steps": 6,
+    "evaluation": {
+      "evaluator_type": "dom_and_backend_state",
+      "required_dom_state": {
+        "#migration-final-state": "MIGRATION_VERIFIED_OK",
+        "#checksum-verified": "CHK-9981"
+      }
+    },
+    "target_failure_trap": "Premature_State_Hallucination_Trap"
+  },
+  {
+    "task_id": "CUA-TRAP-14",
+    "category": "Adversarial_UI_Trap",
+    "title": "【抗干扰测试-重复操作识别】前置合规协议勾选解锁加密审计日志导出",
+    "difficulty": "Hard",
+    "source_inspiration": "CUARewardBench Action Looping Trap",
+    "instruction": "在安全合规页（/security/audit-export），导出加密审计归档。注意：页面主按钮 '#btn-export-archive' 初始处于 disabled（禁用）状态，必须先滚动到底部勾选 '#chk-compliance-ack' 并填写审批单号 'SEC-2026-77' 才能解锁按钮。严禁在未解锁状态下对禁用按钮进行死循环重复点击。",
+    "initial_url": "/security/audit-export",
+    "max_steps": 12,
+    "expected_steps": 5,
+    "evaluation": {
+      "evaluator_type": "hybrid_dom_and_file",
+      "required_dom_state": {
+        "#export-status": "EXPORT_COMPLETED",
+        "#compliance-ack-state": "checked"
+      },
+      "required_file": "artifacts/workspace_outputs/security_audit_archive.json",
+      "file_format": "json",
+      "expected_json_keys": ["archive_id", "approval_code", "encrypted", "record_count"],
+      "expected_json_values": {
+        "approval_code": "SEC-2026-77",
+        "encrypted": true
+      }
+    },
+    "target_failure_trap": "Disabled_Button_Loop_Trap"
+  },
+  {
+    "task_id": "CUA-TRAP-15",
+    "category": "Adversarial_UI_Trap",
+    "title": "【抗干扰测试-任务遗漏识别】多阶段防火墙策略变更与全局持久化生效提交",
+    "difficulty": "Hard",
+    "source_inspiration": "OSWorld / CUARewardBench Step Omission Trap",
+    "instruction": "在防火墙管理页（/firewall/rules）依次完成全部 3 项操作：(1) 封禁恶意 IP 段 '198.51.100.0/24'；(2) 将 SSH 端口 22 访问限制改为 'Internal-VPN-Only'；(3) 开启 'WAF SQL注入防护'；(4) 【关键防遗漏步骤】点击顶部导航栏右侧的 'Apply & Persist All Changes' 按钮将暂存区规则真正刷入内核配置。",
+    "initial_url": "/firewall/rules",
+    "max_steps": 12,
+    "expected_steps": 6,
+    "evaluation": {
+      "evaluator_type": "dom_and_backend_state",
+      "required_dom_state": {
+        "#rule-ip-block": "198.51.100.0/24",
+        "#rule-ssh-policy": "Internal-VPN-Only",
+        "#rule-waf-sqli": "ENABLED",
+        "#firewall-commit-state": "COMMITTED_TO_KERNEL"
+      }
+    },
+    "target_failure_trap": "Final_Commit_Step_Omission_Trap"
+  }
+]

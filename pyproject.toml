@@ -1,0 +1,18 @@
+[build-system]
+requires = ["setuptools>=65.0"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "cua-agent-eval-suite"
+version = "0.2.0"
+description = "End-to-End Evaluation, Trajectory Quality Inspection (ORM/PRM), and Cross-App Benchmark Suite for Computer-Using Agents (CUA), Web GUI Agents, and Coding Agents"
+readme = "README.md"
+requires-python = ">=3.10"
+license = {text = "MIT"}
+authors = [
+    {name = "CUA Evaluation Research"}
+]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+pythonpath = ["."]

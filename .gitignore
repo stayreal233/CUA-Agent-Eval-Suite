@@ -1,0 +1,19 @@
+# Byte-compiled / optimized / DLL files
+__pycache__/
+*.py[cod]
+*$py.class
+
+# Virtual environments
+.venv/
+venv/
+ENV/
+
+# Environment variables
+.env
+
+# Pytest cache
+.pytest_cache/
+
+# Temp workspace for coding tasks
+temp_Coding_Workspace/
+*.tmp

@@ -1,0 +1,18 @@
+FROM python:3.10-slim
+
+LABEL maintainer="CUA-Agent-Eval-Suite"
+LABEL description="Isolated Docker Sandbox for SWE-bench Coding Agent & Cross-App Verification"
+
+WORKDIR /workspace
+
+RUN apt-get update && apt-get install -y --no-install-recommends \
+    git \
+    diffutils \
+    patch \
+    sqlite3 \
+    && rm -rf /var/lib/apt/lists/*
+
+RUN pip install --no-cache-dir pytest pydantic
+
+# Default command runs the isolated pytest verification suite inside the container
+CMD ["pytest", "-q"]

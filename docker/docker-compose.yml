@@ -1,0 +1,22 @@
+version: "3.9"
+
+services:
+  cua-mock-enterprise-web:
+    image: python:3.10-slim
+    container_name: cua_mock_enterprise_web
+    working_dir: /app
+    volumes:
+      - ../:/app
+    ports:
+      - "18920:18920"
+    command: python mock_env/server.py --host 0.0.0.0 --port 18920
+    restart: unless-stopped
+
+  swe-coding-sandbox:
+    build:
+      context: ..
+      dockerfile: docker/Dockerfile.swe_sandbox
+    container_name: swe_coding_sandbox
+    volumes:
+      - ../:/workspace
+    working_dir: /workspace
