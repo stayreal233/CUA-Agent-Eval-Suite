@@ -1,0 +1,58 @@
+{
+  "trajectory": {
+    "task_id": "CUA-CROSS-06",
+    "title": "跨应用财务对账：网页逾期账单提取与本地税费核算 CSV 导出",
+    "category": "Cross_App_Browser_To_File",
+    "agent_profile": "Qwen2.5-VL-72B-CUA",
+    "expected_steps": 6,
+    "agent_claimed_success": true,
+    "premature_stop_on_toast": false,
+    "steps": [
+      {
+        "step_index": 1,
+        "thought": "Extract overdue >30d rows, compute 5% penalty, and export overdue_audit_2026.csv",
+        "action_type": "cross_app_op",
+        "selector": "",
+        "value": "",
+        "coords": null,
+        "target_bbox": null,
+        "target_disabled": false,
+        "hit_ad_trap": false,
+        "screenshot": "artifacts/screenshots/CUA-CROSS-06_Qwen2.5-VL-72B-CUA_step1.png"
+      }
+    ],
+    "final_dom_state": {},
+    "timestamp": "2026-10-27T14:35:15"
+  },
+  "verification": {
+    "task_id": "CUA-CROSS-06",
+    "evaluator_type": "hybrid_dom_and_file",
+    "passed": true,
+    "score": 1.0,
+    "passed_checks": 1,
+    "total_checks": 1,
+    "check_details": [
+      {
+        "check_type": "file_artifact (csv)",
+        "target": "overdue_audit_2026.csv",
+        "expected": "rows=3, totals={'INV-901': '4200.00', 'INV-904': '8925.00', 'INV-908': '1575.00'}",
+        "actual": "rows=3, totals={'INV-901': '4200.00', 'INV-904': '8925.00', 'INV-908': '1575.00'}",
+        "passed": true
+      }
+    ]
+  },
+  "inspection": {
+    "task_id": "CUA-CROSS-06",
+    "agent_profile": "Qwen2.5-VL-72B-CUA",
+    "orm_passed": true,
+    "orm_score": 1.0,
+    "prm_score": 1.0,
+    "step_count": 1,
+    "expected_steps": 6,
+    "step_efficiency": 1.0,
+    "anomaly_count": 0,
+    "failure_categories": [],
+    "primary_failure_mode": "NONE (PASS)",
+    "anomalies": []
+  }
+}

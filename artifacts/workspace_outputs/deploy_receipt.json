@@ -1,0 +1,7 @@
+{
+  "receipt_id": "RCPT-20261027-8841",
+  "service": "cua-gateway-service",
+  "image_tag": "v2.4.1",
+  "replicas": 3,
+  "status": "DEPLOY_SUCCESS"
+}

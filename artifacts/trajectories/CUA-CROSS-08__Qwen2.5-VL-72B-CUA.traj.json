@@ -1,0 +1,147 @@
+{
+  "trajectory": {
+    "task_id": "CUA-CROSS-08",
+    "title": "跨应用客户工单分流：网页 CRM 告警与本地 SQLite 数据库联合更新",
+    "category": "Cross_App_Browser_To_SQLite",
+    "agent_profile": "Qwen2.5-VL-72B-CUA",
+    "expected_steps": 7,
+    "agent_claimed_success": true,
+    "premature_stop_on_toast": false,
+    "steps": [
+      {
+        "step_index": 1,
+        "thought": "Query SQLite -> CUST-101 is DIAMOND -> select TCK-501",
+        "action_type": "check",
+        "selector": "#chk-tck-501",
+        "value": "",
+        "coords": [
+          1009,
+          250
+        ],
+        "target_bbox": {
+          "x": 1002,
+          "y": 243,
+          "width": 15,
+          "height": 15
+        },
+        "target_disabled": false,
+        "hit_ad_trap": false,
+        "screenshot": null
+      },
+      {
+        "step_index": 2,
+        "thought": "Query SQLite -> CUST-103 is DIAMOND -> select TCK-503",
+        "action_type": "check",
+        "selector": "#chk-tck-503",
+        "value": "",
+        "coords": [
+          1009,
+          350
+        ],
+        "target_bbox": {
+          "x": 1002,
+          "y": 343,
+          "width": 15,
+          "height": 15
+        },
+        "target_disabled": false,
+        "hit_ad_trap": false,
+        "screenshot": null
+      },
+      {
+        "step_index": 3,
+        "thought": "Assign to Director-Escalation-Group",
+        "action_type": "select",
+        "selector": "#select-escalation-group",
+        "value": "Director-Escalation-Group",
+        "coords": [
+          640,
+          436
+        ],
+        "target_bbox": {
+          "x": 105,
+          "y": 417,
+          "width": 1070,
+          "height": 39
+        },
+        "target_disabled": false,
+        "hit_ad_trap": false,
+        "screenshot": null
+      },
+      {
+        "step_index": 4,
+        "thought": "Escalate tickets on web CRM",
+        "action_type": "click",
+        "selector": "#btn-escalate-vip",
+        "value": "",
+        "coords": [
+          170,
+          485
+        ],
+        "target_bbox": {
+          "x": 105,
+          "y": 468,
+          "width": 130,
+          "height": 35
+        },
+        "target_disabled": false,
+        "hit_ad_trap": false,
+        "screenshot": null
+      },
+      {
+        "step_index": 5,
+        "thought": "Insert escalation audit records into local enterprise_crm.db",
+        "action_type": "cross_app_op",
+        "selector": "",
+        "value": "",
+        "coords": null,
+        "target_bbox": null,
+        "target_disabled": false,
+        "hit_ad_trap": false,
+        "screenshot": "artifacts/screenshots/CUA-CROSS-08_Qwen2.5-VL-72B-CUA_step5.png"
+      }
+    ],
+    "final_dom_state": {
+      "#vip-escalation-status": "ESCALATED_2_DIAMOND_TICKETS"
+    },
+    "timestamp": "2026-10-27T14:35:15"
+  },
+  "verification": {
+    "task_id": "CUA-CROSS-08",
+    "evaluator_type": "hybrid_dom_and_sqlite",
+    "passed": true,
+    "score": 1.0,
+    "passed_checks": 2,
+    "total_checks": 2,
+    "check_details": [
+      {
+        "check_type": "dom_state",
+        "target": "#vip-escalation-status",
+        "expected": "ESCALATED_2_DIAMOND_TICKETS",
+        "actual": "ESCALATED_2_DIAMOND_TICKETS",
+        "passed": true
+      },
+      {
+        "check_type": "sqlite_db_state",
+        "target": "enterprise_crm.db -> SELECT COUNT(*) FROM ticket_escalation_audit WHERE assigned_group='Director-Escalation-Group' AND tier='DIAMOND';",
+        "expected": "2",
+        "actual": "2",
+        "passed": true
+      }
+    ]
+  },
+  "inspection": {
+    "task_id": "CUA-CROSS-08",
+    "agent_profile": "Qwen2.5-VL-72B-CUA",
+    "orm_passed": true,
+    "orm_score": 1.0,
+    "prm_score": 1.0,
+    "step_count": 5,
+    "expected_steps": 7,
+    "step_efficiency": 1.0,
+    "anomaly_count": 0,
+    "failure_categories": [],
+    "primary_failure_mode": "NONE (PASS)",
+    "anomalies": []
+  }
+}

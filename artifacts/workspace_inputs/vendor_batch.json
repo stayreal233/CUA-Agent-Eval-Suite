@@ -1,0 +1,22 @@
+[
+  {
+    "vendor_id": "V-01",
+    "name": "Shenzhen_Optics_Ltd",
+    "credit_score": 88
+  },
+  {
+    "vendor_id": "V-02",
+    "name": "RiskyParts_Broker",
+    "credit_score": 42
+  },
+  {
+    "vendor_id": "V-03",
+    "name": "CloudCore_Systems",
+    "credit_score": 95
+  },
+  {
+    "vendor_id": "V-04",
+    "name": "Quantum_PCB_Works",
+    "credit_score": 76
+  }
+]

@@ -17,3 +17,6 @@ ENV/
 # Temp workspace for coding tasks
 temp_Coding_Workspace/
 *.tmp
+
+# Local-only resume & interview guide (keep locally, exclude from GitHub)
+docs/RESUME_AND_INTERVIEW_GUIDE.md

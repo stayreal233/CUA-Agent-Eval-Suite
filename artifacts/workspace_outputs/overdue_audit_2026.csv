@@ -1,0 +1,4 @@
+invoice_id,vendor,amount,overdue_days,penalty,total_due
+INV-901,TechSupply_Co,4000.00,45,200.00,4200.00
+INV-904,CloudMatrix_Inc,8500.00,60,425.00,8925.00
+INV-908,ApexHardware,1500.00,38,75.00,1575.00

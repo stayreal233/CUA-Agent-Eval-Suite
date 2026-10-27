@@ -1,0 +1,87 @@
+{
+  "trajectory": {
+    "task_id": "CUA-CROSS-11",
+    "title": "跨应用密钥轮换：从开发者控制台获取新密钥并更新本地环境配置与审计快照",
+    "category": "Cross_App_OS_Config_Audit",
+    "agent_profile": "UI-TARS-7B-Baseline",
+    "expected_steps": 5,
+    "agent_claimed_success": true,
+    "premature_stop_on_toast": false,
+    "steps": [
+      {
+        "step_index": 1,
+        "thought": "Click Rotate Production Key",
+        "action_type": "click",
+        "selector": "#btn-rotate-key",
+        "value": "",
+        "coords": [
+          203,
+          206
+        ],
+        "target_bbox": {
+          "x": 105,
+          "y": 189,
+          "width": 197,
+          "height": 35
+        },
+        "target_disabled": false,
+        "hit_ad_trap": false,
+        "screenshot": null
+      },
+      {
+        "step_index": 2,
+        "thought": "Update .env.production and write key_rotation_audit.json",
+        "action_type": "cross_app_op",
+        "selector": "",
+        "value": "",
+        "coords": null,
+        "target_bbox": null,
+        "target_disabled": false,
+        "hit_ad_trap": false,
+        "screenshot": "artifacts/screenshots/CUA-CROSS-11_UI-TARS-7B-Baseline_step2.png"
+      }
+    ],
+    "final_dom_state": {
+      "#key-rotation-state": "ROTATED_ACTIVE"
+    },
+    "timestamp": "2026-10-27T14:35:13"
+  },
+  "verification": {
+    "task_id": "CUA-CROSS-11",
+    "evaluator_type": "hybrid_dom_and_file",
+    "passed": true,
+    "score": 1.0,
+    "passed_checks": 2,
+    "total_checks": 2,
+    "check_details": [
+      {
+        "check_type": "dom_state",
+        "target": "#key-rotation-state",
+        "expected": "ROTATED_ACTIVE",
+        "actual": "ROTATED_ACTIVE",
+        "passed": true
+      },
+      {
+        "check_type": "file_artifact (json)",
+        "target": "key_rotation_audit.json",
+        "expected": "keys=['old_key_fingerprint', 'new_key_prefix', 'env_file_updated', 'verification_passed'], values={'new_key_prefix': 'sk-cua-prod-2026', 'env_file_updated': True, 'verification_passed': True}",
+        "actual": "{\"old_key_fingerprint\": \"fp-2025-legacy-992a\", \"new_key_prefix\": \"sk-cua-prod-2026\", \"env_file_updated\": true, \"verification_passed\": true}",
+        "passed": true
+      }
+    ]
+  },
+  "inspection": {
+    "task_id": "CUA-CROSS-11",
+    "agent_profile": "UI-TARS-7B-Baseline",
+    "orm_passed": true,
+    "orm_score": 1.0,
+    "prm_score": 1.0,
+    "step_count": 2,
+    "expected_steps": 5,
+    "step_efficiency": 1.0,
+    "anomaly_count": 0,
+    "failure_categories": [],
+    "primary_failure_mode": "NONE (PASS)",
+    "anomalies": []
+  }
+}

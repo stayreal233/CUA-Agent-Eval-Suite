@@ -1,0 +1,87 @@
+{
+  "trajectory": {
+    "task_id": "CUA-CROSS-09",
+    "title": "跨应用故障复盘生成：抓取监控台 Top3 报错接口并生成本地 Markdown 报告",
+    "category": "Cross_App_Browser_To_Markdown",
+    "agent_profile": "Qwen2.5-VL-72B-CUA",
+    "expected_steps": 6,
+    "agent_claimed_success": true,
+    "premature_stop_on_toast": false,
+    "steps": [
+      {
+        "step_index": 1,
+        "thought": "Generate incident_postmortem.md from top-3 table",
+        "action_type": "cross_app_op",
+        "selector": "",
+        "value": "",
+        "coords": null,
+        "target_bbox": null,
+        "target_disabled": false,
+        "hit_ad_trap": false,
+        "screenshot": null
+      },
+      {
+        "step_index": 2,
+        "thought": "Mark postmortem as archived",
+        "action_type": "click",
+        "selector": "#btn-archive-postmortem",
+        "value": "",
+        "coords": [
+          170,
+          344
+        ],
+        "target_bbox": {
+          "x": 105,
+          "y": 327,
+          "width": 130,
+          "height": 35
+        },
+        "target_disabled": false,
+        "hit_ad_trap": false,
+        "screenshot": "artifacts/screenshots/CUA-CROSS-09_Qwen2.5-VL-72B-CUA_step2.png"
+      }
+    ],
+    "final_dom_state": {
+      "#postmortem-archived": "true"
+    },
+    "timestamp": "2026-10-27T14:35:15"
+  },
+  "verification": {
+    "task_id": "CUA-CROSS-09",
+    "evaluator_type": "hybrid_dom_and_file",
+    "passed": true,
+    "score": 1.0,
+    "passed_checks": 2,
+    "total_checks": 2,
+    "check_details": [
+      {
+        "check_type": "dom_state",
+        "target": "#postmortem-archived",
+        "expected": "true",
+        "actual": "true",
+        "passed": true
+      },
+      {
+        "check_type": "file_artifact (markdown)",
+        "target": "incident_postmortem.md",
+        "expected": "Contains all 5 required sections",
+        "actual": "ALL_PRESENT",
+        "passed": true
+      }
+    ]
+  },
+  "inspection": {
+    "task_id": "CUA-CROSS-09",
+    "agent_profile": "Qwen2.5-VL-72B-CUA",
+    "orm_passed": true,
+    "orm_score": 1.0,
+    "prm_score": 1.0,
+    "step_count": 2,
+    "expected_steps": 6,
+    "step_efficiency": 1.0,
+    "anomaly_count": 0,
+    "failure_categories": [],
+    "primary_failure_mode": "NONE (PASS)",
+    "anomalies": []
+  }
+}

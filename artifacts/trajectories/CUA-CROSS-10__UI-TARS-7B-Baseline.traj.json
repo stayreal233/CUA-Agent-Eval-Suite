@@ -1,0 +1,247 @@
+{
+  "trajectory": {
+    "task_id": "CUA-CROSS-10",
+    "title": "跨应用供应商批量入库：读取本地 JSON 批次表并在网页端幂等录入",
+    "category": "Cross_App_Batch_Ingestion",
+    "agent_profile": "UI-TARS-7B-Baseline",
+    "expected_steps": 8,
+    "agent_claimed_success": true,
+    "premature_stop_on_toast": false,
+    "steps": [
+      {
+        "step_index": 1,
+        "thought": "Input qualified vendor V-01",
+        "action_type": "fill",
+        "selector": "#input-vendor-name",
+        "value": "Shenzhen_Optics_Ltd",
+        "coords": [
+          640,
+          195
+        ],
+        "target_bbox": {
+          "x": 105,
+          "y": 177,
+          "width": 1070,
+          "height": 37
+        },
+        "target_disabled": false,
+        "hit_ad_trap": false,
+        "screenshot": null
+      },
+      {
+        "step_index": 2,
+        "thought": "Input score 88",
+        "action_type": "fill",
+        "selector": "#input-vendor-score",
+        "value": "88",
+        "coords": [
+          640,
+          269
+        ],
+        "target_bbox": {
+          "x": 105,
+          "y": 251,
+          "width": 1070,
+          "height": 37
+        },
+        "target_disabled": false,
+        "hit_ad_trap": false,
+        "screenshot": null
+      },
+      {
+        "step_index": 3,
+        "thought": "Submit V-01",
+        "action_type": "click",
+        "selector": "#btn-add-vendor",
+        "value": "",
+        "coords": [
+          170,
+          317
+        ],
+        "target_bbox": {
+          "x": 105,
+          "y": 300,
+          "width": 130,
+          "height": 35
+        },
+        "target_disabled": false,
+        "hit_ad_trap": false,
+        "screenshot": null
+      },
+      {
+        "step_index": 4,
+        "thought": "Input qualified vendor V-03 (skipping V-02 score 42)",
+        "action_type": "fill",
+        "selector": "#input-vendor-name",
+        "value": "CloudCore_Systems",
+        "coords": [
+          640,
+          195
+        ],
+        "target_bbox": {
+          "x": 105,
+          "y": 177,
+          "width": 1070,
+          "height": 37
+        },
+        "target_disabled": false,
+        "hit_ad_trap": false,
+        "screenshot": null
+      },
+      {
+        "step_index": 5,
+        "thought": "Input score 95",
+        "action_type": "fill",
+        "selector": "#input-vendor-score",
+        "value": "95",
+        "coords": [
+          640,
+          269
+        ],
+        "target_bbox": {
+          "x": 105,
+          "y": 251,
+          "width": 1070,
+          "height": 37
+        },
+        "target_disabled": false,
+        "hit_ad_trap": false,
+        "screenshot": null
+      },
+      {
+        "step_index": 6,
+        "thought": "Submit V-03",
+        "action_type": "click",
+        "selector": "#btn-add-vendor",
+        "value": "",
+        "coords": [
+          170,
+          317
+        ],
+        "target_bbox": {
+          "x": 105,
+          "y": 300,
+          "width": 130,
+          "height": 35
+        },
+        "target_disabled": false,
+        "hit_ad_trap": false,
+        "screenshot": null
+      },
+      {
+        "step_index": 7,
+        "thought": "Input qualified vendor V-04",
+        "action_type": "fill",
+        "selector": "#input-vendor-name",
+        "value": "Quantum_PCB_Works",
+        "coords": [
+          640,
+          195
+        ],
+        "target_bbox": {
+          "x": 105,
+          "y": 177,
+          "width": 1070,
+          "height": 37
+        },
+        "target_disabled": false,
+        "hit_ad_trap": false,
+        "screenshot": null
+      },
+      {
+        "step_index": 8,
+        "thought": "Input score 76",
+        "action_type": "fill",
+        "selector": "#input-vendor-score",
+        "value": "76",
+        "coords": [
+          640,
+          269
+        ],
+        "target_bbox": {
+          "x": 105,
+          "y": 251,
+          "width": 1070,
+          "height": 37
+        },
+        "target_disabled": false,
+        "hit_ad_trap": false,
+        "screenshot": null
+      },
+      {
+        "step_index": 9,
+        "thought": "Submit V-04",
+        "action_type": "click",
+        "selector": "#btn-add-vendor",
+        "value": "",
+        "coords": [
+          170,
+          317
+        ],
+        "target_bbox": {
+          "x": 105,
+          "y": 300,
+          "width": 130,
+          "height": 35
+        },
+        "target_disabled": false,
+        "hit_ad_trap": false,
+        "screenshot": null
+      },
+      {
+        "step_index": 10,
+        "thought": "Save batch_sync_log.json",
+        "action_type": "cross_app_op",
+        "selector": "",
+        "value": "",
+        "coords": null,
+        "target_bbox": null,
+        "target_disabled": false,
+        "hit_ad_trap": false,
+        "screenshot": "artifacts/screenshots/CUA-CROSS-10_UI-TARS-7B-Baseline_step10.png"
+      }
+    ],
+    "final_dom_state": {
+      "#onboarded-vendor-count": "3"
+    },
+    "timestamp": "2026-10-27T14:35:13"
+  },
+  "verification": {
+    "task_id": "CUA-CROSS-10",
+    "evaluator_type": "hybrid_dom_and_file",
+    "passed": true,
+    "score": 1.0,
+    "passed_checks": 2,
+    "total_checks": 2,
+    "check_details": [
+      {
+        "check_type": "dom_state",
+        "target": "#onboarded-vendor-count",
+        "expected": "3",
+        "actual": "3",
+        "passed": true
+      },
+      {
+        "check_type": "file_artifact (json)",
+        "target": "batch_sync_log.json",
+        "expected": "keys=['processed_total', 'onboarded_count', 'rejected_count', 'records'], values={'processed_total': 4, 'onboarded_count': 3, 'rejected_count': 1}",
+        "actual": "{\"processed_total\": 4, \"onboarded_count\": 3, \"rejected_count\": 1, \"records\": [{\"vendor_id\": \"V-01\", \"status\": \"ONBOARDED\"}, {\"vendor_id\": \"V-02\", \"status\": \"REJECTED_LOW_SCORE\"}, {\"vendor_id\": \"V-03\", \"status\": \"ONBOARDED\"}, {\"vendor_id\": \"V-04\", \"status\": \"ONBOARDED\"}]}",
+        "passed": true
+      }
+    ]
+  },
+  "inspection": {
+    "task_id": "CUA-CROSS-10",
+    "agent_profile": "UI-TARS-7B-Baseline",
+    "orm_passed": true,
+    "orm_score": 1.0,
+    "prm_score": 0.92,
+    "step_count": 10,
+    "expected_steps": 8,
+    "step_efficiency": 0.8,
+    "anomaly_count": 0,
+    "failure_categories": [],
+    "primary_failure_mode": "NONE (PASS)",
+    "anomalies": []
+  }
+}

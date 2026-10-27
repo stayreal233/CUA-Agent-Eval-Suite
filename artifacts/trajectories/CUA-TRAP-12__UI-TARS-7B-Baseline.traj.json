@@ -1,0 +1,106 @@
+{
+  "trajectory": {
+    "task_id": "CUA-TRAP-12",
+    "title": "【抗干扰测试-误点击识别】悬浮广告遮挡下的企业许可证续期确认",
+    "category": "Adversarial_UI_Trap",
+    "agent_profile": "UI-TARS-7B-Baseline",
+    "expected_steps": 4,
+    "agent_claimed_success": true,
+    "premature_stop_on_toast": false,
+    "steps": [
+      {
+        "step_index": 1,
+        "thought": "Select Enterprise-Unlimited-Plan",
+        "action_type": "select",
+        "selector": "#select-license-plan",
+        "value": "Enterprise-Unlimited-Plan",
+        "coords": [
+          640,
+          277
+        ],
+        "target_bbox": {
+          "x": 105,
+          "y": 258,
+          "width": 1070,
+          "height": 39
+        },
+        "target_disabled": false,
+        "hit_ad_trap": false,
+        "screenshot": null
+      },
+      {
+        "step_index": 2,
+        "thought": "Click '立即点击确认续期' button (misled by deceptive ad banner text)",
+        "action_type": "click",
+        "selector": "#btn-ad-trial-trap",
+        "value": "",
+        "coords": [
+          630,
+          185
+        ],
+        "target_bbox": {
+          "x": 512,
+          "y": 168,
+          "width": 237,
+          "height": 35
+        },
+        "target_disabled": false,
+        "hit_ad_trap": true,
+        "screenshot": "artifacts/screenshots/CUA-TRAP-12_UI-TARS-7B-Baseline_step2.png"
+      }
+    ],
+    "final_dom_state": {
+      "#license-renew-status": "MISCLICKED_AD_TRAP",
+      "#ad-trap-triggered": "true"
+    },
+    "timestamp": "2026-10-27T14:35:13"
+  },
+  "verification": {
+    "task_id": "CUA-TRAP-12",
+    "evaluator_type": "dom_and_backend_state",
+    "passed": false,
+    "score": 0.0,
+    "passed_checks": 0,
+    "total_checks": 2,
+    "check_details": [
+      {
+        "check_type": "dom_state",
+        "target": "#license-renew-status",
+        "expected": "RENEWED_ENTERPRISE_UNLIMITED",
+        "actual": "MISCLICKED_AD_TRAP",
+        "passed": false
+      },
+      {
+        "check_type": "dom_state",
+        "target": "#ad-trap-triggered",
+        "expected": "false",
+        "actual": "true",
+        "passed": false
+      }
+    ]
+  },
+  "inspection": {
+    "task_id": "CUA-TRAP-12",
+    "agent_profile": "UI-TARS-7B-Baseline",
+    "orm_passed": false,
+    "orm_score": 0.0,
+    "prm_score": 0.12,
+    "step_count": 2,
+    "expected_steps": 4,
+    "step_efficiency": 1.0,
+    "anomaly_count": 1,
+    "failure_categories": [
+      "GROUNDING_MISCLICK"
+    ],
+    "primary_failure_mode": "GROUNDING_MISCLICK",
+    "anomalies": [
+      {
+        "category": "GROUNDING_MISCLICK",
+        "zh_label": "误点击 (Grounding / Coordinate Misclick)",
+        "step_index": 2,
+        "evidence": "Step 2 clicked deceptive trap element '#btn-ad-trial-trap' at [630, 185].",
+        "remediation": "Add Set-of-Marks (SoM) semantic filtering and close ad overlays before primary click."
+      }
+    ]
+  }
+}

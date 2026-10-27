@@ -1,0 +1,4440 @@
+{
+  "benchmark_version": "0.2.0",
+  "total_cua_tasks": 15,
+  "total_swe_tasks": 5,
+  "profile_metrics": {
+    "UI-TARS-7B-Baseline": {
+      "total_tasks": 15,
+      "passed_tasks": 8,
+      "orm_pass_rate": 0.5333,
+      "avg_prm_score": 0.634
+    },
+    "Qwen2.5-VL-72B-CUA": {
+      "total_tasks": 15,
+      "passed_tasks": 15,
+      "orm_pass_rate": 1.0,
+      "avg_prm_score": 0.9902
+    }
+  },
+  "failure_taxonomy_counts": {
+    "GROUNDING_MISCLICK": 2,
+    "STATE_MISJUDGMENT": 1,
+    "ACTION_LOOPING": 1,
+    "TASK_OMISSION": 5
+  },
+  "swe_coding_summary": {
+    "total_instances": 5,
+    "baseline_resolve_rate": 0.0,
+    "sota_resolve_rate": 1.0
+  },
+  "cua_evaluations": [
+    {
+      "trajectory": {
+        "task_id": "CUA-WEB-01",
+        "title": "企业采购系统多条件筛选与预算内加购",
+        "category": "Browser_GUI_Navigation",
+        "agent_profile": "UI-TARS-7B-Baseline",
+        "expected_steps": 5,
+        "agent_claimed_success": true,
+        "premature_stop_on_toast": false,
+        "steps": [
+          {
+            "step_index": 1,
+            "thought": "Select Server_Hardware category",
+            "action_type": "select",
+            "selector": "#filter-category",
+            "value": "Server_Hardware",
+            "coords": [
+              279,
+              196
+            ],
+            "target_bbox": {
+              "x": 105,
+              "y": 177,
+              "width": 349,
+              "height": 39
+            },
+            "target_disabled": false,
+            "hit_ad_trap": false,
+            "screenshot": null
+          },
+          {
+            "step_index": 2,
+            "thought": "Filter max unit price <= 5000",
+            "action_type": "fill",
+            "selector": "#filter-max-price",
+            "value": "5000",
+            "coords": [
+              640,
+              195
+            ],
+            "target_bbox": {
+              "x": 466,
+              "y": 177,
+              "width": 349,
+              "height": 37
+            },
+            "target_disabled": false,
+            "hit_ad_trap": false,
+            "screenshot": null
+          },
+          {
+            "step_index": 3,
+            "thought": "Set NVIDIA-T4 quantity to 2",
+            "action_type": "fill",
+            "selector": "#qty-t4",
+            "value": "2",
+            "coords": [
+              890,
+              367
+            ],
+            "target_bbox": {
+              "x": 855,
+              "y": 349,
+              "width": 70,
+              "height": 37
+            },
+            "target_disabled": false,
+            "hit_ad_trap": false,
+            "screenshot": null
+          },
+          {
+            "step_index": 4,
+            "thought": "Add T4 card to procurement cart",
+            "action_type": "click",
+            "selector": "#btn-add-t4",
+            "value": "",
+            "coords": [
+              1043,
+              367
+            ],
+            "target_bbox": {
+              "x": 992,
+              "y": 350,
+              "width": 102,
+              "height": 35
+            },
+            "target_disabled": false,
+            "hit_ad_trap": false,
+            "screenshot": null
+          },
+          {
+            "step_index": 5,
+            "thought": "Click submit order button (DPI scaling offset causes misclick outside button bbox)",
+            "action_type": "click",
+            "selector": "#btn-submit-order",
+            "value": "",
+            "coords": [
+              1195,
+              496
+            ],
+            "target_bbox": {
+              "x": 1034,
+              "y": 426,
+              "width": 116,
+              "height": 35
+            },
+            "target_disabled": false,
+            "hit_ad_trap": false,
+            "screenshot": "artifacts/screenshots/CUA-WEB-01_UI-TARS-7B-Baseline_step5.png"
+          }
+        ],
+        "final_dom_state": {
+          "#order-status-badge": "DRAFT",
+          "#selected-sku": "SKU-NV-T4",
+          "#selected-qty": "2"
+        },
+        "timestamp": "2026-10-27T14:35:12"
+      },
+      "verification": {
+        "task_id": "CUA-WEB-01",
+        "evaluator_type": "dom_and_backend_state",
+        "passed": false,
+        "score": 0.667,
+        "passed_checks": 2,
+        "total_checks": 3,
+        "check_details": [
+          {
+            "check_type": "dom_state",
+            "target": "#order-status-badge",
+            "expected": "SUBMITTED",
+            "actual": "DRAFT",
+            "passed": false
+          },
+          {
+            "check_type": "dom_state",
+            "target": "#selected-sku",
+            "expected": "SKU-NV-T4",
+            "actual": "SKU-NV-T4",
+            "passed": true
+          },
+          {
+            "check_type": "dom_state",
+            "target": "#selected-qty",
+            "expected": "2",
+            "actual": "2",
+            "passed": true
+          }
+        ]
+      },
+      "inspection": {
+        "task_id": "CUA-WEB-01",
+        "agent_profile": "UI-TARS-7B-Baseline",
+        "orm_passed": false,
+        "orm_score": 0.667,
+        "prm_score": 0.24,
+        "step_count": 5,
+        "expected_steps": 5,
+        "step_efficiency": 1.0,
+        "anomaly_count": 2,
+        "failure_categories": [
+          "GROUNDING_MISCLICK",
+          "TASK_OMISSION"
+        ],
+        "primary_failure_mode": "GROUNDING_MISCLICK",
+        "anomalies": [
+          {
+            "category": "GROUNDING_MISCLICK",
+            "zh_label": "误点击 (Grounding / Coordinate Misclick)",
+            "step_index": 5,
+            "evidence": "Step 5 click coordinate [1195, 496] fell outside target '#btn-submit-order' bounding box {'x': 1034, 'y': 426, 'width': 116, 'height': 35} (coordinate grounding offset).",
+            "remediation": "Calibrate VLM coordinate normalization [0,1000] against CSS viewport dimensions."
+          },
+          {
+            "category": "TASK_OMISSION",
+            "zh_label": "任务遗漏 (Subgoal / Final Commit Omission)",
+            "step_index": 5,
+            "evidence": "Agent completed 2/3 verification checks but omitted critical final step(s) or cross-app artifact: ['#order-status-badge'].",
+            "remediation": "Enforce subgoal checklist verification before termination (check commit state & local output files)."
+          }
+        ]
+      }
+    },
+    {
+      "trajectory": {
+        "task_id": "CUA-WEB-02",
+        "title": "ServiceDesk 高优故障工单创建与 SLA 绑定",
+        "category": "Browser_GUI_Navigation",
+        "agent_profile": "UI-TARS-7B-Baseline",
+        "expected_steps": 6,
+        "agent_claimed_success": true,
+        "premature_stop_on_toast": false,
+        "steps": [
+          {
+            "step_index": 1,
+            "thought": "Enter incident title",
+            "action_type": "fill",
+            "selector": "#input-ticket-title",
+            "value": "Production Redis Cluster OOM",
+            "coords": [
+              640,
+              246
+            ],
+            "target_bbox": {
+              "x": 105,
+              "y": 228,
+              "width": 1070,
+              "height": 37
+            },
+            "target_disabled": false,
+            "hit_ad_trap": false,
+            "screenshot": null
+          },
+          {
+            "step_index": 2,
+            "thought": "Select P0-Critical priority",
+            "action_type": "select",
+            "selector": "#select-priority",
+            "value": "P0-Critical",
+            "coords": [
+              640,
+              321
+            ],
+            "target_bbox": {
+              "x": 105,
+              "y": 302,
+              "width": 1070,
+              "height": 39
+            },
+            "target_disabled": false,
+            "hit_ad_trap": false,
+            "screenshot": null
+          },
+          {
+            "step_index": 3,
+            "thought": "Assign to SRE-OnCall-Team",
+            "action_type": "select",
+            "selector": "#select-team",
+            "value": "SRE-OnCall-Team",
+            "coords": [
+              640,
+              397
+            ],
+            "target_bbox": {
+              "x": 105,
+              "y": 378,
+              "width": 1070,
+              "height": 39
+            },
+            "target_disabled": false,
+            "hit_ad_trap": false,
+            "screenshot": null
+          },
+          {
+            "step_index": 4,
+            "thought": "Enable 15m SLA alert",
+            "action_type": "check",
+            "selector": "#chk-sla-15m",
+            "value": "",
+            "coords": [
+              115,
+              439
+            ],
+            "target_bbox": {
+              "x": 108,
+              "y": 432,
+              "width": 15,
+              "height": 15
+            },
+            "target_disabled": false,
+            "hit_ad_trap": false,
+            "screenshot": null
+          },
+          {
+            "step_index": 5,
+            "thought": "Submit P0 ticket",
+            "action_type": "click",
+            "selector": "#btn-submit-ticket",
+            "value": "",
+            "coords": [
+              149,
+              487
+            ],
+            "target_bbox": {
+              "x": 105,
+              "y": 470,
+              "width": 88,
+              "height": 35
+            },
+            "target_disabled": false,
+            "hit_ad_trap": false,
+            "screenshot": "artifacts/screenshots/CUA-WEB-02_UI-TARS-7B-Baseline_step5.png"
+          }
+        ],
+        "final_dom_state": {
+          "#ticket-created-msg": "TICKET_CREATED_P0",
+          "#assigned-team-val": "SRE-OnCall-Team",
+          "#sla-enabled-val": "true"
+        },
+        "timestamp": "2026-10-27T14:35:12"
+      },
+      "verification": {
+        "task_id": "CUA-WEB-02",
+        "evaluator_type": "dom_and_backend_state",
+        "passed": true,
+        "score": 1.0,
+        "passed_checks": 3,
+        "total_checks": 3,
+        "check_details": [
+          {
+            "check_type": "dom_state",
+            "target": "#ticket-created-msg",
+            "expected": "TICKET_CREATED_P0",
+            "actual": "TICKET_CREATED_P0",
+            "passed": true
+          },
+          {
+            "check_type": "dom_state",
+            "target": "#assigned-team-val",
+            "expected": "SRE-OnCall-Team",
+            "actual": "SRE-OnCall-Team",
+            "passed": true
+          },
+          {
+            "check_type": "dom_state",
+            "target": "#sla-enabled-val",
+            "expected": "true",
+            "actual": "true",
+            "passed": true
+          }
+        ]
+      },
+      "inspection": {
+        "task_id": "CUA-WEB-02",
+        "agent_profile": "UI-TARS-7B-Baseline",
+        "orm_passed": true,
+        "orm_score": 1.0,
+        "prm_score": 1.0,
+        "step_count": 5,
+        "expected_steps": 6,
+        "step_efficiency": 1.0,
+        "anomaly_count": 0,
+        "failure_categories": [],
+        "primary_failure_mode": "NONE (PASS)",
+        "anomalies": []
+      }
+    },
+    {
+      "trajectory": {
+        "task_id": "CUA-WEB-03",
+        "title": "分页账单表格检索与批量状态核销",
+        "category": "Browser_GUI_Navigation",
+        "agent_profile": "UI-TARS-7B-Baseline",
+        "expected_steps": 6,
+        "agent_claimed_success": true,
+        "premature_stop_on_toast": false,
+        "steps": [
+          {
+            "step_index": 1,
+            "thought": "Navigate to Page 2",
+            "action_type": "click",
+            "selector": "#link-next-page",
+            "value": "",
+            "coords": [
+              175,
+              324
+            ],
+            "target_bbox": {
+              "x": 105,
+              "y": 307,
+              "width": 141,
+              "height": 35
+            },
+            "target_disabled": false,
+            "hit_ad_trap": false,
+            "screenshot": null
+          },
+          {
+            "step_index": 2,
+            "thought": "Select INV-2026-019",
+            "action_type": "check",
+            "selector": "#chk-inv-019",
+            "value": "",
+            "coords": [
+              128,
+              213
+            ],
+            "target_bbox": {
+              "x": 121,
+              "y": 206,
+              "width": 15,
+              "height": 15
+            },
+            "target_disabled": false,
+            "hit_ad_trap": false,
+            "screenshot": null
+          },
+          {
+            "step_index": 3,
+            "thought": "Select INV-2026-023",
+            "action_type": "check",
+            "selector": "#chk-inv-023",
+            "value": "",
+            "coords": [
+              128,
+              313
+            ],
+            "target_bbox": {
+              "x": 121,
+              "y": 306,
+              "width": 15,
+              "height": 15
+            },
+            "target_disabled": false,
+            "hit_ad_trap": false,
+            "screenshot": null
+          },
+          {
+            "step_index": 4,
+            "thought": "Click batch verify and stop without confirming modal popup",
+            "action_type": "click",
+            "selector": "#btn-batch-verify",
+            "value": "",
+            "coords": [
+              149,
+              374
+            ],
+            "target_bbox": {
+              "x": 105,
+              "y": 357,
+              "width": 88,
+              "height": 35
+            },
+            "target_disabled": false,
+            "hit_ad_trap": false,
+            "screenshot": "artifacts/screenshots/CUA-WEB-03_UI-TARS-7B-Baseline_step4.png"
+          }
+        ],
+        "final_dom_state": {
+          "#batch-verify-result": "NONE",
+          "#modal-confirmed": "false"
+        },
+        "timestamp": "2026-10-27T14:35:12"
+      },
+      "verification": {
+        "task_id": "CUA-WEB-03",
+        "evaluator_type": "dom_and_backend_state",
+        "passed": false,
+        "score": 0.0,
+        "passed_checks": 0,
+        "total_checks": 2,
+        "check_details": [
+          {
+            "check_type": "dom_state",
+            "target": "#batch-verify-result",
+            "expected": "VERIFIED:INV-2026-019,INV-2026-023",
+            "actual": "NONE",
+            "passed": false
+          },
+          {
+            "check_type": "dom_state",
+            "target": "#modal-confirmed",
+            "expected": "true",
+            "actual": "false",
+            "passed": false
+          }
+        ]
+      },
+      "inspection": {
+        "task_id": "CUA-WEB-03",
+        "agent_profile": "UI-TARS-7B-Baseline",
+        "orm_passed": false,
+        "orm_score": 0.0,
+        "prm_score": 0.12,
+        "step_count": 4,
+        "expected_steps": 6,
+        "step_efficiency": 1.0,
+        "anomaly_count": 1,
+        "failure_categories": [
+          "TASK_OMISSION"
+        ],
+        "primary_failure_mode": "TASK_OMISSION",
+        "anomalies": [
+          {
+            "category": "TASK_OMISSION",
+            "zh_label": "任务遗漏 (Subgoal / Final Commit Omission)",
+            "step_index": 4,
+            "evidence": "Agent completed 0/2 verification checks but omitted critical final step(s) or cross-app artifact: ['#batch-verify-result', '#modal-confirmed'].",
+            "remediation": "Enforce subgoal checklist verification before termination (check commit state & local output files)."
+          }
+        ]
+      }
+    },
+    {
+      "trajectory": {
+        "task_id": "CUA-WEB-04",
+        "title": "IAM 跨模块离职员工权限审计与高危角色回收",
+        "category": "Browser_GUI_Navigation",
+        "agent_profile": "UI-TARS-7B-Baseline",
+        "expected_steps": 6,
+        "agent_claimed_success": true,
+        "premature_stop_on_toast": false,
+        "steps": [
+          {
+            "step_index": 1,
+            "thought": "Search employee EMP-8842",
+            "action_type": "fill",
+            "selector": "#input-emp-id",
+            "value": "EMP-8842",
+            "coords": [
+              589,
+              175
+            ],
+            "target_bbox": {
+              "x": 105,
+              "y": 156,
+              "width": 969,
+              "height": 38
+            },
+            "target_disabled": false,
+            "hit_ad_trap": false,
+            "screenshot": null
+          },
+          {
+            "step_index": 2,
+            "thought": "Click search",
+            "action_type": "click",
+            "selector": "#btn-search-emp",
+            "value": "",
+            "coords": [
+              1125,
+              179
+            ],
+            "target_bbox": {
+              "x": 1084,
+              "y": 152,
+              "width": 83,
+              "height": 54
+            },
+            "target_disabled": false,
+            "hit_ad_trap": false,
+            "screenshot": null
+          },
+          {
+            "step_index": 3,
+            "thought": "Revoke Prod-DB-Admin",
+            "action_type": "check",
+            "selector": "#role-db-admin",
+            "value": "",
+            "coords": [
+              115,
+              269
+            ],
+            "target_bbox": {
+              "x": 108,
+              "y": 262,
+              "width": 15,
+              "height": 15
+            },
+            "target_disabled": false,
+            "hit_ad_trap": false,
+            "screenshot": null
+          },
+          {
+            "step_index": 4,
+            "thought": "Revoke K8s-Cluster-Root",
+            "action_type": "check",
+            "selector": "#role-k8s-root",
+            "value": "",
+            "coords": [
+              115,
+              298
+            ],
+            "target_bbox": {
+              "x": 108,
+              "y": 291,
+              "width": 15,
+              "height": 15
+            },
+            "target_disabled": false,
+            "hit_ad_trap": false,
+            "screenshot": null
+          },
+          {
+            "step_index": 5,
+            "thought": "Enter audit note",
+            "action_type": "fill",
+            "selector": "#input-audit-note",
+            "value": "Offboarding_Audit_Done",
+            "coords": [
+              640,
+              399
+            ],
+            "target_bbox": {
+              "x": 105,
+              "y": 381,
+              "width": 1070,
+              "height": 37
+            },
+            "target_disabled": false,
+            "hit_ad_trap": false,
+            "screenshot": null
+          },
+          {
+            "step_index": 6,
+            "thought": "Save IAM role changes",
+            "action_type": "click",
+            "selector": "#btn-save-iam",
+            "value": "",
+            "coords": [
+              163,
+              447
+            ],
+            "target_bbox": {
+              "x": 105,
+              "y": 430,
+              "width": 116,
+              "height": 35
+            },
+            "target_disabled": false,
+            "hit_ad_trap": false,
+            "screenshot": "artifacts/screenshots/CUA-WEB-04_UI-TARS-7B-Baseline_step6.png"
+          }
+        ],
+        "final_dom_state": {
+          "#iam-save-status": "REVOKED_HIGH_PRIV",
+          "#remaining-role": "Archive-ReadOnly",
+          "#audit-note-val": "Offboarding_Audit_Done"
+        },
+        "timestamp": "2026-10-27T14:35:12"
+      },
+      "verification": {
+        "task_id": "CUA-WEB-04",
+        "evaluator_type": "dom_and_backend_state",
+        "passed": true,
+        "score": 1.0,
+        "passed_checks": 3,
+        "total_checks": 3,
+        "check_details": [
+          {
+            "check_type": "dom_state",
+            "target": "#iam-save-status",
+            "expected": "REVOKED_HIGH_PRIV",
+            "actual": "REVOKED_HIGH_PRIV",
+            "passed": true
+          },
+          {
+            "check_type": "dom_state",
+            "target": "#remaining-role",
+            "expected": "Archive-ReadOnly",
+            "actual": "Archive-ReadOnly",
+            "passed": true
+          },
+          {
+            "check_type": "dom_state",
+            "target": "#audit-note-val",
+            "expected": "Offboarding_Audit_Done",
+            "actual": "Offboarding_Audit_Done",
+            "passed": true
+          }
+        ]
+      },
+      "inspection": {
+        "task_id": "CUA-WEB-04",
+        "agent_profile": "UI-TARS-7B-Baseline",
+        "orm_passed": true,
+        "orm_score": 1.0,
+        "prm_score": 1.0,
+        "step_count": 6,
+        "expected_steps": 6,
+        "step_efficiency": 1.0,
+        "anomaly_count": 0,
+        "failure_categories": [],
+        "primary_failure_mode": "NONE (PASS)",
+        "anomalies": []
+      }
+    },
+    {
+      "trajectory": {
+        "task_id": "CUA-WEB-05",
+        "title": "监控中心异常慢查询筛选与告警静默配置",
+        "category": "Browser_GUI_Navigation",
+        "agent_profile": "UI-TARS-7B-Baseline",
+        "expected_steps": 5,
+        "agent_claimed_success": true,
+        "premature_stop_on_toast": false,
+        "steps": [
+          {
+            "step_index": 1,
+            "thought": "Switch to Last_24_Hours",
+            "action_type": "select",
+            "selector": "#select-time-range",
+            "value": "Last_24_Hours",
+            "coords": [
+              640,
+              196
+            ],
+            "target_bbox": {
+              "x": 105,
+              "y": 177,
+              "width": 1070,
+              "height": 39
+            },
+            "target_disabled": false,
+            "hit_ad_trap": false,
+            "screenshot": null
+          },
+          {
+            "step_index": 2,
+            "thought": "Select /api/v2/report/export",
+            "action_type": "click",
+            "selector": "#btn-config-export-alert",
+            "value": "",
+            "coords": [
+              952,
+              348
+            ],
+            "target_bbox": {
+              "x": 894,
+              "y": 331,
+              "width": 116,
+              "height": 35
+            },
+            "target_disabled": false,
+            "hit_ad_trap": false,
+            "screenshot": null
+          },
+          {
+            "step_index": 3,
+            "thought": "Set silence window to 30m",
+            "action_type": "select",
+            "selector": "#select-silence-window",
+            "value": "30m",
+            "coords": [
+              640,
+              437
+            ],
+            "target_bbox": {
+              "x": 105,
+              "y": 418,
+              "width": 1070,
+              "height": 39
+            },
+            "target_disabled": false,
+            "hit_ad_trap": false,
+            "screenshot": null
+          },
+          {
+            "step_index": 4,
+            "thought": "Save alert rule",
+            "action_type": "click",
+            "selector": "#btn-save-alert-rule",
+            "value": "",
+            "coords": [
+              163,
+              486
+            ],
+            "target_bbox": {
+              "x": 105,
+              "y": 469,
+              "width": 116,
+              "height": 35
+            },
+            "target_disabled": false,
+            "hit_ad_trap": false,
+            "screenshot": "artifacts/screenshots/CUA-WEB-05_UI-TARS-7B-Baseline_step4.png"
+          }
+        ],
+        "final_dom_state": {
+          "#alert-rule-target": "/api/v2/report/export",
+          "#silence-window": "30m",
+          "#rule-saved-badge": "ACTIVE"
+        },
+        "timestamp": "2026-10-27T14:35:12"
+      },
+      "verification": {
+        "task_id": "CUA-WEB-05",
+        "evaluator_type": "dom_and_backend_state",
+        "passed": true,
+        "score": 1.0,
+        "passed_checks": 3,
+        "total_checks": 3,
+        "check_details": [
+          {
+            "check_type": "dom_state",
+            "target": "#alert-rule-target",
+            "expected": "/api/v2/report/export",
+            "actual": "/api/v2/report/export",
+            "passed": true
+          },
+          {
+            "check_type": "dom_state",
+            "target": "#silence-window",
+            "expected": "30m",
+            "actual": "30m",
+            "passed": true
+          },
+          {
+            "check_type": "dom_state",
+            "target": "#rule-saved-badge",
+            "expected": "ACTIVE",
+            "actual": "ACTIVE",
+            "passed": true
+          }
+        ]
+      },
+      "inspection": {
+        "task_id": "CUA-WEB-05",
+        "agent_profile": "UI-TARS-7B-Baseline",
+        "orm_passed": true,
+        "orm_score": 1.0,
+        "prm_score": 1.0,
+        "step_count": 4,
+        "expected_steps": 5,
+        "step_efficiency": 1.0,
+        "anomaly_count": 0,
+        "failure_categories": [],
+        "primary_failure_mode": "NONE (PASS)",
+        "anomalies": []
+      }
+    },
+    {
+      "trajectory": {
+        "task_id": "CUA-CROSS-06",
+        "title": "跨应用财务对账：网页逾期账单提取与本地税费核算 CSV 导出",
+        "category": "Cross_App_Browser_To_File",
+        "agent_profile": "UI-TARS-7B-Baseline",
+        "expected_steps": 6,
+        "agent_claimed_success": true,
+        "premature_stop_on_toast": false,
+        "steps": [
+          {
+            "step_index": 1,
+            "thought": "Extract overdue >30d rows, compute 5% penalty, and export overdue_audit_2026.csv",
+            "action_type": "cross_app_op",
+            "selector": "",
+            "value": "",
+            "coords": null,
+            "target_bbox": null,
+            "target_disabled": false,
+            "hit_ad_trap": false,
+            "screenshot": "artifacts/screenshots/CUA-CROSS-06_UI-TARS-7B-Baseline_step1.png"
+          }
+        ],
+        "final_dom_state": {},
+        "timestamp": "2026-10-27T14:35:12"
+      },
+      "verification": {
+        "task_id": "CUA-CROSS-06",
+        "evaluator_type": "hybrid_dom_and_file",
+        "passed": true,
+        "score": 1.0,
+        "passed_checks": 1,
+        "total_checks": 1,
+        "check_details": [
+          {
+            "check_type": "file_artifact (csv)",
+            "target": "overdue_audit_2026.csv",
+            "expected": "rows=3, totals={'INV-901': '4200.00', 'INV-904': '8925.00', 'INV-908': '1575.00'}",
+            "actual": "rows=3, totals={'INV-901': '4200.00', 'INV-904': '8925.00', 'INV-908': '1575.00'}",
+            "passed": true
+          }
+        ]
+      },
+      "inspection": {
+        "task_id": "CUA-CROSS-06",
+        "agent_profile": "UI-TARS-7B-Baseline",
+        "orm_passed": true,
+        "orm_score": 1.0,
+        "prm_score": 1.0,
+        "step_count": 1,
+        "expected_steps": 6,
+        "step_efficiency": 1.0,
+        "anomaly_count": 0,
+        "failure_categories": [],
+        "primary_failure_mode": "NONE (PASS)",
+        "anomalies": []
+      }
+    },
+    {
+      "trajectory": {
+        "task_id": "CUA-CROSS-07",
+        "title": "跨应用发布配置同步：读取本地部署清单填入云控制台并回写回执",
+        "category": "Cross_App_File_To_Browser",
+        "agent_profile": "UI-TARS-7B-Baseline",
+        "expected_steps": 6,
+        "agent_claimed_success": true,
+        "premature_stop_on_toast": false,
+        "steps": [
+          {
+            "step_index": 1,
+            "thought": "Fill service name from deploy_manifest.json",
+            "action_type": "fill",
+            "selector": "#input-service-name",
+            "value": "cua-gateway-service",
+            "coords": [
+              640,
+              195
+            ],
+            "target_bbox": {
+              "x": 105,
+              "y": 177,
+              "width": 1070,
+              "height": 37
+            },
+            "target_disabled": false,
+            "hit_ad_trap": false,
+            "screenshot": null
+          },
+          {
+            "step_index": 2,
+            "thought": "Fill container image tag",
+            "action_type": "fill",
+            "selector": "#input-image-tag",
+            "value": "registry.internal/cua-router:v2.4.1",
+            "coords": [
+              640,
+              269
+            ],
+            "target_bbox": {
+              "x": 105,
+              "y": 251,
+              "width": 1070,
+              "height": 37
+            },
+            "target_disabled": false,
+            "hit_ad_trap": false,
+            "screenshot": null
+          },
+          {
+            "step_index": 3,
+            "thought": "Fill replica count 3",
+            "action_type": "fill",
+            "selector": "#input-replicas",
+            "value": "3",
+            "coords": [
+              640,
+              343
+            ],
+            "target_bbox": {
+              "x": 105,
+              "y": 325,
+              "width": 1070,
+              "height": 37
+            },
+            "target_disabled": false,
+            "hit_ad_trap": false,
+            "screenshot": null
+          },
+          {
+            "step_index": 4,
+            "thought": "Trigger cloud deployment",
+            "action_type": "click",
+            "selector": "#btn-trigger-deploy",
+            "value": "",
+            "coords": [
+              209,
+              391
+            ],
+            "target_bbox": {
+              "x": 105,
+              "y": 374,
+              "width": 208,
+              "height": 35
+            },
+            "target_disabled": false,
+            "hit_ad_trap": false,
+            "screenshot": null
+          },
+          {
+            "step_index": 5,
+            "thought": "Persist generated receipt ID to local deploy_receipt.json",
+            "action_type": "cross_app_op",
+            "selector": "",
+            "value": "",
+            "coords": null,
+            "target_bbox": null,
+            "target_disabled": false,
+            "hit_ad_trap": false,
+            "screenshot": "artifacts/screenshots/CUA-CROSS-07_UI-TARS-7B-Baseline_step5.png"
+          }
+        ],
+        "final_dom_state": {
+          "#deploy-status": "DEPLOY_SUCCESS",
+          "#deployed-image": "registry.internal/cua-router:v2.4.1"
+        },
+        "timestamp": "2026-10-27T14:35:13"
+      },
+      "verification": {
+        "task_id": "CUA-CROSS-07",
+        "evaluator_type": "hybrid_dom_and_file",
+        "passed": true,
+        "score": 1.0,
+        "passed_checks": 3,
+        "total_checks": 3,
+        "check_details": [
+          {
+            "check_type": "dom_state",
+            "target": "#deploy-status",
+            "expected": "DEPLOY_SUCCESS",
+            "actual": "DEPLOY_SUCCESS",
+            "passed": true
+          },
+          {
+            "check_type": "dom_state",
+            "target": "#deployed-image",
+            "expected": "registry.internal/cua-router:v2.4.1",
+            "actual": "registry.internal/cua-router:v2.4.1",
+            "passed": true
+          },
+          {
+            "check_type": "file_artifact (json)",
+            "target": "deploy_receipt.json",
+            "expected": "keys=['receipt_id', 'service', 'image_tag', 'replicas', 'status'], values={'service': 'cua-gateway-service', 'image_tag': 'v2.4.1', 'status': 'DEPLOY_SUCCESS'}",
+            "actual": "{\"receipt_id\": \"RCPT-20261027-8841\", \"service\": \"cua-gateway-service\", \"image_tag\": \"v2.4.1\", \"replicas\": 3, \"status\": \"DEPLOY_SUCCESS\"}",
+            "passed": true
+          }
+        ]
+      },
+      "inspection": {
+        "task_id": "CUA-CROSS-07",
+        "agent_profile": "UI-TARS-7B-Baseline",
+        "orm_passed": true,
+        "orm_score": 1.0,
+        "prm_score": 1.0,
+        "step_count": 5,
+        "expected_steps": 6,
+        "step_efficiency": 1.0,
+        "anomaly_count": 0,
+        "failure_categories": [],
+        "primary_failure_mode": "NONE (PASS)",
+        "anomalies": []
+      }
+    },
+    {
+      "trajectory": {
+        "task_id": "CUA-CROSS-08",
+        "title": "跨应用客户工单分流：网页 CRM 告警与本地 SQLite 数据库联合更新",
+        "category": "Cross_App_Browser_To_SQLite",
+        "agent_profile": "UI-TARS-7B-Baseline",
+        "expected_steps": 7,
+        "agent_claimed_success": true,
+        "premature_stop_on_toast": false,
+        "steps": [
+          {
+            "step_index": 1,
+            "thought": "Select DIAMOND ticket TCK-501",
+            "action_type": "check",
+            "selector": "#chk-tck-501",
+            "value": "",
+            "coords": [
+              1009,
+              250
+            ],
+            "target_bbox": {
+              "x": 1002,
+              "y": 243,
+              "width": 15,
+              "height": 15
+            },
+            "target_disabled": false,
+            "hit_ad_trap": false,
+            "screenshot": null
+          },
+          {
+            "step_index": 2,
+            "thought": "Select DIAMOND ticket TCK-503",
+            "action_type": "check",
+            "selector": "#chk-tck-503",
+            "value": "",
+            "coords": [
+              1009,
+              350
+            ],
+            "target_bbox": {
+              "x": 1002,
+              "y": 343,
+              "width": 15,
+              "height": 15
+            },
+            "target_disabled": false,
+            "hit_ad_trap": false,
+            "screenshot": null
+          },
+          {
+            "step_index": 3,
+            "thought": "Select Director-Escalation-Group",
+            "action_type": "select",
+            "selector": "#select-escalation-group",
+            "value": "Director-Escalation-Group",
+            "coords": [
+              640,
+              436
+            ],
+            "target_bbox": {
+              "x": 105,
+              "y": 417,
+              "width": 1070,
+              "height": 39
+            },
+            "target_disabled": false,
+            "hit_ad_trap": false,
+            "screenshot": null
+          },
+          {
+            "step_index": 4,
+            "thought": "Submit web escalation but omit local SQLite audit insertion",
+            "action_type": "click",
+            "selector": "#btn-escalate-vip",
+            "value": "",
+            "coords": [
+              170,
+              485
+            ],
+            "target_bbox": {
+              "x": 105,
+              "y": 468,
+              "width": 130,
+              "height": 35
+            },
+            "target_disabled": false,
+            "hit_ad_trap": false,
+            "screenshot": "artifacts/screenshots/CUA-CROSS-08_UI-TARS-7B-Baseline_step4.png"
+          }
+        ],
+        "final_dom_state": {
+          "#vip-escalation-status": "ESCALATED_2_DIAMOND_TICKETS"
+        },
+        "timestamp": "2026-10-27T14:35:13"
+      },
+      "verification": {
+        "task_id": "CUA-CROSS-08",
+        "evaluator_type": "hybrid_dom_and_sqlite",
+        "passed": false,
+        "score": 0.5,
+        "passed_checks": 1,
+        "total_checks": 2,
+        "check_details": [
+          {
+            "check_type": "dom_state",
+            "target": "#vip-escalation-status",
+            "expected": "ESCALATED_2_DIAMOND_TICKETS",
+            "actual": "ESCALATED_2_DIAMOND_TICKETS",
+            "passed": true
+          },
+          {
+            "check_type": "sqlite_db_state",
+            "target": "enterprise_crm.db -> SELECT COUNT(*) FROM ticket_escalation_audit WHERE assigned_group='Director-Escalation-Group' AND tier='DIAMOND';",
+            "expected": "2",
+            "actual": "0",
+            "passed": false
+          }
+        ]
+      },
+      "inspection": {
+        "task_id": "CUA-CROSS-08",
+        "agent_profile": "UI-TARS-7B-Baseline",
+        "orm_passed": false,
+        "orm_score": 0.5,
+        "prm_score": 0.42,
+        "step_count": 4,
+        "expected_steps": 7,
+        "step_efficiency": 1.0,
+        "anomaly_count": 1,
+        "failure_categories": [
+          "TASK_OMISSION"
+        ],
+        "primary_failure_mode": "TASK_OMISSION",
+        "anomalies": [
+          {
+            "category": "TASK_OMISSION",
+            "zh_label": "任务遗漏 (Subgoal / Final Commit Omission)",
+            "step_index": 4,
+            "evidence": "Agent completed 1/2 verification checks but omitted critical final step(s) or cross-app artifact: [\"enterprise_crm.db -> SELECT COUNT(*) FROM ticket_escalation_audit WHERE assigned_group='Director-Escalation-Group' AND tier='DIAMOND';\"].",
+            "remediation": "Enforce subgoal checklist verification before termination (check commit state & local output files)."
+          }
+        ]
+      }
+    },
+    {
+      "trajectory": {
+        "task_id": "CUA-CROSS-09",
+        "title": "跨应用故障复盘生成：抓取监控台 Top3 报错接口并生成本地 Markdown 报告",
+        "category": "Cross_App_Browser_To_Markdown",
+        "agent_profile": "UI-TARS-7B-Baseline",
+        "expected_steps": 6,
+        "agent_claimed_success": true,
+        "premature_stop_on_toast": false,
+        "steps": [
+          {
+            "step_index": 1,
+            "thought": "Generate incident_postmortem.md from top-3 table",
+            "action_type": "cross_app_op",
+            "selector": "",
+            "value": "",
+            "coords": null,
+            "target_bbox": null,
+            "target_disabled": false,
+            "hit_ad_trap": false,
+            "screenshot": null
+          },
+          {
+            "step_index": 2,
+            "thought": "Mark postmortem as archived",
+            "action_type": "click",
+            "selector": "#btn-archive-postmortem",
+            "value": "",
+            "coords": [
+              170,
+              344
+            ],
+            "target_bbox": {
+              "x": 105,
+              "y": 327,
+              "width": 130,
+              "height": 35
+            },
+            "target_disabled": false,
+            "hit_ad_trap": false,
+            "screenshot": "artifacts/screenshots/CUA-CROSS-09_UI-TARS-7B-Baseline_step2.png"
+          }
+        ],
+        "final_dom_state": {
+          "#postmortem-archived": "true"
+        },
+        "timestamp": "2026-10-27T14:35:13"
+      },
+      "verification": {
+        "task_id": "CUA-CROSS-09",
+        "evaluator_type": "hybrid_dom_and_file",
+        "passed": true,
+        "score": 1.0,
+        "passed_checks": 2,
+        "total_checks": 2,
+        "check_details": [
+          {
+            "check_type": "dom_state",
+            "target": "#postmortem-archived",
+            "expected": "true",
+            "actual": "true",
+            "passed": true
+          },
+          {
+            "check_type": "file_artifact (markdown)",
+            "target": "incident_postmortem.md",
+            "expected": "Contains all 5 required sections",
+            "actual": "ALL_PRESENT",
+            "passed": true
+          }
+        ]
+      },
+      "inspection": {
+        "task_id": "CUA-CROSS-09",
+        "agent_profile": "UI-TARS-7B-Baseline",
+        "orm_passed": true,
+        "orm_score": 1.0,
+        "prm_score": 1.0,
+        "step_count": 2,
+        "expected_steps": 6,
+        "step_efficiency": 1.0,
+        "anomaly_count": 0,
+        "failure_categories": [],
+        "primary_failure_mode": "NONE (PASS)",
+        "anomalies": []
+      }
+    },
+    {
+      "trajectory": {
+        "task_id": "CUA-CROSS-10",
+        "title": "跨应用供应商批量入库：读取本地 JSON 批次表并在网页端幂等录入",
+        "category": "Cross_App_Batch_Ingestion",
+        "agent_profile": "UI-TARS-7B-Baseline",
+        "expected_steps": 8,
+        "agent_claimed_success": true,
+        "premature_stop_on_toast": false,
+        "steps": [
+          {
+            "step_index": 1,
+            "thought": "Input qualified vendor V-01",
+            "action_type": "fill",
+            "selector": "#input-vendor-name",
+            "value": "Shenzhen_Optics_Ltd",
+            "coords": [
+              640,
+              195
+            ],
+            "target_bbox": {
+              "x": 105,
+              "y": 177,
+              "width": 1070,
+              "height": 37
+            },
+            "target_disabled": false,
+            "hit_ad_trap": false,
+            "screenshot": null
+          },
+          {
+            "step_index": 2,
+            "thought": "Input score 88",
+            "action_type": "fill",
+            "selector": "#input-vendor-score",
+            "value": "88",
+            "coords": [
+              640,
+              269
+            ],
+            "target_bbox": {
+              "x": 105,
+              "y": 251,
+              "width": 1070,
+              "height": 37
+            },
+            "target_disabled": false,
+            "hit_ad_trap": false,
+            "screenshot": null
+          },
+          {
+            "step_index": 3,
+            "thought": "Submit V-01",
+            "action_type": "click",
+            "selector": "#btn-add-vendor",
+            "value": "",
+            "coords": [
+              170,
+              317
+            ],
+            "target_bbox": {
+              "x": 105,
+              "y": 300,
+              "width": 130,
+              "height": 35
+            },
+            "target_disabled": false,
+            "hit_ad_trap": false,
+            "screenshot": null
+          },
+          {
+            "step_index": 4,
+            "thought": "Input qualified vendor V-03 (skipping V-02 score 42)",
+            "action_type": "fill",
+            "selector": "#input-vendor-name",
+            "value": "CloudCore_Systems",
+            "coords": [
+              640,
+              195
+            ],
+            "target_bbox": {
+              "x": 105,
+              "y": 177,
+              "width": 1070,
+              "height": 37
+            },
+            "target_disabled": false,
+            "hit_ad_trap": false,
+            "screenshot": null
+          },
+          {
+            "step_index": 5,
+            "thought": "Input score 95",
+            "action_type": "fill",
+            "selector": "#input-vendor-score",
+            "value": "95",
+            "coords": [
+              640,
+              269
+            ],
+            "target_bbox": {
+              "x": 105,
+              "y": 251,
+              "width": 1070,
+              "height": 37
+            },
+            "target_disabled": false,
+            "hit_ad_trap": false,
+            "screenshot": null
+          },
+          {
+            "step_index": 6,
+            "thought": "Submit V-03",
+            "action_type": "click",
+            "selector": "#btn-add-vendor",
+            "value": "",
+            "coords": [
+              170,
+              317
+            ],
+            "target_bbox": {
+              "x": 105,
+              "y": 300,
+              "width": 130,
+              "height": 35
+            },
+            "target_disabled": false,
+            "hit_ad_trap": false,
+            "screenshot": null
+          },
+          {
+            "step_index": 7,
+            "thought": "Input qualified vendor V-04",
+            "action_type": "fill",
+            "selector": "#input-vendor-name",
+            "value": "Quantum_PCB_Works",
+            "coords": [
+              640,
+              195
+            ],
+            "target_bbox": {
+              "x": 105,
+              "y": 177,
+              "width": 1070,
+              "height": 37
+            },
+            "target_disabled": false,
+            "hit_ad_trap": false,
+            "screenshot": null
+          },
+          {
+            "step_index": 8,
+            "thought": "Input score 76",
+            "action_type": "fill",
+            "selector": "#input-vendor-score",
+            "value": "76",
+            "coords": [
+              640,
+              269
+            ],
+            "target_bbox": {
+              "x": 105,
+              "y": 251,
+              "width": 1070,
+              "height": 37
+            },
+            "target_disabled": false,
+            "hit_ad_trap": false,
+            "screenshot": null
+          },
+          {
+            "step_index": 9,
+            "thought": "Submit V-04",
+            "action_type": "click",
+            "selector": "#btn-add-vendor",
+            "value": "",
+            "coords": [
+              170,
+              317
+            ],
+            "target_bbox": {
+              "x": 105,
+              "y": 300,
+              "width": 130,
+              "height": 35
+            },
+            "target_disabled": false,
+            "hit_ad_trap": false,
+            "screenshot": null
+          },
+          {
+            "step_index": 10,
+            "thought": "Save batch_sync_log.json",
+            "action_type": "cross_app_op",
+            "selector": "",
+            "value": "",
+            "coords": null,
+            "target_bbox": null,
+            "target_disabled": false,
+            "hit_ad_trap": false,
+            "screenshot": "artifacts/screenshots/CUA-CROSS-10_UI-TARS-7B-Baseline_step10.png"
+          }
+        ],
+        "final_dom_state": {
+          "#onboarded-vendor-count": "3"
+        },
+        "timestamp": "2026-10-27T14:35:13"
+      },
+      "verification": {
+        "task_id": "CUA-CROSS-10",
+        "evaluator_type": "hybrid_dom_and_file",
+        "passed": true,
+        "score": 1.0,
+        "passed_checks": 2,
+        "total_checks": 2,
+        "check_details": [
+          {
+            "check_type": "dom_state",
+            "target": "#onboarded-vendor-count",
+            "expected": "3",
+            "actual": "3",
+            "passed": true
+          },
+          {
+            "check_type": "file_artifact (json)",
+            "target": "batch_sync_log.json",
+            "expected": "keys=['processed_total', 'onboarded_count', 'rejected_count', 'records'], values={'processed_total': 4, 'onboarded_count': 3, 'rejected_count': 1}",
+            "actual": "{\"processed_total\": 4, \"onboarded_count\": 3, \"rejected_count\": 1, \"records\": [{\"vendor_id\": \"V-01\", \"status\": \"ONBOARDED\"}, {\"vendor_id\": \"V-02\", \"status\": \"REJECTED_LOW_SCORE\"}, {\"vendor_id\": \"V-03\", \"status\": \"ONBOARDED\"}, {\"vendor_id\": \"V-04\", \"status\": \"ONBOARDED\"}]}",
+            "passed": true
+          }
+        ]
+      },
+      "inspection": {
+        "task_id": "CUA-CROSS-10",
+        "agent_profile": "UI-TARS-7B-Baseline",
+        "orm_passed": true,
+        "orm_score": 1.0,
+        "prm_score": 0.92,
+        "step_count": 10,
+        "expected_steps": 8,
+        "step_efficiency": 0.8,
+        "anomaly_count": 0,
+        "failure_categories": [],
+        "primary_failure_mode": "NONE (PASS)",
+        "anomalies": []
+      }
+    },
+    {
+      "trajectory": {
+        "task_id": "CUA-CROSS-11",
+        "title": "跨应用密钥轮换：从开发者控制台获取新密钥并更新本地环境配置与审计快照",
+        "category": "Cross_App_OS_Config_Audit",
+        "agent_profile": "UI-TARS-7B-Baseline",
+        "expected_steps": 5,
+        "agent_claimed_success": true,
+        "premature_stop_on_toast": false,
+        "steps": [
+          {
+            "step_index": 1,
+            "thought": "Click Rotate Production Key",
+            "action_type": "click",
+            "selector": "#btn-rotate-key",
+            "value": "",
+            "coords": [
+              203,
+              206
+            ],
+            "target_bbox": {
+              "x": 105,
+              "y": 189,
+              "width": 197,
+              "height": 35
+            },
+            "target_disabled": false,
+            "hit_ad_trap": false,
+            "screenshot": null
+          },
+          {
+            "step_index": 2,
+            "thought": "Update .env.production and write key_rotation_audit.json",
+            "action_type": "cross_app_op",
+            "selector": "",
+            "value": "",
+            "coords": null,
+            "target_bbox": null,
+            "target_disabled": false,
+            "hit_ad_trap": false,
+            "screenshot": "artifacts/screenshots/CUA-CROSS-11_UI-TARS-7B-Baseline_step2.png"
+          }
+        ],
+        "final_dom_state": {
+          "#key-rotation-state": "ROTATED_ACTIVE"
+        },
+        "timestamp": "2026-10-27T14:35:13"
+      },
+      "verification": {
+        "task_id": "CUA-CROSS-11",
+        "evaluator_type": "hybrid_dom_and_file",
+        "passed": true,
+        "score": 1.0,
+        "passed_checks": 2,
+        "total_checks": 2,
+        "check_details": [
+          {
+            "check_type": "dom_state",
+            "target": "#key-rotation-state",
+            "expected": "ROTATED_ACTIVE",
+            "actual": "ROTATED_ACTIVE",
+            "passed": true
+          },
+          {
+            "check_type": "file_artifact (json)",
+            "target": "key_rotation_audit.json",
+            "expected": "keys=['old_key_fingerprint', 'new_key_prefix', 'env_file_updated', 'verification_passed'], values={'new_key_prefix': 'sk-cua-prod-2026', 'env_file_updated': True, 'verification_passed': True}",
+            "actual": "{\"old_key_fingerprint\": \"fp-2025-legacy-992a\", \"new_key_prefix\": \"sk-cua-prod-2026\", \"env_file_updated\": true, \"verification_passed\": true}",
+            "passed": true
+          }
+        ]
+      },
+      "inspection": {
+        "task_id": "CUA-CROSS-11",
+        "agent_profile": "UI-TARS-7B-Baseline",
+        "orm_passed": true,
+        "orm_score": 1.0,
+        "prm_score": 1.0,
+        "step_count": 2,
+        "expected_steps": 5,
+        "step_efficiency": 1.0,
+        "anomaly_count": 0,
+        "failure_categories": [],
+        "primary_failure_mode": "NONE (PASS)",
+        "anomalies": []
+      }
+    },
+    {
+      "trajectory": {
+        "task_id": "CUA-TRAP-12",
+        "title": "【抗干扰测试-误点击识别】悬浮广告遮挡下的企业许可证续期确认",
+        "category": "Adversarial_UI_Trap",
+        "agent_profile": "UI-TARS-7B-Baseline",
+        "expected_steps": 4,
+        "agent_claimed_success": true,
+        "premature_stop_on_toast": false,
+        "steps": [
+          {
+            "step_index": 1,
+            "thought": "Select Enterprise-Unlimited-Plan",
+            "action_type": "select",
+            "selector": "#select-license-plan",
+            "value": "Enterprise-Unlimited-Plan",
+            "coords": [
+              640,
+              277
+            ],
+            "target_bbox": {
+              "x": 105,
+              "y": 258,
+              "width": 1070,
+              "height": 39
+            },
+            "target_disabled": false,
+            "hit_ad_trap": false,
+            "screenshot": null
+          },
+          {
+            "step_index": 2,
+            "thought": "Click '立即点击确认续期' button (misled by deceptive ad banner text)",
+            "action_type": "click",
+            "selector": "#btn-ad-trial-trap",
+            "value": "",
+            "coords": [
+              630,
+              185
+            ],
+            "target_bbox": {
+              "x": 512,
+              "y": 168,
+              "width": 237,
+              "height": 35
+            },
+            "target_disabled": false,
+            "hit_ad_trap": true,
+            "screenshot": "artifacts/screenshots/CUA-TRAP-12_UI-TARS-7B-Baseline_step2.png"
+          }
+        ],
+        "final_dom_state": {
+          "#license-renew-status": "MISCLICKED_AD_TRAP",
+          "#ad-trap-triggered": "true"
+        },
+        "timestamp": "2026-10-27T14:35:13"
+      },
+      "verification": {
+        "task_id": "CUA-TRAP-12",
+        "evaluator_type": "dom_and_backend_state",
+        "passed": false,
+        "score": 0.0,
+        "passed_checks": 0,
+        "total_checks": 2,
+        "check_details": [
+          {
+            "check_type": "dom_state",
+            "target": "#license-renew-status",
+            "expected": "RENEWED_ENTERPRISE_UNLIMITED",
+            "actual": "MISCLICKED_AD_TRAP",
+            "passed": false
+          },
+          {
+            "check_type": "dom_state",
+            "target": "#ad-trap-triggered",
+            "expected": "false",
+            "actual": "true",
+            "passed": false
+          }
+        ]
+      },
+      "inspection": {
+        "task_id": "CUA-TRAP-12",
+        "agent_profile": "UI-TARS-7B-Baseline",
+        "orm_passed": false,
+        "orm_score": 0.0,
+        "prm_score": 0.12,
+        "step_count": 2,
+        "expected_steps": 4,
+        "step_efficiency": 1.0,
+        "anomaly_count": 1,
+        "failure_categories": [
+          "GROUNDING_MISCLICK"
+        ],
+        "primary_failure_mode": "GROUNDING_MISCLICK",
+        "anomalies": [
+          {
+            "category": "GROUNDING_MISCLICK",
+            "zh_label": "误点击 (Grounding / Coordinate Misclick)",
+            "step_index": 2,
+            "evidence": "Step 2 clicked deceptive trap element '#btn-ad-trial-trap' at [630, 185].",
+            "remediation": "Add Set-of-Marks (SoM) semantic filtering and close ad overlays before primary click."
+          }
+        ]
+      }
+    },
+    {
+      "trajectory": {
+        "task_id": "CUA-TRAP-13",
+        "title": "【抗干扰测试-状态误判识别】异步数据库迁移校验失败后的二次修复提交",
+        "category": "Adversarial_UI_Trap",
+        "agent_profile": "UI-TARS-7B-Baseline",
+        "expected_steps": 6,
+        "agent_claimed_success": true,
+        "premature_stop_on_toast": true,
+        "steps": [
+          {
+            "step_index": 1,
+            "thought": "Fill target cluster name",
+            "action_type": "fill",
+            "selector": "#input-target-cluster",
+            "value": "cluster-prod-02",
+            "coords": [
+              640,
+              195
+            ],
+            "target_bbox": {
+              "x": 105,
+              "y": 177,
+              "width": 1070,
+              "height": 37
+            },
+            "target_disabled": false,
+            "hit_ad_trap": false,
+            "screenshot": null
+          },
+          {
+            "step_index": 2,
+            "thought": "Click submit migration -> saw blue 'Request Sent' toast -> assume task succeeded and terminate",
+            "action_type": "click",
+            "selector": "#btn-submit-migration",
+            "value": "",
+            "coords": [
+              163,
+              392
+            ],
+            "target_bbox": {
+              "x": 105,
+              "y": 375,
+              "width": 116,
+              "height": 35
+            },
+            "target_disabled": false,
+            "hit_ad_trap": false,
+            "screenshot": "artifacts/screenshots/CUA-TRAP-13_UI-TARS-7B-Baseline_step2.png"
+          }
+        ],
+        "final_dom_state": {
+          "#migration-final-state": "ERR_MISSING_CHECKSUM",
+          "#checksum-verified": "NONE",
+          "#toast-msg": "Request Sent (请求已发送，正在后台校验...)"
+        },
+        "timestamp": "2026-10-27T14:35:14"
+      },
+      "verification": {
+        "task_id": "CUA-TRAP-13",
+        "evaluator_type": "dom_and_backend_state",
+        "passed": false,
+        "score": 0.0,
+        "passed_checks": 0,
+        "total_checks": 2,
+        "check_details": [
+          {
+            "check_type": "dom_state",
+            "target": "#migration-final-state",
+            "expected": "MIGRATION_VERIFIED_OK",
+            "actual": "ERR_MISSING_CHECKSUM",
+            "passed": false
+          },
+          {
+            "check_type": "dom_state",
+            "target": "#checksum-verified",
+            "expected": "CHK-9981",
+            "actual": "NONE",
+            "passed": false
+          }
+        ]
+      },
+      "inspection": {
+        "task_id": "CUA-TRAP-13",
+        "agent_profile": "UI-TARS-7B-Baseline",
+        "orm_passed": false,
+        "orm_score": 0.0,
+        "prm_score": 0.12,
+        "step_count": 2,
+        "expected_steps": 6,
+        "step_efficiency": 1.0,
+        "anomaly_count": 1,
+        "failure_categories": [
+          "STATE_MISJUDGMENT"
+        ],
+        "primary_failure_mode": "STATE_MISJUDGMENT",
+        "anomalies": [
+          {
+            "category": "STATE_MISJUDGMENT",
+            "zh_label": "状态误判 (Premature State Hallucination)",
+            "step_index": 2,
+            "evidence": "Agent declared task complete at Step 2 after intermediate toast, but actual DOM state indicates failure: {'#migration-final-state': 'ERR_MISSING_CHECKSUM', '#checksum-verified': 'NONE', '#toast-msg': 'Request Sent (请求已发送，正在后台校验...)'}.",
+            "remediation": "Wait for async network idle and verify terminal status badge before calling finish()."
+          }
+        ]
+      }
+    },
+    {
+      "trajectory": {
+        "task_id": "CUA-TRAP-14",
+        "title": "【抗干扰测试-重复操作识别】前置合规协议勾选解锁加密审计日志导出",
+        "category": "Adversarial_UI_Trap",
+        "agent_profile": "UI-TARS-7B-Baseline",
+        "expected_steps": 5,
+        "agent_claimed_success": true,
+        "premature_stop_on_toast": false,
+        "steps": [
+          {
+            "step_index": 1,
+            "thought": "Attempt 1: Click Export Archive button (currently disabled)",
+            "action_type": "click",
+            "selector": "#btn-export-archive",
+            "value": "",
+            "coords": [
+              247,
+              206
+            ],
+            "target_bbox": {
+              "x": 105,
+              "y": 189,
+              "width": 285,
+              "height": 35
+            },
+            "target_disabled": true,
+            "hit_ad_trap": false,
+            "screenshot": null
+          },
+          {
+            "step_index": 2,
+            "thought": "Attempt 2: Click Export Archive button again (no response)",
+            "action_type": "click",
+            "selector": "#btn-export-archive",
+            "value": "",
+            "coords": [
+              247,
+              206
+            ],
+            "target_bbox": {
+              "x": 105,
+              "y": 189,
+              "width": 285,
+              "height": 35
+            },
+            "target_disabled": true,
+            "hit_ad_trap": false,
+            "screenshot": null
+          },
+          {
+            "step_index": 3,
+            "thought": "Attempt 3: Click Export Archive button again (looping)",
+            "action_type": "click",
+            "selector": "#btn-export-archive",
+            "value": "",
+            "coords": [
+              247,
+              206
+            ],
+            "target_bbox": {
+              "x": 105,
+              "y": 189,
+              "width": 285,
+              "height": 35
+            },
+            "target_disabled": true,
+            "hit_ad_trap": false,
+            "screenshot": null
+          },
+          {
+            "step_index": 4,
+            "thought": "Attempt 4: Click Export Archive button again (stagnant state)",
+            "action_type": "click",
+            "selector": "#btn-export-archive",
+            "value": "",
+            "coords": [
+              247,
+              206
+            ],
+            "target_bbox": {
+              "x": 105,
+              "y": 189,
+              "width": 285,
+              "height": 35
+            },
+            "target_disabled": true,
+            "hit_ad_trap": false,
+            "screenshot": "artifacts/screenshots/CUA-TRAP-14_UI-TARS-7B-Baseline_step4.png"
+          }
+        ],
+        "final_dom_state": {
+          "#export-status": "LOCKED",
+          "#compliance-ack-state": "unchecked"
+        },
+        "timestamp": "2026-10-27T14:35:14"
+      },
+      "verification": {
+        "task_id": "CUA-TRAP-14",
+        "evaluator_type": "hybrid_dom_and_file",
+        "passed": false,
+        "score": 0.0,
+        "passed_checks": 0,
+        "total_checks": 3,
+        "check_details": [
+          {
+            "check_type": "dom_state",
+            "target": "#export-status",
+            "expected": "EXPORT_COMPLETED",
+            "actual": "LOCKED",
+            "passed": false
+          },
+          {
+            "check_type": "dom_state",
+            "target": "#compliance-ack-state",
+            "expected": "checked",
+            "actual": "unchecked",
+            "passed": false
+          },
+          {
+            "check_type": "file_artifact (json)",
+            "target": "security_audit_archive.json",
+            "expected": "File exists and matches schema",
+            "actual": "FILE_NOT_FOUND",
+            "passed": false
+          }
+        ]
+      },
+      "inspection": {
+        "task_id": "CUA-TRAP-14",
+        "agent_profile": "UI-TARS-7B-Baseline",
+        "orm_passed": false,
+        "orm_score": 0.0,
+        "prm_score": 0.0,
+        "step_count": 4,
+        "expected_steps": 5,
+        "step_efficiency": 1.0,
+        "anomaly_count": 6,
+        "failure_categories": [
+          "ACTION_LOOPING",
+          "TASK_OMISSION"
+        ],
+        "primary_failure_mode": "ACTION_LOOPING",
+        "anomalies": [
+          {
+            "category": "ACTION_LOOPING",
+            "zh_label": "重复操作 (Action Looping / Stagnation)",
+            "step_index": 1,
+            "evidence": "Step 1 attempted to click disabled element '#btn-export-archive' without unlocking prerequisites.",
+            "remediation": "Inspect DOM disabled attribute / AXTree state before issuing click actions."
+          },
+          {
+            "category": "ACTION_LOOPING",
+            "zh_label": "重复操作 (Action Looping / Stagnation)",
+            "step_index": 2,
+            "evidence": "Step 2 attempted to click disabled element '#btn-export-archive' without unlocking prerequisites.",
+            "remediation": "Inspect DOM disabled attribute / AXTree state before issuing click actions."
+          },
+          {
+            "category": "ACTION_LOOPING",
+            "zh_label": "重复操作 (Action Looping / Stagnation)",
+            "step_index": 3,
+            "evidence": "Step 3 attempted to click disabled element '#btn-export-archive' without unlocking prerequisites.",
+            "remediation": "Inspect DOM disabled attribute / AXTree state before issuing click actions."
+          },
+          {
+            "category": "ACTION_LOOPING",
+            "zh_label": "重复操作 (Action Looping / Stagnation)",
+            "step_index": 4,
+            "evidence": "Step 4 attempted to click disabled element '#btn-export-archive' without unlocking prerequisites.",
+            "remediation": "Inspect DOM disabled attribute / AXTree state before issuing click actions."
+          },
+          {
+            "category": "ACTION_LOOPING",
+            "zh_label": "重复操作 (Action Looping / Stagnation)",
+            "step_index": 1,
+            "evidence": "Repeated identical click on selector '#btn-export-archive' for 3+ consecutive steps starting at Step 1.",
+            "remediation": "Introduce state-delta memory check; abort identical action if DOM hash is unchanged."
+          },
+          {
+            "category": "TASK_OMISSION",
+            "zh_label": "任务遗漏 (Subgoal / Final Commit Omission)",
+            "step_index": 4,
+            "evidence": "Agent completed 0/3 verification checks but omitted critical final step(s) or cross-app artifact: ['#export-status', '#compliance-ack-state', 'security_audit_archive.json'].",
+            "remediation": "Enforce subgoal checklist verification before termination (check commit state & local output files)."
+          }
+        ]
+      }
+    },
+    {
+      "trajectory": {
+        "task_id": "CUA-TRAP-15",
+        "title": "【抗干扰测试-任务遗漏识别】多阶段防火墙策略变更与全局持久化生效提交",
+        "category": "Adversarial_UI_Trap",
+        "agent_profile": "UI-TARS-7B-Baseline",
+        "expected_steps": 6,
+        "agent_claimed_success": true,
+        "premature_stop_on_toast": false,
+        "steps": [
+          {
+            "step_index": 1,
+            "thought": "Block malicious CIDR 198.51.100.0/24",
+            "action_type": "fill",
+            "selector": "#input-block-cidr",
+            "value": "198.51.100.0/24",
+            "coords": [
+              640,
+              266
+            ],
+            "target_bbox": {
+              "x": 105,
+              "y": 248,
+              "width": 1070,
+              "height": 37
+            },
+            "target_disabled": false,
+            "hit_ad_trap": false,
+            "screenshot": null
+          },
+          {
+            "step_index": 2,
+            "thought": "Restrict SSH port 22 to Internal-VPN-Only",
+            "action_type": "select",
+            "selector": "#select-ssh-policy",
+            "value": "Internal-VPN-Only",
+            "coords": [
+              640,
+              341
+            ],
+            "target_bbox": {
+              "x": 105,
+              "y": 322,
+              "width": 1070,
+              "height": 39
+            },
+            "target_disabled": false,
+            "hit_ad_trap": false,
+            "screenshot": null
+          },
+          {
+            "step_index": 3,
+            "thought": "Enable WAF SQLi protection and finish (omitting global persist button)",
+            "action_type": "check",
+            "selector": "#chk-waf-sqli",
+            "value": "",
+            "coords": [
+              115,
+              383
+            ],
+            "target_bbox": {
+              "x": 108,
+              "y": 376,
+              "width": 15,
+              "height": 15
+            },
+            "target_disabled": false,
+            "hit_ad_trap": false,
+            "screenshot": "artifacts/screenshots/CUA-TRAP-15_UI-TARS-7B-Baseline_step3.png"
+          }
+        ],
+        "final_dom_state": {
+          "#rule-ip-block": "198.51.100.0/24",
+          "#rule-ssh-policy": "Internal-VPN-Only",
+          "#rule-waf-sqli": "ENABLED",
+          "#firewall-commit-state": "STAGED_UNCOMMITTED"
+        },
+        "timestamp": "2026-10-27T14:35:14"
+      },
+      "verification": {
+        "task_id": "CUA-TRAP-15",
+        "evaluator_type": "dom_and_backend_state",
+        "passed": false,
+        "score": 0.75,
+        "passed_checks": 3,
+        "total_checks": 4,
+        "check_details": [
+          {
+            "check_type": "dom_state",
+            "target": "#rule-ip-block",
+            "expected": "198.51.100.0/24",
+            "actual": "198.51.100.0/24",
+            "passed": true
+          },
+          {
+            "check_type": "dom_state",
+            "target": "#rule-ssh-policy",
+            "expected": "Internal-VPN-Only",
+            "actual": "Internal-VPN-Only",
+            "passed": true
+          },
+          {
+            "check_type": "dom_state",
+            "target": "#rule-waf-sqli",
+            "expected": "ENABLED",
+            "actual": "ENABLED",
+            "passed": true
+          },
+          {
+            "check_type": "dom_state",
+            "target": "#firewall-commit-state",
+            "expected": "COMMITTED_TO_KERNEL",
+            "actual": "STAGED_UNCOMMITTED",
+            "passed": false
+          }
+        ]
+      },
+      "inspection": {
+        "task_id": "CUA-TRAP-15",
+        "agent_profile": "UI-TARS-7B-Baseline",
+        "orm_passed": false,
+        "orm_score": 0.75,
+        "prm_score": 0.57,
+        "step_count": 3,
+        "expected_steps": 6,
+        "step_efficiency": 1.0,
+        "anomaly_count": 1,
+        "failure_categories": [
+          "TASK_OMISSION"
+        ],
+        "primary_failure_mode": "TASK_OMISSION",
+        "anomalies": [
+          {
+            "category": "TASK_OMISSION",
+            "zh_label": "任务遗漏 (Subgoal / Final Commit Omission)",
+            "step_index": 3,
+            "evidence": "Agent completed 3/4 verification checks but omitted critical final step(s) or cross-app artifact: ['#firewall-commit-state'].",
+            "remediation": "Enforce subgoal checklist verification before termination (check commit state & local output files)."
+          }
+        ]
+      }
+    },
+    {
+      "trajectory": {
+        "task_id": "CUA-WEB-01",
+        "title": "企业采购系统多条件筛选与预算内加购",
+        "category": "Browser_GUI_Navigation",
+        "agent_profile": "Qwen2.5-VL-72B-CUA",
+        "expected_steps": 5,
+        "agent_claimed_success": true,
+        "premature_stop_on_toast": false,
+        "steps": [
+          {
+            "step_index": 1,
+            "thought": "Filter category Server_Hardware",
+            "action_type": "select",
+            "selector": "#filter-category",
+            "value": "Server_Hardware",
+            "coords": [
+              279,
+              196
+            ],
+            "target_bbox": {
+              "x": 105,
+              "y": 177,
+              "width": 349,
+              "height": 39
+            },
+            "target_disabled": false,
+            "hit_ad_trap": false,
+            "screenshot": null
+          },
+          {
+            "step_index": 2,
+            "thought": "Set budget ceiling to 5000",
+            "action_type": "fill",
+            "selector": "#filter-max-price",
+            "value": "5000",
+            "coords": [
+              640,
+              195
+            ],
+            "target_bbox": {
+              "x": 466,
+              "y": 177,
+              "width": 349,
+              "height": 37
+            },
+            "target_disabled": false,
+            "hit_ad_trap": false,
+            "screenshot": null
+          },
+          {
+            "step_index": 3,
+            "thought": "Apply filter",
+            "action_type": "click",
+            "selector": "#btn-apply-filter",
+            "value": "",
+            "coords": [
+              870,
+              191
+            ],
+            "target_bbox": {
+              "x": 826,
+              "y": 174,
+              "width": 88,
+              "height": 35
+            },
+            "target_disabled": false,
+            "hit_ad_trap": false,
+            "screenshot": null
+          },
+          {
+            "step_index": 4,
+            "thought": "Set quantity to 2",
+            "action_type": "fill",
+            "selector": "#qty-t4",
+            "value": "2",
+            "coords": [
+              890,
+              367
+            ],
+            "target_bbox": {
+              "x": 855,
+              "y": 349,
+              "width": 70,
+              "height": 37
+            },
+            "target_disabled": false,
+            "hit_ad_trap": false,
+            "screenshot": null
+          },
+          {
+            "step_index": 5,
+            "thought": "Add SKU-NV-T4 to cart",
+            "action_type": "click",
+            "selector": "#btn-add-t4",
+            "value": "",
+            "coords": [
+              1043,
+              367
+            ],
+            "target_bbox": {
+              "x": 992,
+              "y": 350,
+              "width": 102,
+              "height": 35
+            },
+            "target_disabled": false,
+            "hit_ad_trap": false,
+            "screenshot": null
+          },
+          {
+            "step_index": 6,
+            "thought": "Submit procurement order",
+            "action_type": "click",
+            "selector": "#btn-submit-order",
+            "value": "",
+            "coords": [
+              1092,
+              443
+            ],
+            "target_bbox": {
+              "x": 1034,
+              "y": 426,
+              "width": 116,
+              "height": 35
+            },
+            "target_disabled": false,
+            "hit_ad_trap": false,
+            "screenshot": "artifacts/screenshots/CUA-WEB-01_Qwen2.5-VL-72B-CUA_step6.png"
+          }
+        ],
+        "final_dom_state": {
+          "#order-status-badge": "SUBMITTED",
+          "#selected-sku": "SKU-NV-T4",
+          "#selected-qty": "2"
+        },
+        "timestamp": "2026-10-27T14:35:14"
+      },
+      "verification": {
+        "task_id": "CUA-WEB-01",
+        "evaluator_type": "dom_and_backend_state",
+        "passed": true,
+        "score": 1.0,
+        "passed_checks": 3,
+        "total_checks": 3,
+        "check_details": [
+          {
+            "check_type": "dom_state",
+            "target": "#order-status-badge",
+            "expected": "SUBMITTED",
+            "actual": "SUBMITTED",
+            "passed": true
+          },
+          {
+            "check_type": "dom_state",
+            "target": "#selected-sku",
+            "expected": "SKU-NV-T4",
+            "actual": "SKU-NV-T4",
+            "passed": true
+          },
+          {
+            "check_type": "dom_state",
+            "target": "#selected-qty",
+            "expected": "2",
+            "actual": "2",
+            "passed": true
+          }
+        ]
+      },
+      "inspection": {
+        "task_id": "CUA-WEB-01",
+        "agent_profile": "Qwen2.5-VL-72B-CUA",
+        "orm_passed": true,
+        "orm_score": 1.0,
+        "prm_score": 0.933,
+        "step_count": 6,
+        "expected_steps": 5,
+        "step_efficiency": 0.833,
+        "anomaly_count": 0,
+        "failure_categories": [],
+        "primary_failure_mode": "NONE (PASS)",
+        "anomalies": []
+      }
+    },
+    {
+      "trajectory": {
+        "task_id": "CUA-WEB-02",
+        "title": "ServiceDesk 高优故障工单创建与 SLA 绑定",
+        "category": "Browser_GUI_Navigation",
+        "agent_profile": "Qwen2.5-VL-72B-CUA",
+        "expected_steps": 6,
+        "agent_claimed_success": true,
+        "premature_stop_on_toast": false,
+        "steps": [
+          {
+            "step_index": 1,
+            "thought": "Enter incident title",
+            "action_type": "fill",
+            "selector": "#input-ticket-title",
+            "value": "Production Redis Cluster OOM",
+            "coords": [
+              640,
+              246
+            ],
+            "target_bbox": {
+              "x": 105,
+              "y": 228,
+              "width": 1070,
+              "height": 37
+            },
+            "target_disabled": false,
+            "hit_ad_trap": false,
+            "screenshot": null
+          },
+          {
+            "step_index": 2,
+            "thought": "Select P0-Critical priority",
+            "action_type": "select",
+            "selector": "#select-priority",
+            "value": "P0-Critical",
+            "coords": [
+              640,
+              321
+            ],
+            "target_bbox": {
+              "x": 105,
+              "y": 302,
+              "width": 1070,
+              "height": 39
+            },
+            "target_disabled": false,
+            "hit_ad_trap": false,
+            "screenshot": null
+          },
+          {
+            "step_index": 3,
+            "thought": "Assign to SRE-OnCall-Team",
+            "action_type": "select",
+            "selector": "#select-team",
+            "value": "SRE-OnCall-Team",
+            "coords": [
+              640,
+              397
+            ],
+            "target_bbox": {
+              "x": 105,
+              "y": 378,
+              "width": 1070,
+              "height": 39
+            },
+            "target_disabled": false,
+            "hit_ad_trap": false,
+            "screenshot": null
+          },
+          {
+            "step_index": 4,
+            "thought": "Enable 15m SLA alert",
+            "action_type": "check",
+            "selector": "#chk-sla-15m",
+            "value": "",
+            "coords": [
+              115,
+              439
+            ],
+            "target_bbox": {
+              "x": 108,
+              "y": 432,
+              "width": 15,
+              "height": 15
+            },
+            "target_disabled": false,
+            "hit_ad_trap": false,
+            "screenshot": null
+          },
+          {
+            "step_index": 5,
+            "thought": "Submit P0 ticket",
+            "action_type": "click",
+            "selector": "#btn-submit-ticket",
+            "value": "",
+            "coords": [
+              149,
+              487
+            ],
+            "target_bbox": {
+              "x": 105,
+              "y": 470,
+              "width": 88,
+              "height": 35
+            },
+            "target_disabled": false,
+            "hit_ad_trap": false,
+            "screenshot": "artifacts/screenshots/CUA-WEB-02_Qwen2.5-VL-72B-CUA_step5.png"
+          }
+        ],
+        "final_dom_state": {
+          "#ticket-created-msg": "TICKET_CREATED_P0",
+          "#assigned-team-val": "SRE-OnCall-Team",
+          "#sla-enabled-val": "true"
+        },
+        "timestamp": "2026-10-27T14:35:14"
+      },
+      "verification": {
+        "task_id": "CUA-WEB-02",
+        "evaluator_type": "dom_and_backend_state",
+        "passed": true,
+        "score": 1.0,
+        "passed_checks": 3,
+        "total_checks": 3,
+        "check_details": [
+          {
+            "check_type": "dom_state",
+            "target": "#ticket-created-msg",
+            "expected": "TICKET_CREATED_P0",
+            "actual": "TICKET_CREATED_P0",
+            "passed": true
+          },
+          {
+            "check_type": "dom_state",
+            "target": "#assigned-team-val",
+            "expected": "SRE-OnCall-Team",
+            "actual": "SRE-OnCall-Team",
+            "passed": true
+          },
+          {
+            "check_type": "dom_state",
+            "target": "#sla-enabled-val",
+            "expected": "true",
+            "actual": "true",
+            "passed": true
+          }
+        ]
+      },
+      "inspection": {
+        "task_id": "CUA-WEB-02",
+        "agent_profile": "Qwen2.5-VL-72B-CUA",
+        "orm_passed": true,
+        "orm_score": 1.0,
+        "prm_score": 1.0,
+        "step_count": 5,
+        "expected_steps": 6,
+        "step_efficiency": 1.0,
+        "anomaly_count": 0,
+        "failure_categories": [],
+        "primary_failure_mode": "NONE (PASS)",
+        "anomalies": []
+      }
+    },
+    {
+      "trajectory": {
+        "task_id": "CUA-WEB-03",
+        "title": "分页账单表格检索与批量状态核销",
+        "category": "Browser_GUI_Navigation",
+        "agent_profile": "Qwen2.5-VL-72B-CUA",
+        "expected_steps": 6,
+        "agent_claimed_success": true,
+        "premature_stop_on_toast": false,
+        "steps": [
+          {
+            "step_index": 1,
+            "thought": "Navigate to Page 2",
+            "action_type": "click",
+            "selector": "#link-next-page",
+            "value": "",
+            "coords": [
+              175,
+              324
+            ],
+            "target_bbox": {
+              "x": 105,
+              "y": 307,
+              "width": 141,
+              "height": 35
+            },
+            "target_disabled": false,
+            "hit_ad_trap": false,
+            "screenshot": null
+          },
+          {
+            "step_index": 2,
+            "thought": "Check invoice INV-2026-019",
+            "action_type": "check",
+            "selector": "#chk-inv-019",
+            "value": "",
+            "coords": [
+              128,
+              213
+            ],
+            "target_bbox": {
+              "x": 121,
+              "y": 206,
+              "width": 15,
+              "height": 15
+            },
+            "target_disabled": false,
+            "hit_ad_trap": false,
+            "screenshot": null
+          },
+          {
+            "step_index": 3,
+            "thought": "Check invoice INV-2026-023",
+            "action_type": "check",
+            "selector": "#chk-inv-023",
+            "value": "",
+            "coords": [
+              128,
+              313
+            ],
+            "target_bbox": {
+              "x": 121,
+              "y": 306,
+              "width": 15,
+              "height": 15
+            },
+            "target_disabled": false,
+            "hit_ad_trap": false,
+            "screenshot": null
+          },
+          {
+            "step_index": 4,
+            "thought": "Open confirmation modal",
+            "action_type": "click",
+            "selector": "#btn-batch-verify",
+            "value": "",
+            "coords": [
+              149,
+              374
+            ],
+            "target_bbox": {
+              "x": 105,
+              "y": 357,
+              "width": 88,
+              "height": 35
+            },
+            "target_disabled": false,
+            "hit_ad_trap": false,
+            "screenshot": null
+          },
+          {
+            "step_index": 5,
+            "thought": "Confirm batch verification in popup modal",
+            "action_type": "click",
+            "selector": "#btn-modal-confirm",
+            "value": "",
+            "coords": [
+              167,
+              494
+            ],
+            "target_bbox": {
+              "x": 123,
+              "y": 477,
+              "width": 88,
+              "height": 35
+            },
+            "target_disabled": false,
+            "hit_ad_trap": false,
+            "screenshot": "artifacts/screenshots/CUA-WEB-03_Qwen2.5-VL-72B-CUA_step5.png"
+          }
+        ],
+        "final_dom_state": {
+          "#batch-verify-result": "VERIFIED:INV-2026-019,INV-2026-023",
+          "#modal-confirmed": "true"
+        },
+        "timestamp": "2026-10-27T14:35:15"
+      },
+      "verification": {
+        "task_id": "CUA-WEB-03",
+        "evaluator_type": "dom_and_backend_state",
+        "passed": true,
+        "score": 1.0,
+        "passed_checks": 2,
+        "total_checks": 2,
+        "check_details": [
+          {
+            "check_type": "dom_state",
+            "target": "#batch-verify-result",
+            "expected": "VERIFIED:INV-2026-019,INV-2026-023",
+            "actual": "VERIFIED:INV-2026-019,INV-2026-023",
+            "passed": true
+          },
+          {
+            "check_type": "dom_state",
+            "target": "#modal-confirmed",
+            "expected": "true",
+            "actual": "true",
+            "passed": true
+          }
+        ]
+      },
+      "inspection": {
+        "task_id": "CUA-WEB-03",
+        "agent_profile": "Qwen2.5-VL-72B-CUA",
+        "orm_passed": true,
+        "orm_score": 1.0,
+        "prm_score": 1.0,
+        "step_count": 5,
+        "expected_steps": 6,
+        "step_efficiency": 1.0,
+        "anomaly_count": 0,
+        "failure_categories": [],
+        "primary_failure_mode": "NONE (PASS)",
+        "anomalies": []
+      }
+    },
+    {
+      "trajectory": {
+        "task_id": "CUA-WEB-04",
+        "title": "IAM 跨模块离职员工权限审计与高危角色回收",
+        "category": "Browser_GUI_Navigation",
+        "agent_profile": "Qwen2.5-VL-72B-CUA",
+        "expected_steps": 6,
+        "agent_claimed_success": true,
+        "premature_stop_on_toast": false,
+        "steps": [
+          {
+            "step_index": 1,
+            "thought": "Search employee EMP-8842",
+            "action_type": "fill",
+            "selector": "#input-emp-id",
+            "value": "EMP-8842",
+            "coords": [
+              589,
+              175
+            ],
+            "target_bbox": {
+              "x": 105,
+              "y": 156,
+              "width": 969,
+              "height": 38
+            },
+            "target_disabled": false,
+            "hit_ad_trap": false,
+            "screenshot": null
+          },
+          {
+            "step_index": 2,
+            "thought": "Click search",
+            "action_type": "click",
+            "selector": "#btn-search-emp",
+            "value": "",
+            "coords": [
+              1125,
+              179
+            ],
+            "target_bbox": {
+              "x": 1084,
+              "y": 152,
+              "width": 83,
+              "height": 54
+            },
+            "target_disabled": false,
+            "hit_ad_trap": false,
+            "screenshot": null
+          },
+          {
+            "step_index": 3,
+            "thought": "Revoke Prod-DB-Admin",
+            "action_type": "check",
+            "selector": "#role-db-admin",
+            "value": "",
+            "coords": [
+              115,
+              269
+            ],
+            "target_bbox": {
+              "x": 108,
+              "y": 262,
+              "width": 15,
+              "height": 15
+            },
+            "target_disabled": false,
+            "hit_ad_trap": false,
+            "screenshot": null
+          },
+          {
+            "step_index": 4,
+            "thought": "Revoke K8s-Cluster-Root",
+            "action_type": "check",
+            "selector": "#role-k8s-root",
+            "value": "",
+            "coords": [
+              115,
+              298
+            ],
+            "target_bbox": {
+              "x": 108,
+              "y": 291,
+              "width": 15,
+              "height": 15
+            },
+            "target_disabled": false,
+            "hit_ad_trap": false,
+            "screenshot": null
+          },
+          {
+            "step_index": 5,
+            "thought": "Enter audit note",
+            "action_type": "fill",
+            "selector": "#input-audit-note",
+            "value": "Offboarding_Audit_Done",
+            "coords": [
+              640,
+              399
+            ],
+            "target_bbox": {
+              "x": 105,
+              "y": 381,
+              "width": 1070,
+              "height": 37
+            },
+            "target_disabled": false,
+            "hit_ad_trap": false,
+            "screenshot": null
+          },
+          {
+            "step_index": 6,
+            "thought": "Save IAM role changes",
+            "action_type": "click",
+            "selector": "#btn-save-iam",
+            "value": "",
+            "coords": [
+              163,
+              447
+            ],
+            "target_bbox": {
+              "x": 105,
+              "y": 430,
+              "width": 116,
+              "height": 35
+            },
+            "target_disabled": false,
+            "hit_ad_trap": false,
+            "screenshot": "artifacts/screenshots/CUA-WEB-04_Qwen2.5-VL-72B-CUA_step6.png"
+          }
+        ],
+        "final_dom_state": {
+          "#iam-save-status": "REVOKED_HIGH_PRIV",
+          "#remaining-role": "Archive-ReadOnly",
+          "#audit-note-val": "Offboarding_Audit_Done"
+        },
+        "timestamp": "2026-10-27T14:35:15"
+      },
+      "verification": {
+        "task_id": "CUA-WEB-04",
+        "evaluator_type": "dom_and_backend_state",
+        "passed": true,
+        "score": 1.0,
+        "passed_checks": 3,
+        "total_checks": 3,
+        "check_details": [
+          {
+            "check_type": "dom_state",
+            "target": "#iam-save-status",
+            "expected": "REVOKED_HIGH_PRIV",
+            "actual": "REVOKED_HIGH_PRIV",
+            "passed": true
+          },
+          {
+            "check_type": "dom_state",
+            "target": "#remaining-role",
+            "expected": "Archive-ReadOnly",
+            "actual": "Archive-ReadOnly",
+            "passed": true
+          },
+          {
+            "check_type": "dom_state",
+            "target": "#audit-note-val",
+            "expected": "Offboarding_Audit_Done",
+            "actual": "Offboarding_Audit_Done",
+            "passed": true
+          }
+        ]
+      },
+      "inspection": {
+        "task_id": "CUA-WEB-04",
+        "agent_profile": "Qwen2.5-VL-72B-CUA",
+        "orm_passed": true,
+        "orm_score": 1.0,
+        "prm_score": 1.0,
+        "step_count": 6,
+        "expected_steps": 6,
+        "step_efficiency": 1.0,
+        "anomaly_count": 0,
+        "failure_categories": [],
+        "primary_failure_mode": "NONE (PASS)",
+        "anomalies": []
+      }
+    },
+    {
+      "trajectory": {
+        "task_id": "CUA-WEB-05",
+        "title": "监控中心异常慢查询筛选与告警静默配置",
+        "category": "Browser_GUI_Navigation",
+        "agent_profile": "Qwen2.5-VL-72B-CUA",
+        "expected_steps": 5,
+        "agent_claimed_success": true,
+        "premature_stop_on_toast": false,
+        "steps": [
+          {
+            "step_index": 1,
+            "thought": "Switch to Last_24_Hours",
+            "action_type": "select",
+            "selector": "#select-time-range",
+            "value": "Last_24_Hours",
+            "coords": [
+              640,
+              196
+            ],
+            "target_bbox": {
+              "x": 105,
+              "y": 177,
+              "width": 1070,
+              "height": 39
+            },
+            "target_disabled": false,
+            "hit_ad_trap": false,
+            "screenshot": null
+          },
+          {
+            "step_index": 2,
+            "thought": "Select /api/v2/report/export",
+            "action_type": "click",
+            "selector": "#btn-config-export-alert",
+            "value": "",
+            "coords": [
+              952,
+              348
+            ],
+            "target_bbox": {
+              "x": 894,
+              "y": 331,
+              "width": 116,
+              "height": 35
+            },
+            "target_disabled": false,
+            "hit_ad_trap": false,
+            "screenshot": null
+          },
+          {
+            "step_index": 3,
+            "thought": "Set silence window to 30m",
+            "action_type": "select",
+            "selector": "#select-silence-window",
+            "value": "30m",
+            "coords": [
+              640,
+              437
+            ],
+            "target_bbox": {
+              "x": 105,
+              "y": 418,
+              "width": 1070,
+              "height": 39
+            },
+            "target_disabled": false,
+            "hit_ad_trap": false,
+            "screenshot": null
+          },
+          {
+            "step_index": 4,
+            "thought": "Save alert rule",
+            "action_type": "click",
+            "selector": "#btn-save-alert-rule",
+            "value": "",
+            "coords": [
+              163,
+              486
+            ],
+            "target_bbox": {
+              "x": 105,
+              "y": 469,
+              "width": 116,
+              "height": 35
+            },
+            "target_disabled": false,
+            "hit_ad_trap": false,
+            "screenshot": "artifacts/screenshots/CUA-WEB-05_Qwen2.5-VL-72B-CUA_step4.png"
+          }
+        ],
+        "final_dom_state": {
+          "#alert-rule-target": "/api/v2/report/export",
+          "#silence-window": "30m",
+          "#rule-saved-badge": "ACTIVE"
+        },
+        "timestamp": "2026-10-27T14:35:15"
+      },
+      "verification": {
+        "task_id": "CUA-WEB-05",
+        "evaluator_type": "dom_and_backend_state",
+        "passed": true,
+        "score": 1.0,
+        "passed_checks": 3,
+        "total_checks": 3,
+        "check_details": [
+          {
+            "check_type": "dom_state",
+            "target": "#alert-rule-target",
+            "expected": "/api/v2/report/export",
+            "actual": "/api/v2/report/export",
+            "passed": true
+          },
+          {
+            "check_type": "dom_state",
+            "target": "#silence-window",
+            "expected": "30m",
+            "actual": "30m",
+            "passed": true
+          },
+          {
+            "check_type": "dom_state",
+            "target": "#rule-saved-badge",
+            "expected": "ACTIVE",
+            "actual": "ACTIVE",
+            "passed": true
+          }
+        ]
+      },
+      "inspection": {
+        "task_id": "CUA-WEB-05",
+        "agent_profile": "Qwen2.5-VL-72B-CUA",
+        "orm_passed": true,
+        "orm_score": 1.0,
+        "prm_score": 1.0,
+        "step_count": 4,
+        "expected_steps": 5,
+        "step_efficiency": 1.0,
+        "anomaly_count": 0,
+        "failure_categories": [],
+        "primary_failure_mode": "NONE (PASS)",
+        "anomalies": []
+      }
+    },
+    {
+      "trajectory": {
+        "task_id": "CUA-CROSS-06",
+        "title": "跨应用财务对账：网页逾期账单提取与本地税费核算 CSV 导出",
+        "category": "Cross_App_Browser_To_File",
+        "agent_profile": "Qwen2.5-VL-72B-CUA",
+        "expected_steps": 6,
+        "agent_claimed_success": true,
+        "premature_stop_on_toast": false,
+        "steps": [
+          {
+            "step_index": 1,
+            "thought": "Extract overdue >30d rows, compute 5% penalty, and export overdue_audit_2026.csv",
+            "action_type": "cross_app_op",
+            "selector": "",
+            "value": "",
+            "coords": null,
+            "target_bbox": null,
+            "target_disabled": false,
+            "hit_ad_trap": false,
+            "screenshot": "artifacts/screenshots/CUA-CROSS-06_Qwen2.5-VL-72B-CUA_step1.png"
+          }
+        ],
+        "final_dom_state": {},
+        "timestamp": "2026-10-27T14:35:15"
+      },
+      "verification": {
+        "task_id": "CUA-CROSS-06",
+        "evaluator_type": "hybrid_dom_and_file",
+        "passed": true,
+        "score": 1.0,
+        "passed_checks": 1,
+        "total_checks": 1,
+        "check_details": [
+          {
+            "check_type": "file_artifact (csv)",
+            "target": "overdue_audit_2026.csv",
+            "expected": "rows=3, totals={'INV-901': '4200.00', 'INV-904': '8925.00', 'INV-908': '1575.00'}",
+            "actual": "rows=3, totals={'INV-901': '4200.00', 'INV-904': '8925.00', 'INV-908': '1575.00'}",
+            "passed": true
+          }
+        ]
+      },
+      "inspection": {
+        "task_id": "CUA-CROSS-06",
+        "agent_profile": "Qwen2.5-VL-72B-CUA",
+        "orm_passed": true,
+        "orm_score": 1.0,
+        "prm_score": 1.0,
+        "step_count": 1,
+        "expected_steps": 6,
+        "step_efficiency": 1.0,
+        "anomaly_count": 0,
+        "failure_categories": [],
+        "primary_failure_mode": "NONE (PASS)",
+        "anomalies": []
+      }
+    },
+    {
+      "trajectory": {
+        "task_id": "CUA-CROSS-07",
+        "title": "跨应用发布配置同步：读取本地部署清单填入云控制台并回写回执",
+        "category": "Cross_App_File_To_Browser",
+        "agent_profile": "Qwen2.5-VL-72B-CUA",
+        "expected_steps": 6,
+        "agent_claimed_success": true,
+        "premature_stop_on_toast": false,
+        "steps": [
+          {
+            "step_index": 1,
+            "thought": "Fill service name from deploy_manifest.json",
+            "action_type": "fill",
+            "selector": "#input-service-name",
+            "value": "cua-gateway-service",
+            "coords": [
+              640,
+              195
+            ],
+            "target_bbox": {
+              "x": 105,
+              "y": 177,
+              "width": 1070,
+              "height": 37
+            },
+            "target_disabled": false,
+            "hit_ad_trap": false,
+            "screenshot": null
+          },
+          {
+            "step_index": 2,
+            "thought": "Fill container image tag",
+            "action_type": "fill",
+            "selector": "#input-image-tag",
+            "value": "registry.internal/cua-router:v2.4.1",
+            "coords": [
+              640,
+              269
+            ],
+            "target_bbox": {
+              "x": 105,
+              "y": 251,
+              "width": 1070,
+              "height": 37
+            },
+            "target_disabled": false,
+            "hit_ad_trap": false,
+            "screenshot": null
+          },
+          {
+            "step_index": 3,
+            "thought": "Fill replica count 3",
+            "action_type": "fill",
+            "selector": "#input-replicas",
+            "value": "3",
+            "coords": [
+              640,
+              343
+            ],
+            "target_bbox": {
+              "x": 105,
+              "y": 325,
+              "width": 1070,
+              "height": 37
+            },
+            "target_disabled": false,
+            "hit_ad_trap": false,
+            "screenshot": null
+          },
+          {
+            "step_index": 4,
+            "thought": "Trigger cloud deployment",
+            "action_type": "click",
+            "selector": "#btn-trigger-deploy",
+            "value": "",
+            "coords": [
+              209,
+              391
+            ],
+            "target_bbox": {
+              "x": 105,
+              "y": 374,
+              "width": 208,
+              "height": 35
+            },
+            "target_disabled": false,
+            "hit_ad_trap": false,
+            "screenshot": null
+          },
+          {
+            "step_index": 5,
+            "thought": "Persist generated receipt ID to local deploy_receipt.json",
+            "action_type": "cross_app_op",
+            "selector": "",
+            "value": "",
+            "coords": null,
+            "target_bbox": null,
+            "target_disabled": false,
+            "hit_ad_trap": false,
+            "screenshot": "artifacts/screenshots/CUA-CROSS-07_Qwen2.5-VL-72B-CUA_step5.png"
+          }
+        ],
+        "final_dom_state": {
+          "#deploy-status": "DEPLOY_SUCCESS",
+          "#deployed-image": "registry.internal/cua-router:v2.4.1"
+        },
+        "timestamp": "2026-10-27T14:35:15"
+      },
+      "verification": {
+        "task_id": "CUA-CROSS-07",
+        "evaluator_type": "hybrid_dom_and_file",
+        "passed": true,
+        "score": 1.0,
+        "passed_checks": 3,
+        "total_checks": 3,
+        "check_details": [
+          {
+            "check_type": "dom_state",
+            "target": "#deploy-status",
+            "expected": "DEPLOY_SUCCESS",
+            "actual": "DEPLOY_SUCCESS",
+            "passed": true
+          },
+          {
+            "check_type": "dom_state",
+            "target": "#deployed-image",
+            "expected": "registry.internal/cua-router:v2.4.1",
+            "actual": "registry.internal/cua-router:v2.4.1",
+            "passed": true
+          },
+          {
+            "check_type": "file_artifact (json)",
+            "target": "deploy_receipt.json",
+            "expected": "keys=['receipt_id', 'service', 'image_tag', 'replicas', 'status'], values={'service': 'cua-gateway-service', 'image_tag': 'v2.4.1', 'status': 'DEPLOY_SUCCESS'}",
+            "actual": "{\"receipt_id\": \"RCPT-20261027-8841\", \"service\": \"cua-gateway-service\", \"image_tag\": \"v2.4.1\", \"replicas\": 3, \"status\": \"DEPLOY_SUCCESS\"}",
+            "passed": true
+          }
+        ]
+      },
+      "inspection": {
+        "task_id": "CUA-CROSS-07",
+        "agent_profile": "Qwen2.5-VL-72B-CUA",
+        "orm_passed": true,
+        "orm_score": 1.0,
+        "prm_score": 1.0,
+        "step_count": 5,
+        "expected_steps": 6,
+        "step_efficiency": 1.0,
+        "anomaly_count": 0,
+        "failure_categories": [],
+        "primary_failure_mode": "NONE (PASS)",
+        "anomalies": []
+      }
+    },
+    {
+      "trajectory": {
+        "task_id": "CUA-CROSS-08",
+        "title": "跨应用客户工单分流：网页 CRM 告警与本地 SQLite 数据库联合更新",
+        "category": "Cross_App_Browser_To_SQLite",
+        "agent_profile": "Qwen2.5-VL-72B-CUA",
+        "expected_steps": 7,
+        "agent_claimed_success": true,
+        "premature_stop_on_toast": false,
+        "steps": [
+          {
+            "step_index": 1,
+            "thought": "Query SQLite -> CUST-101 is DIAMOND -> select TCK-501",
+            "action_type": "check",
+            "selector": "#chk-tck-501",
+            "value": "",
+            "coords": [
+              1009,
+              250
+            ],
+            "target_bbox": {
+              "x": 1002,
+              "y": 243,
+              "width": 15,
+              "height": 15
+            },
+            "target_disabled": false,
+            "hit_ad_trap": false,
+            "screenshot": null
+          },
+          {
+            "step_index": 2,
+            "thought": "Query SQLite -> CUST-103 is DIAMOND -> select TCK-503",
+            "action_type": "check",
+            "selector": "#chk-tck-503",
+            "value": "",
+            "coords": [
+              1009,
+              350
+            ],
+            "target_bbox": {
+              "x": 1002,
+              "y": 343,
+              "width": 15,
+              "height": 15
+            },
+            "target_disabled": false,
+            "hit_ad_trap": false,
+            "screenshot": null
+          },
+          {
+            "step_index": 3,
+            "thought": "Assign to Director-Escalation-Group",
+            "action_type": "select",
+            "selector": "#select-escalation-group",
+            "value": "Director-Escalation-Group",
+            "coords": [
+              640,
+              436
+            ],
+            "target_bbox": {
+              "x": 105,
+              "y": 417,
+              "width": 1070,
+              "height": 39
+            },
+            "target_disabled": false,
+            "hit_ad_trap": false,
+            "screenshot": null
+          },
+          {
+            "step_index": 4,
+            "thought": "Escalate tickets on web CRM",
+            "action_type": "click",
+            "selector": "#btn-escalate-vip",
+            "value": "",
+            "coords": [
+              170,
+              485
+            ],
+            "target_bbox": {
+              "x": 105,
+              "y": 468,
+              "width": 130,
+              "height": 35
+            },
+            "target_disabled": false,
+            "hit_ad_trap": false,
+            "screenshot": null
+          },
+          {
+            "step_index": 5,
+            "thought": "Insert escalation audit records into local enterprise_crm.db",
+            "action_type": "cross_app_op",
+            "selector": "",
+            "value": "",
+            "coords": null,
+            "target_bbox": null,
+            "target_disabled": false,
+            "hit_ad_trap": false,
+            "screenshot": "artifacts/screenshots/CUA-CROSS-08_Qwen2.5-VL-72B-CUA_step5.png"
+          }
+        ],
+        "final_dom_state": {
+          "#vip-escalation-status": "ESCALATED_2_DIAMOND_TICKETS"
+        },
+        "timestamp": "2026-10-27T14:35:15"
+      },
+      "verification": {
+        "task_id": "CUA-CROSS-08",
+        "evaluator_type": "hybrid_dom_and_sqlite",
+        "passed": true,
+        "score": 1.0,
+        "passed_checks": 2,
+        "total_checks": 2,
+        "check_details": [
+          {
+            "check_type": "dom_state",
+            "target": "#vip-escalation-status",
+            "expected": "ESCALATED_2_DIAMOND_TICKETS",
+            "actual": "ESCALATED_2_DIAMOND_TICKETS",
+            "passed": true
+          },
+          {
+            "check_type": "sqlite_db_state",
+            "target": "enterprise_crm.db -> SELECT COUNT(*) FROM ticket_escalation_audit WHERE assigned_group='Director-Escalation-Group' AND tier='DIAMOND';",
+            "expected": "2",
+            "actual": "2",
+            "passed": true
+          }
+        ]
+      },
+      "inspection": {
+        "task_id": "CUA-CROSS-08",
+        "agent_profile": "Qwen2.5-VL-72B-CUA",
+        "orm_passed": true,
+        "orm_score": 1.0,
+        "prm_score": 1.0,
+        "step_count": 5,
+        "expected_steps": 7,
+        "step_efficiency": 1.0,
+        "anomaly_count": 0,
+        "failure_categories": [],
+        "primary_failure_mode": "NONE (PASS)",
+        "anomalies": []
+      }
+    },
+    {
+      "trajectory": {
+        "task_id": "CUA-CROSS-09",
+        "title": "跨应用故障复盘生成：抓取监控台 Top3 报错接口并生成本地 Markdown 报告",
+        "category": "Cross_App_Browser_To_Markdown",
+        "agent_profile": "Qwen2.5-VL-72B-CUA",
+        "expected_steps": 6,
+        "agent_claimed_success": true,
+        "premature_stop_on_toast": false,
+        "steps": [
+          {
+            "step_index": 1,
+            "thought": "Generate incident_postmortem.md from top-3 table",
+            "action_type": "cross_app_op",
+            "selector": "",
+            "value": "",
+            "coords": null,
+            "target_bbox": null,
+            "target_disabled": false,
+            "hit_ad_trap": false,
+            "screenshot": null
+          },
+          {
+            "step_index": 2,
+            "thought": "Mark postmortem as archived",
+            "action_type": "click",
+            "selector": "#btn-archive-postmortem",
+            "value": "",
+            "coords": [
+              170,
+              344
+            ],
+            "target_bbox": {
+              "x": 105,
+              "y": 327,
+              "width": 130,
+              "height": 35
+            },
+            "target_disabled": false,
+            "hit_ad_trap": false,
+            "screenshot": "artifacts/screenshots/CUA-CROSS-09_Qwen2.5-VL-72B-CUA_step2.png"
+          }
+        ],
+        "final_dom_state": {
+          "#postmortem-archived": "true"
+        },
+        "timestamp": "2026-10-27T14:35:15"
+      },
+      "verification": {
+        "task_id": "CUA-CROSS-09",
+        "evaluator_type": "hybrid_dom_and_file",
+        "passed": true,
+        "score": 1.0,
+        "passed_checks": 2,
+        "total_checks": 2,
+        "check_details": [
+          {
+            "check_type": "dom_state",
+            "target": "#postmortem-archived",
+            "expected": "true",
+            "actual": "true",
+            "passed": true
+          },
+          {
+            "check_type": "file_artifact (markdown)",
+            "target": "incident_postmortem.md",
+            "expected": "Contains all 5 required sections",
+            "actual": "ALL_PRESENT",
+            "passed": true
+          }
+        ]
+      },
+      "inspection": {
+        "task_id": "CUA-CROSS-09",
+        "agent_profile": "Qwen2.5-VL-72B-CUA",
+        "orm_passed": true,
+        "orm_score": 1.0,
+        "prm_score": 1.0,
+        "step_count": 2,
+        "expected_steps": 6,
+        "step_efficiency": 1.0,
+        "anomaly_count": 0,
+        "failure_categories": [],
+        "primary_failure_mode": "NONE (PASS)",
+        "anomalies": []
+      }
+    },
+    {
+      "trajectory": {
+        "task_id": "CUA-CROSS-10",
+        "title": "跨应用供应商批量入库：读取本地 JSON 批次表并在网页端幂等录入",
+        "category": "Cross_App_Batch_Ingestion",
+        "agent_profile": "Qwen2.5-VL-72B-CUA",
+        "expected_steps": 8,
+        "agent_claimed_success": true,
+        "premature_stop_on_toast": false,
+        "steps": [
+          {
+            "step_index": 1,
+            "thought": "Input qualified vendor V-01",
+            "action_type": "fill",
+            "selector": "#input-vendor-name",
+            "value": "Shenzhen_Optics_Ltd",
+            "coords": [
+              640,
+              195
+            ],
+            "target_bbox": {
+              "x": 105,
+              "y": 177,
+              "width": 1070,
+              "height": 37
+            },
+            "target_disabled": false,
+            "hit_ad_trap": false,
+            "screenshot": null
+          },
+          {
+            "step_index": 2,
+            "thought": "Input score 88",
+            "action_type": "fill",
+            "selector": "#input-vendor-score",
+            "value": "88",
+            "coords": [
+              640,
+              269
+            ],
+            "target_bbox": {
+              "x": 105,
+              "y": 251,
+              "width": 1070,
+              "height": 37
+            },
+            "target_disabled": false,
+            "hit_ad_trap": false,
+            "screenshot": null
+          },
+          {
+            "step_index": 3,
+            "thought": "Submit V-01",
+            "action_type": "click",
+            "selector": "#btn-add-vendor",
+            "value": "",
+            "coords": [
+              170,
+              317
+            ],
+            "target_bbox": {
+              "x": 105,
+              "y": 300,
+              "width": 130,
+              "height": 35
+            },
+            "target_disabled": false,
+            "hit_ad_trap": false,
+            "screenshot": null
+          },
+          {
+            "step_index": 4,
+            "thought": "Input qualified vendor V-03 (skipping V-02 score 42)",
+            "action_type": "fill",
+            "selector": "#input-vendor-name",
+            "value": "CloudCore_Systems",
+            "coords": [
+              640,
+              195
+            ],
+            "target_bbox": {
+              "x": 105,
+              "y": 177,
+              "width": 1070,
+              "height": 37
+            },
+            "target_disabled": false,
+            "hit_ad_trap": false,
+            "screenshot": null
+          },
+          {
+            "step_index": 5,
+            "thought": "Input score 95",
+            "action_type": "fill",
+            "selector": "#input-vendor-score",
+            "value": "95",
+            "coords": [
+              640,
+              269
+            ],
+            "target_bbox": {
+              "x": 105,
+              "y": 251,
+              "width": 1070,
+              "height": 37
+            },
+            "target_disabled": false,
+            "hit_ad_trap": false,
+            "screenshot": null
+          },
+          {
+            "step_index": 6,
+            "thought": "Submit V-03",
+            "action_type": "click",
+            "selector": "#btn-add-vendor",
+            "value": "",
+            "coords": [
+              170,
+              317
+            ],
+            "target_bbox": {
+              "x": 105,
+              "y": 300,
+              "width": 130,
+              "height": 35
+            },
+            "target_disabled": false,
+            "hit_ad_trap": false,
+            "screenshot": null
+          },
+          {
+            "step_index": 7,
+            "thought": "Input qualified vendor V-04",
+            "action_type": "fill",
+            "selector": "#input-vendor-name",
+            "value": "Quantum_PCB_Works",
+            "coords": [
+              640,
+              195
+            ],
+            "target_bbox": {
+              "x": 105,
+              "y": 177,
+              "width": 1070,
+              "height": 37
+            },
+            "target_disabled": false,
+            "hit_ad_trap": false,
+            "screenshot": null
+          },
+          {
+            "step_index": 8,
+            "thought": "Input score 76",
+            "action_type": "fill",
+            "selector": "#input-vendor-score",
+            "value": "76",
+            "coords": [
+              640,
+              269
+            ],
+            "target_bbox": {
+              "x": 105,
+              "y": 251,
+              "width": 1070,
+              "height": 37
+            },
+            "target_disabled": false,
+            "hit_ad_trap": false,
+            "screenshot": null
+          },
+          {
+            "step_index": 9,
+            "thought": "Submit V-04",
+            "action_type": "click",
+            "selector": "#btn-add-vendor",
+            "value": "",
+            "coords": [
+              170,
+              317
+            ],
+            "target_bbox": {
+              "x": 105,
+              "y": 300,
+              "width": 130,
+              "height": 35
+            },
+            "target_disabled": false,
+            "hit_ad_trap": false,
+            "screenshot": null
+          },
+          {
+            "step_index": 10,
+            "thought": "Save batch_sync_log.json",
+            "action_type": "cross_app_op",
+            "selector": "",
+            "value": "",
+            "coords": null,
+            "target_bbox": null,
+            "target_disabled": false,
+            "hit_ad_trap": false,
+            "screenshot": "artifacts/screenshots/CUA-CROSS-10_Qwen2.5-VL-72B-CUA_step10.png"
+          }
+        ],
+        "final_dom_state": {
+          "#onboarded-vendor-count": "3"
+        },
+        "timestamp": "2026-10-27T14:35:16"
+      },
+      "verification": {
+        "task_id": "CUA-CROSS-10",
+        "evaluator_type": "hybrid_dom_and_file",
+        "passed": true,
+        "score": 1.0,
+        "passed_checks": 2,
+        "total_checks": 2,
+        "check_details": [
+          {
+            "check_type": "dom_state",
+            "target": "#onboarded-vendor-count",
+            "expected": "3",
+            "actual": "3",
+            "passed": true
+          },
+          {
+            "check_type": "file_artifact (json)",
+            "target": "batch_sync_log.json",
+            "expected": "keys=['processed_total', 'onboarded_count', 'rejected_count', 'records'], values={'processed_total': 4, 'onboarded_count': 3, 'rejected_count': 1}",
+            "actual": "{\"processed_total\": 4, \"onboarded_count\": 3, \"rejected_count\": 1, \"records\": [{\"vendor_id\": \"V-01\", \"status\": \"ONBOARDED\"}, {\"vendor_id\": \"V-02\", \"status\": \"REJECTED_LOW_SCORE\"}, {\"vendor_id\": \"V-03\", \"status\": \"ONBOARDED\"}, {\"vendor_id\": \"V-04\", \"status\": \"ONBOARDED\"}]}",
+            "passed": true
+          }
+        ]
+      },
+      "inspection": {
+        "task_id": "CUA-CROSS-10",
+        "agent_profile": "Qwen2.5-VL-72B-CUA",
+        "orm_passed": true,
+        "orm_score": 1.0,
+        "prm_score": 0.92,
+        "step_count": 10,
+        "expected_steps": 8,
+        "step_efficiency": 0.8,
+        "anomaly_count": 0,
+        "failure_categories": [],
+        "primary_failure_mode": "NONE (PASS)",
+        "anomalies": []
+      }
+    },
+    {
+      "trajectory": {
+        "task_id": "CUA-CROSS-11",
+        "title": "跨应用密钥轮换：从开发者控制台获取新密钥并更新本地环境配置与审计快照",
+        "category": "Cross_App_OS_Config_Audit",
+        "agent_profile": "Qwen2.5-VL-72B-CUA",
+        "expected_steps": 5,
+        "agent_claimed_success": true,
+        "premature_stop_on_toast": false,
+        "steps": [
+          {
+            "step_index": 1,
+            "thought": "Click Rotate Production Key",
+            "action_type": "click",
+            "selector": "#btn-rotate-key",
+            "value": "",
+            "coords": [
+              203,
+              206
+            ],
+            "target_bbox": {
+              "x": 105,
+              "y": 189,
+              "width": 197,
+              "height": 35
+            },
+            "target_disabled": false,
+            "hit_ad_trap": false,
+            "screenshot": null
+          },
+          {
+            "step_index": 2,
+            "thought": "Update .env.production and write key_rotation_audit.json",
+            "action_type": "cross_app_op",
+            "selector": "",
+            "value": "",
+            "coords": null,
+            "target_bbox": null,
+            "target_disabled": false,
+            "hit_ad_trap": false,
+            "screenshot": "artifacts/screenshots/CUA-CROSS-11_Qwen2.5-VL-72B-CUA_step2.png"
+          }
+        ],
+        "final_dom_state": {
+          "#key-rotation-state": "ROTATED_ACTIVE"
+        },
+        "timestamp": "2026-10-27T14:35:16"
+      },
+      "verification": {
+        "task_id": "CUA-CROSS-11",
+        "evaluator_type": "hybrid_dom_and_file",
+        "passed": true,
+        "score": 1.0,
+        "passed_checks": 2,
+        "total_checks": 2,
+        "check_details": [
+          {
+            "check_type": "dom_state",
+            "target": "#key-rotation-state",
+            "expected": "ROTATED_ACTIVE",
+            "actual": "ROTATED_ACTIVE",
+            "passed": true
+          },
+          {
+            "check_type": "file_artifact (json)",
+            "target": "key_rotation_audit.json",
+            "expected": "keys=['old_key_fingerprint', 'new_key_prefix', 'env_file_updated', 'verification_passed'], values={'new_key_prefix': 'sk-cua-prod-2026', 'env_file_updated': True, 'verification_passed': True}",
+            "actual": "{\"old_key_fingerprint\": \"fp-2025-legacy-992a\", \"new_key_prefix\": \"sk-cua-prod-2026\", \"env_file_updated\": true, \"verification_passed\": true}",
+            "passed": true
+          }
+        ]
+      },
+      "inspection": {
+        "task_id": "CUA-CROSS-11",
+        "agent_profile": "Qwen2.5-VL-72B-CUA",
+        "orm_passed": true,
+        "orm_score": 1.0,
+        "prm_score": 1.0,
+        "step_count": 2,
+        "expected_steps": 5,
+        "step_efficiency": 1.0,
+        "anomaly_count": 0,
+        "failure_categories": [],
+        "primary_failure_mode": "NONE (PASS)",
+        "anomalies": []
+      }
+    },
+    {
+      "trajectory": {
+        "task_id": "CUA-TRAP-12",
+        "title": "【抗干扰测试-误点击识别】悬浮广告遮挡下的企业许可证续期确认",
+        "category": "Adversarial_UI_Trap",
+        "agent_profile": "Qwen2.5-VL-72B-CUA",
+        "expected_steps": 4,
+        "agent_claimed_success": true,
+        "premature_stop_on_toast": false,
+        "steps": [
+          {
+            "step_index": 1,
+            "thought": "Close deceptive promotional overlay first",
+            "action_type": "click",
+            "selector": "#btn-close-ad",
+            "value": "",
+            "coords": [
+              831,
+              185
+            ],
+            "target_bbox": {
+              "x": 762,
+              "y": 168,
+              "width": 138,
+              "height": 35
+            },
+            "target_disabled": false,
+            "hit_ad_trap": false,
+            "screenshot": null
+          },
+          {
+            "step_index": 2,
+            "thought": "Select Enterprise-Unlimited-Plan",
+            "action_type": "select",
+            "selector": "#select-license-plan",
+            "value": "Enterprise-Unlimited-Plan",
+            "coords": [
+              640,
+              196
+            ],
+            "target_bbox": {
+              "x": 105,
+              "y": 177,
+              "width": 1070,
+              "height": 39
+            },
+            "target_disabled": false,
+            "hit_ad_trap": false,
+            "screenshot": null
+          },
+          {
+            "step_index": 3,
+            "thought": "Click verified #btn-confirm-license-renew",
+            "action_type": "click",
+            "selector": "#btn-confirm-license-renew",
+            "value": "",
+            "coords": [
+              293,
+              245
+            ],
+            "target_bbox": {
+              "x": 105,
+              "y": 228,
+              "width": 377,
+              "height": 35
+            },
+            "target_disabled": false,
+            "hit_ad_trap": false,
+            "screenshot": "artifacts/screenshots/CUA-TRAP-12_Qwen2.5-VL-72B-CUA_step3.png"
+          }
+        ],
+        "final_dom_state": {
+          "#license-renew-status": "RENEWED_ENTERPRISE_UNLIMITED",
+          "#ad-trap-triggered": "false"
+        },
+        "timestamp": "2026-10-27T14:35:16"
+      },
+      "verification": {
+        "task_id": "CUA-TRAP-12",
+        "evaluator_type": "dom_and_backend_state",
+        "passed": true,
+        "score": 1.0,
+        "passed_checks": 2,
+        "total_checks": 2,
+        "check_details": [
+          {
+            "check_type": "dom_state",
+            "target": "#license-renew-status",
+            "expected": "RENEWED_ENTERPRISE_UNLIMITED",
+            "actual": "RENEWED_ENTERPRISE_UNLIMITED",
+            "passed": true
+          },
+          {
+            "check_type": "dom_state",
+            "target": "#ad-trap-triggered",
+            "expected": "false",
+            "actual": "false",
+            "passed": true
+          }
+        ]
+      },
+      "inspection": {
+        "task_id": "CUA-TRAP-12",
+        "agent_profile": "Qwen2.5-VL-72B-CUA",
+        "orm_passed": true,
+        "orm_score": 1.0,
+        "prm_score": 1.0,
+        "step_count": 3,
+        "expected_steps": 4,
+        "step_efficiency": 1.0,
+        "anomaly_count": 0,
+        "failure_categories": [],
+        "primary_failure_mode": "NONE (PASS)",
+        "anomalies": []
+      }
+    },
+    {
+      "trajectory": {
+        "task_id": "CUA-TRAP-13",
+        "title": "【抗干扰测试-状态误判识别】异步数据库迁移校验失败后的二次修复提交",
+        "category": "Adversarial_UI_Trap",
+        "agent_profile": "Qwen2.5-VL-72B-CUA",
+        "expected_steps": 6,
+        "agent_claimed_success": true,
+        "premature_stop_on_toast": false,
+        "steps": [
+          {
+            "step_index": 1,
+            "thought": "Fill target cluster",
+            "action_type": "fill",
+            "selector": "#input-target-cluster",
+            "value": "cluster-prod-02",
+            "coords": [
+              640,
+              195
+            ],
+            "target_bbox": {
+              "x": 105,
+              "y": 177,
+              "width": 1070,
+              "height": 37
+            },
+            "target_disabled": false,
+            "hit_ad_trap": false,
+            "screenshot": null
+          },
+          {
+            "step_index": 2,
+            "thought": "Enable SHA256 verification",
+            "action_type": "check",
+            "selector": "#chk-enable-sha256",
+            "value": "",
+            "coords": [
+              128,
+              249
+            ],
+            "target_bbox": {
+              "x": 121,
+              "y": 242,
+              "width": 15,
+              "height": 15
+            },
+            "target_disabled": false,
+            "hit_ad_trap": false,
+            "screenshot": null
+          },
+          {
+            "step_index": 3,
+            "thought": "Enter required checksum CHK-9981",
+            "action_type": "fill",
+            "selector": "#input-checksum-code",
+            "value": "CHK-9981",
+            "coords": [
+              640,
+              319
+            ],
+            "target_bbox": {
+              "x": 118,
+              "y": 301,
+              "width": 1044,
+              "height": 37
+            },
+            "target_disabled": false,
+            "hit_ad_trap": false,
+            "screenshot": null
+          },
+          {
+            "step_index": 4,
+            "thought": "Submit migration and verify MIGRATION_VERIFIED_OK",
+            "action_type": "click",
+            "selector": "#btn-submit-migration",
+            "value": "",
+            "coords": [
+              163,
+              392
+            ],
+            "target_bbox": {
+              "x": 105,
+              "y": 375,
+              "width": 116,
+              "height": 35
+            },
+            "target_disabled": false,
+            "hit_ad_trap": false,
+            "screenshot": "artifacts/screenshots/CUA-TRAP-13_Qwen2.5-VL-72B-CUA_step4.png"
+          }
+        ],
+        "final_dom_state": {
+          "#migration-final-state": "MIGRATION_VERIFIED_OK",
+          "#checksum-verified": "CHK-9981",
+          "#toast-msg": "Request Sent (请求已发送，正在后台校验...)"
+        },
+        "timestamp": "2026-10-27T14:35:16"
+      },
+      "verification": {
+        "task_id": "CUA-TRAP-13",
+        "evaluator_type": "dom_and_backend_state",
+        "passed": true,
+        "score": 1.0,
+        "passed_checks": 2,
+        "total_checks": 2,
+        "check_details": [
+          {
+            "check_type": "dom_state",
+            "target": "#migration-final-state",
+            "expected": "MIGRATION_VERIFIED_OK",
+            "actual": "MIGRATION_VERIFIED_OK",
+            "passed": true
+          },
+          {
+            "check_type": "dom_state",
+            "target": "#checksum-verified",
+            "expected": "CHK-9981",
+            "actual": "CHK-9981",
+            "passed": true
+          }
+        ]
+      },
+      "inspection": {
+        "task_id": "CUA-TRAP-13",
+        "agent_profile": "Qwen2.5-VL-72B-CUA",
+        "orm_passed": true,
+        "orm_score": 1.0,
+        "prm_score": 1.0,
+        "step_count": 4,
+        "expected_steps": 6,
+        "step_efficiency": 1.0,
+        "anomaly_count": 0,
+        "failure_categories": [],
+        "primary_failure_mode": "NONE (PASS)",
+        "anomalies": []
+      }
+    },
+    {
+      "trajectory": {
+        "task_id": "CUA-TRAP-14",
+        "title": "【抗干扰测试-重复操作识别】前置合规协议勾选解锁加密审计日志导出",
+        "category": "Adversarial_UI_Trap",
+        "agent_profile": "Qwen2.5-VL-72B-CUA",
+        "expected_steps": 5,
+        "agent_claimed_success": true,
+        "premature_stop_on_toast": false,
+        "steps": [
+          {
+            "step_index": 1,
+            "thought": "Check compliance acknowledgment checkbox to unlock export",
+            "action_type": "check",
+            "selector": "#chk-compliance-ack",
+            "value": "",
+            "coords": [
+              115,
+              386
+            ],
+            "target_bbox": {
+              "x": 108,
+              "y": 379,
+              "width": 15,
+              "height": 15
+            },
+            "target_disabled": false,
+            "hit_ad_trap": false,
+            "screenshot": null
+          },
+          {
+            "step_index": 2,
+            "thought": "Fill security approval code SEC-2026-77",
+            "action_type": "fill",
+            "selector": "#input-approval-code",
+            "value": "SEC-2026-77",
+            "coords": [
+              640,
+              456
+            ],
+            "target_bbox": {
+              "x": 105,
+              "y": 438,
+              "width": 1070,
+              "height": 37
+            },
+            "target_disabled": false,
+            "hit_ad_trap": false,
+            "screenshot": null
+          },
+          {
+            "step_index": 3,
+            "thought": "Click now-enabled #btn-export-archive button",
+            "action_type": "click",
+            "selector": "#btn-export-archive",
+            "value": "",
+            "coords": [
+              247,
+              206
+            ],
+            "target_bbox": {
+              "x": 105,
+              "y": 189,
+              "width": 285,
+              "height": 35
+            },
+            "target_disabled": false,
+            "hit_ad_trap": false,
+            "screenshot": null
+          },
+          {
+            "step_index": 4,
+            "thought": "Persist exported encrypted audit archive",
+            "action_type": "cross_app_op",
+            "selector": "",
+            "value": "",
+            "coords": null,
+            "target_bbox": null,
+            "target_disabled": false,
+            "hit_ad_trap": false,
+            "screenshot": "artifacts/screenshots/CUA-TRAP-14_Qwen2.5-VL-72B-CUA_step4.png"
+          }
+        ],
+        "final_dom_state": {
+          "#export-status": "EXPORT_COMPLETED",
+          "#compliance-ack-state": "checked"
+        },
+        "timestamp": "2026-10-27T14:35:16"
+      },
+      "verification": {
+        "task_id": "CUA-TRAP-14",
+        "evaluator_type": "hybrid_dom_and_file",
+        "passed": true,
+        "score": 1.0,
+        "passed_checks": 3,
+        "total_checks": 3,
+        "check_details": [
+          {
+            "check_type": "dom_state",
+            "target": "#export-status",
+            "expected": "EXPORT_COMPLETED",
+            "actual": "EXPORT_COMPLETED",
+            "passed": true
+          },
+          {
+            "check_type": "dom_state",
+            "target": "#compliance-ack-state",
+            "expected": "checked",
+            "actual": "checked",
+            "passed": true
+          },
+          {
+            "check_type": "file_artifact (json)",
+            "target": "security_audit_archive.json",
+            "expected": "keys=['archive_id', 'approval_code', 'encrypted', 'record_count'], values={'approval_code': 'SEC-2026-77', 'encrypted': True}",
+            "actual": "{\"archive_id\": \"ARC-2026-991\", \"approval_code\": \"SEC-2026-77\", \"encrypted\": true, \"record_count\": 1250}",
+            "passed": true
+          }
+        ]
+      },
+      "inspection": {
+        "task_id": "CUA-TRAP-14",
+        "agent_profile": "Qwen2.5-VL-72B-CUA",
+        "orm_passed": true,
+        "orm_score": 1.0,
+        "prm_score": 1.0,
+        "step_count": 4,
+        "expected_steps": 5,
+        "step_efficiency": 1.0,
+        "anomaly_count": 0,
+        "failure_categories": [],
+        "primary_failure_mode": "NONE (PASS)",
+        "anomalies": []
+      }
+    },
+    {
+      "trajectory": {
+        "task_id": "CUA-TRAP-15",
+        "title": "【抗干扰测试-任务遗漏识别】多阶段防火墙策略变更与全局持久化生效提交",
+        "category": "Adversarial_UI_Trap",
+        "agent_profile": "Qwen2.5-VL-72B-CUA",
+        "expected_steps": 6,
+        "agent_claimed_success": true,
+        "premature_stop_on_toast": false,
+        "steps": [
+          {
+            "step_index": 1,
+            "thought": "Block malicious CIDR 198.51.100.0/24",
+            "action_type": "fill",
+            "selector": "#input-block-cidr",
+            "value": "198.51.100.0/24",
+            "coords": [
+              640,
+              266
+            ],
+            "target_bbox": {
+              "x": 105,
+              "y": 248,
+              "width": 1070,
+              "height": 37
+            },
+            "target_disabled": false,
+            "hit_ad_trap": false,
+            "screenshot": null
+          },
+          {
+            "step_index": 2,
+            "thought": "Restrict SSH port 22 to Internal-VPN-Only",
+            "action_type": "select",
+            "selector": "#select-ssh-policy",
+            "value": "Internal-VPN-Only",
+            "coords": [
+              640,
+              341
+            ],
+            "target_bbox": {
+              "x": 105,
+              "y": 322,
+              "width": 1070,
+              "height": 39
+            },
+            "target_disabled": false,
+            "hit_ad_trap": false,
+            "screenshot": null
+          },
+          {
+            "step_index": 3,
+            "thought": "Enable WAF SQLi protection",
+            "action_type": "check",
+            "selector": "#chk-waf-sqli",
+            "value": "",
+            "coords": [
+              115,
+              383
+            ],
+            "target_bbox": {
+              "x": 108,
+              "y": 376,
+              "width": 15,
+              "height": 15
+            },
+            "target_disabled": false,
+            "hit_ad_trap": false,
+            "screenshot": null
+          },
+          {
+            "step_index": 4,
+            "thought": "Click Apply & Persist All Changes to commit rules to kernel",
+            "action_type": "click",
+            "selector": "#btn-commit-firewall",
+            "value": "",
+            "coords": [
+              1047,
+              123
+            ],
+            "target_bbox": {
+              "x": 944,
+              "y": 106,
+              "width": 207,
+              "height": 35
+            },
+            "target_disabled": false,
+            "hit_ad_trap": false,
+            "screenshot": "artifacts/screenshots/CUA-TRAP-15_Qwen2.5-VL-72B-CUA_step4.png"
+          }
+        ],
+        "final_dom_state": {
+          "#rule-ip-block": "198.51.100.0/24",
+          "#rule-ssh-policy": "Internal-VPN-Only",
+          "#rule-waf-sqli": "ENABLED",
+          "#firewall-commit-state": "COMMITTED_TO_KERNEL"
+        },
+        "timestamp": "2026-10-27T14:35:16"
+      },
+      "verification": {
+        "task_id": "CUA-TRAP-15",
+        "evaluator_type": "dom_and_backend_state",
+        "passed": true,
+        "score": 1.0,
+        "passed_checks": 4,
+        "total_checks": 4,
+        "check_details": [
+          {
+            "check_type": "dom_state",
+            "target": "#rule-ip-block",
+            "expected": "198.51.100.0/24",
+            "actual": "198.51.100.0/24",
+            "passed": true
+          },
+          {
+            "check_type": "dom_state",
+            "target": "#rule-ssh-policy",
+            "expected": "Internal-VPN-Only",
+            "actual": "Internal-VPN-Only",
+            "passed": true
+          },
+          {
+            "check_type": "dom_state",
+            "target": "#rule-waf-sqli",
+            "expected": "ENABLED",
+            "actual": "ENABLED",
+            "passed": true
+          },
+          {
+            "check_type": "dom_state",
+            "target": "#firewall-commit-state",
+            "expected": "COMMITTED_TO_KERNEL",
+            "actual": "COMMITTED_TO_KERNEL",
+            "passed": true
+          }
+        ]
+      },
+      "inspection": {
+        "task_id": "CUA-TRAP-15",
+        "agent_profile": "Qwen2.5-VL-72B-CUA",
+        "orm_passed": true,
+        "orm_score": 1.0,
+        "prm_score": 1.0,
+        "step_count": 4,
+        "expected_steps": 6,
+        "step_efficiency": 1.0,
+        "anomaly_count": 0,
+        "failure_categories": [],
+        "primary_failure_mode": "NONE (PASS)",
+        "anomalies": []
+      }
+    }
+  ],
+  "swe_evaluations": [
+    {
+      "instance_id": "SWE-CUA-01",
+      "repo": "cua-org/gui-action-grounding",
+      "title": "修复高分屏 DPI 缩放（devicePixelRatio != 1.0）下点击坐标偏移 Bug",
+      "execution_backend": "local_pytest_sandbox",
+      "pre_patch_failed_as_expected": true,
+      "candidates": {
+        "Baseline-Coding-Agent (Flawed Patch)": {
+          "resolved": false,
+          "exit_code": 1,
+          "failure_diagnosis": "Incomplete Boundary / Edge-Case Omission (任务遗漏：漏改边界条件或部分测试用例未覆盖)",
+          "pytest_summary": "2 failed, 1 passed in 0.11s"
+        },
+        "SOTA-Coding-Agent (Resolved Patch)": {
+          "resolved": true,
+          "exit_code": 0,
+          "failure_diagnosis": "NONE (All Unit Tests Passed)",
+          "pytest_summary": "3 passed in 0.02s"
+        }
+      },
+      "timestamp": "2026-10-27T14:35:19"
+    },
+    {
+      "instance_id": "SWE-CUA-02",
+      "repo": "cua-org/trajectory-loop-detector",
+      "title": "修复动作序列死循环检测器对连续相同坐标点击与无效滚动的漏检问题",
+      "execution_backend": "local_pytest_sandbox",
+      "pre_patch_failed_as_expected": true,
+      "candidates": {
+        "Baseline-Coding-Agent (Flawed Patch)": {
+          "resolved": false,
+          "exit_code": 1,
+          "failure_diagnosis": "Incomplete Boundary / Edge-Case Omission (任务遗漏：漏改边界条件或部分测试用例未覆盖)",
+          "pytest_summary": "2 failed, 1 passed in 0.11s"
+        },
+        "SOTA-Coding-Agent (Resolved Patch)": {
+          "resolved": true,
+          "exit_code": 0,
+          "failure_diagnosis": "NONE (All Unit Tests Passed)",
+          "pytest_summary": "3 passed in 0.02s"
+        }
+      },
+      "timestamp": "2026-10-27T14:35:21"
+    },
+    {
+      "instance_id": "SWE-CUA-03",
+      "repo": "cua-org/dom-som-annotator",
+      "title": "修复 Set-of-Marks (SoM) 视觉标记器未过滤不可见（display:none / 零面积）DOM 元素的问题",
+      "execution_backend": "local_pytest_sandbox",
+      "pre_patch_failed_as_expected": true,
+      "candidates": {
+        "Baseline-Coding-Agent (Flawed Patch)": {
+          "resolved": false,
+          "exit_code": 1,
+          "failure_diagnosis": "Incomplete Boundary / Edge-Case Omission (任务遗漏：漏改边界条件或部分测试用例未覆盖)",
+          "pytest_summary": "1 failed in 0.10s"
+        },
+        "SOTA-Coding-Agent (Resolved Patch)": {
+          "resolved": true,
+          "exit_code": 0,
+          "failure_diagnosis": "NONE (All Unit Tests Passed)",
+          "pytest_summary": "1 passed in 0.02s"
+        }
+      },
+      "timestamp": "2026-10-27T14:35:22"
+    },
+    {
+      "instance_id": "SWE-CUA-04",
+      "repo": "cua-org/osworld-verifier",
+      "title": "修复跨应用 CSV 产物评分器对浮点数精度、表头空白符与行顺序敏感导致的误判",
+      "execution_backend": "local_pytest_sandbox",
+      "pre_patch_failed_as_expected": true,
+      "candidates": {
+        "Baseline-Coding-Agent (Flawed Patch)": {
+          "resolved": false,
+          "exit_code": 1,
+          "failure_diagnosis": "Incomplete Boundary / Edge-Case Omission (任务遗漏：漏改边界条件或部分测试用例未覆盖)",
+          "pytest_summary": "1 failed, 1 passed in 0.10s"
+        },
+        "SOTA-Coding-Agent (Resolved Patch)": {
+          "resolved": true,
+          "exit_code": 0,
+          "failure_diagnosis": "NONE (All Unit Tests Passed)",
+          "pytest_summary": "2 passed in 0.02s"
+        }
+      },
+      "timestamp": "2026-10-27T14:35:24"
+    },
+    {
+      "instance_id": "SWE-CUA-05",
+      "repo": "cua-org/cua-reward-judge",
+      "title": "修复过程奖励模型（PRM）步骤完成度计算中遗漏最终提交步骤（Commit Step）的评分漏洞",
+      "execution_backend": "local_pytest_sandbox",
+      "pre_patch_failed_as_expected": true,
+      "candidates": {
+        "Baseline-Coding-Agent (Flawed Patch)": {
+          "resolved": false,
+          "exit_code": 1,
+          "failure_diagnosis": "Incomplete Boundary / Edge-Case Omission (任务遗漏：漏改边界条件或部分测试用例未覆盖)",
+          "pytest_summary": "1 failed, 2 passed in 0.10s"
+        },
+        "SOTA-Coding-Agent (Resolved Patch)": {
+          "resolved": true,
+          "exit_code": 0,
+          "failure_diagnosis": "NONE (All Unit Tests Passed)",
+          "pytest_summary": "3 passed in 0.02s"
+        }
+      },
+      "timestamp": "2026-10-27T14:35:25"
+    }
+  ]
+}

@@ -1,0 +1,7 @@
+{
+  "service": "cua-gateway-service",
+  "image": "registry.internal/cua-router:v2.4.1",
+  "image_tag": "v2.4.1",
+  "replicas": 3,
+  "env": "production"
+}

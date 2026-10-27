@@ -1,0 +1,184 @@
+{
+  "trajectory": {
+    "task_id": "CUA-WEB-04",
+    "title": "IAM 跨模块离职员工权限审计与高危角色回收",
+    "category": "Browser_GUI_Navigation",
+    "agent_profile": "UI-TARS-7B-Baseline",
+    "expected_steps": 6,
+    "agent_claimed_success": true,
+    "premature_stop_on_toast": false,
+    "steps": [
+      {
+        "step_index": 1,
+        "thought": "Search employee EMP-8842",
+        "action_type": "fill",
+        "selector": "#input-emp-id",
+        "value": "EMP-8842",
+        "coords": [
+          589,
+          175
+        ],
+        "target_bbox": {
+          "x": 105,
+          "y": 156,
+          "width": 969,
+          "height": 38
+        },
+        "target_disabled": false,
+        "hit_ad_trap": false,
+        "screenshot": null
+      },
+      {
+        "step_index": 2,
+        "thought": "Click search",
+        "action_type": "click",
+        "selector": "#btn-search-emp",
+        "value": "",
+        "coords": [
+          1125,
+          179
+        ],
+        "target_bbox": {
+          "x": 1084,
+          "y": 152,
+          "width": 83,
+          "height": 54
+        },
+        "target_disabled": false,
+        "hit_ad_trap": false,
+        "screenshot": null
+      },
+      {
+        "step_index": 3,
+        "thought": "Revoke Prod-DB-Admin",
+        "action_type": "check",
+        "selector": "#role-db-admin",
+        "value": "",
+        "coords": [
+          115,
+          269
+        ],
+        "target_bbox": {
+          "x": 108,
+          "y": 262,
+          "width": 15,
+          "height": 15
+        },
+        "target_disabled": false,
+        "hit_ad_trap": false,
+        "screenshot": null
+      },
+      {
+        "step_index": 4,
+        "thought": "Revoke K8s-Cluster-Root",
+        "action_type": "check",
+        "selector": "#role-k8s-root",
+        "value": "",
+        "coords": [
+          115,
+          298
+        ],
+        "target_bbox": {
+          "x": 108,
+          "y": 291,
+          "width": 15,
+          "height": 15
+        },
+        "target_disabled": false,
+        "hit_ad_trap": false,
+        "screenshot": null
+      },
+      {
+        "step_index": 5,
+        "thought": "Enter audit note",
+        "action_type": "fill",
+        "selector": "#input-audit-note",
+        "value": "Offboarding_Audit_Done",
+        "coords": [
+          640,
+          399
+        ],
+        "target_bbox": {
+          "x": 105,
+          "y": 381,
+          "width": 1070,
+          "height": 37
+        },
+        "target_disabled": false,
+        "hit_ad_trap": false,
+        "screenshot": null
+      },
+      {
+        "step_index": 6,
+        "thought": "Save IAM role changes",
+        "action_type": "click",
+        "selector": "#btn-save-iam",
+        "value": "",
+        "coords": [
+          163,
+          447
+        ],
+        "target_bbox": {
+          "x": 105,
+          "y": 430,
+          "width": 116,
+          "height": 35
+        },
+        "target_disabled": false,
+        "hit_ad_trap": false,
+        "screenshot": "artifacts/screenshots/CUA-WEB-04_UI-TARS-7B-Baseline_step6.png"
+      }
+    ],
+    "final_dom_state": {
+      "#iam-save-status": "REVOKED_HIGH_PRIV",
+      "#remaining-role": "Archive-ReadOnly",
+      "#audit-note-val": "Offboarding_Audit_Done"
+    },
+    "timestamp": "2026-10-27T14:35:12"
+  },
+  "verification": {
+    "task_id": "CUA-WEB-04",
+    "evaluator_type": "dom_and_backend_state",
+    "passed": true,
+    "score": 1.0,
+    "passed_checks": 3,
+    "total_checks": 3,
+    "check_details": [
+      {
+        "check_type": "dom_state",
+        "target": "#iam-save-status",
+        "expected": "REVOKED_HIGH_PRIV",
+        "actual": "REVOKED_HIGH_PRIV",
+        "passed": true
+      },
+      {
+        "check_type": "dom_state",
+        "target": "#remaining-role",
+        "expected": "Archive-ReadOnly",
+        "actual": "Archive-ReadOnly",
+        "passed": true
+      },
+      {
+        "check_type": "dom_state",
+        "target": "#audit-note-val",
+        "expected": "Offboarding_Audit_Done",
+        "actual": "Offboarding_Audit_Done",
+        "passed": true
+      }
+    ]
+  },
+  "inspection": {
+    "task_id": "CUA-WEB-04",
+    "agent_profile": "UI-TARS-7B-Baseline",
+    "orm_passed": true,
+    "orm_score": 1.0,
+    "prm_score": 1.0,
+    "step_count": 6,
+    "expected_steps": 6,
+    "step_efficiency": 1.0,
+    "anomaly_count": 0,
+    "failure_categories": [],
+    "primary_failure_mode": "NONE (PASS)",
+    "anomalies": []
+  }
+}

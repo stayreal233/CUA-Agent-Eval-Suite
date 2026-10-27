@@ -1,0 +1,23 @@
+{
+  "processed_total": 4,
+  "onboarded_count": 3,
+  "rejected_count": 1,
+  "records": [
+    {
+      "vendor_id": "V-01",
+      "status": "ONBOARDED"
+    },
+    {
+      "vendor_id": "V-02",
+      "status": "REJECTED_LOW_SCORE"
+    },
+    {
+      "vendor_id": "V-03",
+      "status": "ONBOARDED"
+    },
+    {
+      "vendor_id": "V-04",
+      "status": "ONBOARDED"
+    }
+  ]
+}

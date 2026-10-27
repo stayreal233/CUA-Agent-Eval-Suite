@@ -1,0 +1,444 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8" />
+  <title>CUA-Agent-Eval-Suite // 评测与轨迹质检可视化看板</title>
+  <style>
+    body { font-family: 'Segoe UI', system-ui, sans-serif; margin: 0; background: #0f172a; color: #f8fafc; }
+    .wrap { max-width: 1360px; margin: 0 auto; padding: 28px; }
+    h1 { margin-top: 0; font-size: 24px; color: #38bdf8; }
+    h2 { font-size: 18px; color: #e2e8f0; border-left: 4px solid #38bdf8; padding-left: 10px; margin-top: 28px; }
+    .card { background: #1e293b; border: 1px solid #334155; border-radius: 10px; padding: 20px; margin-bottom: 22px; }
+    table { width: 100%; border-collapse: collapse; font-size: 13px; margin-top: 10px; }
+    th, td { border: 1px solid #334155; padding: 10px; text-align: left; vertical-align: top; }
+    th { background: #0f172a; color: #94a3b8; }
+    .badge { padding: 3px 8px; border-radius: 4px; font-weight: 700; font-size: 12px; }
+    .badge.pass { background: #14532d; color: #86efac; }
+    .badge.fail { background: #7f1d1d; color: #fca5a5; }
+    a { color: #38bdf8; text-decoration: none; }
+    a:hover { text-decoration: underline; }
+    code { color: #fbbf24; }
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <h1>CUA-Agent-Eval-Suite: 电脑操作智能体 (CUA) / Web GUI / Coding Agent 评测与轨迹质检看板</h1>
+    <div class="card">
+      <img src="benchmark_overview.png" style="max-width:100%; border-radius:8px; border:1px solid #475569;" alt="Benchmark Overview" />
+    </div>
+    <h2>一、 CUA 浏览器与跨应用操作任务评测及轨迹质检明细 (15 Tasks x Multi-Profile)</h2>
+    <div class="card">
+      <table>
+        <thead>
+          <tr>
+            <th>任务 ID</th>
+            <th>被测模型配置</th>
+            <th>任务名称</th>
+            <th>ORM 结果判定</th>
+            <th>PRM 过程得分</th>
+            <th>主错误归因类型</th>
+            <th>轨迹质检证据与修复建议 (Inspector Evidence)</th>
+            <th>SoM 截图</th>
+          </tr>
+        </thead>
+        <tbody>
+          
+                <tr>
+                  <td><code>CUA-WEB-01</code></td>
+                  <td>UI-TARS-7B-Baseline</td>
+                  <td>企业采购系统多条件筛选与预算内加购</td>
+                  <td><span class="badge fail">FAIL (0.667)</span></td>
+                  <td><strong>0.24</strong> (5 steps)</td>
+                  <td><code>GROUNDING_MISCLICK</code></td>
+                  <td style="font-size:12px;"><strong>[GROUNDING_MISCLICK]</strong> Step 5: Step 5 click coordinate [1195, 496] fell outside target &#x27;#btn-submit-order&#x27; bounding box {&#x27;x&#x27;: 1034, &#x27;y&#x27;: 426, &#x27;width&#x27;: 116, &#x27;height&#x27;: 35} (coordinate grounding offset).<br><strong>[TASK_OMISSION]</strong> Step 5: Agent completed 2/3 verification checks but omitted critical final step(s) or cross-app artifact: [&#x27;#order-status-badge&#x27;].</td>
+                  <td><a href="../../artifacts/screenshots/CUA-WEB-01_UI-TARS-7B-Baseline_step5.png" target="_blank">查看标注截图</a></td>
+                </tr>
+                
+                <tr>
+                  <td><code>CUA-WEB-02</code></td>
+                  <td>UI-TARS-7B-Baseline</td>
+                  <td>ServiceDesk 高优故障工单创建与 SLA 绑定</td>
+                  <td><span class="badge pass">PASS (1.0)</span></td>
+                  <td><strong>1.0</strong> (5 steps)</td>
+                  <td><code>NONE (PASS)</code></td>
+                  <td style="font-size:12px;"><span style="color:#16a34a;">No Trajectory Anomalies Detected</span></td>
+                  <td><a href="../../artifacts/screenshots/CUA-WEB-02_UI-TARS-7B-Baseline_step5.png" target="_blank">查看标注截图</a></td>
+                </tr>
+                
+                <tr>
+                  <td><code>CUA-WEB-03</code></td>
+                  <td>UI-TARS-7B-Baseline</td>
+                  <td>分页账单表格检索与批量状态核销</td>
+                  <td><span class="badge fail">FAIL (0.0)</span></td>
+                  <td><strong>0.12</strong> (4 steps)</td>
+                  <td><code>TASK_OMISSION</code></td>
+                  <td style="font-size:12px;"><strong>[TASK_OMISSION]</strong> Step 4: Agent completed 0/2 verification checks but omitted critical final step(s) or cross-app artifact: [&#x27;#batch-verify-result&#x27;, &#x27;#modal-confirmed&#x27;].</td>
+                  <td><a href="../../artifacts/screenshots/CUA-WEB-03_UI-TARS-7B-Baseline_step4.png" target="_blank">查看标注截图</a></td>
+                </tr>
+                
+                <tr>
+                  <td><code>CUA-WEB-04</code></td>
+                  <td>UI-TARS-7B-Baseline</td>
+                  <td>IAM 跨模块离职员工权限审计与高危角色回收</td>
+                  <td><span class="badge pass">PASS (1.0)</span></td>
+                  <td><strong>1.0</strong> (6 steps)</td>
+                  <td><code>NONE (PASS)</code></td>
+                  <td style="font-size:12px;"><span style="color:#16a34a;">No Trajectory Anomalies Detected</span></td>
+                  <td><a href="../../artifacts/screenshots/CUA-WEB-04_UI-TARS-7B-Baseline_step6.png" target="_blank">查看标注截图</a></td>
+                </tr>
+                
+                <tr>
+                  <td><code>CUA-WEB-05</code></td>
+                  <td>UI-TARS-7B-Baseline</td>
+                  <td>监控中心异常慢查询筛选与告警静默配置</td>
+                  <td><span class="badge pass">PASS (1.0)</span></td>
+                  <td><strong>1.0</strong> (4 steps)</td>
+                  <td><code>NONE (PASS)</code></td>
+                  <td style="font-size:12px;"><span style="color:#16a34a;">No Trajectory Anomalies Detected</span></td>
+                  <td><a href="../../artifacts/screenshots/CUA-WEB-05_UI-TARS-7B-Baseline_step4.png" target="_blank">查看标注截图</a></td>
+                </tr>
+                
+                <tr>
+                  <td><code>CUA-CROSS-06</code></td>
+                  <td>UI-TARS-7B-Baseline</td>
+                  <td>跨应用财务对账：网页逾期账单提取与本地税费核算 CSV 导出</td>
+                  <td><span class="badge pass">PASS (1.0)</span></td>
+                  <td><strong>1.0</strong> (1 steps)</td>
+                  <td><code>NONE (PASS)</code></td>
+                  <td style="font-size:12px;"><span style="color:#16a34a;">No Trajectory Anomalies Detected</span></td>
+                  <td><a href="../../artifacts/screenshots/CUA-CROSS-06_UI-TARS-7B-Baseline_step1.png" target="_blank">查看标注截图</a></td>
+                </tr>
+                
+                <tr>
+                  <td><code>CUA-CROSS-07</code></td>
+                  <td>UI-TARS-7B-Baseline</td>
+                  <td>跨应用发布配置同步：读取本地部署清单填入云控制台并回写回执</td>
+                  <td><span class="badge pass">PASS (1.0)</span></td>
+                  <td><strong>1.0</strong> (5 steps)</td>
+                  <td><code>NONE (PASS)</code></td>
+                  <td style="font-size:12px;"><span style="color:#16a34a;">No Trajectory Anomalies Detected</span></td>
+                  <td><a href="../../artifacts/screenshots/CUA-CROSS-07_UI-TARS-7B-Baseline_step5.png" target="_blank">查看标注截图</a></td>
+                </tr>
+                
+                <tr>
+                  <td><code>CUA-CROSS-08</code></td>
+                  <td>UI-TARS-7B-Baseline</td>
+                  <td>跨应用客户工单分流：网页 CRM 告警与本地 SQLite 数据库联合更新</td>
+                  <td><span class="badge fail">FAIL (0.5)</span></td>
+                  <td><strong>0.42</strong> (4 steps)</td>
+                  <td><code>TASK_OMISSION</code></td>
+                  <td style="font-size:12px;"><strong>[TASK_OMISSION]</strong> Step 4: Agent completed 1/2 verification checks but omitted critical final step(s) or cross-app artifact: [&quot;enterprise_crm.db -&gt; SELECT COUNT(*) FROM ticket_escalation_audit WHERE assigned_group=&#x27;Director-Escalation-Group&#x27; AND tier=&#x27;DIAMOND&#x27;;&quot;].</td>
+                  <td><a href="../../artifacts/screenshots/CUA-CROSS-08_UI-TARS-7B-Baseline_step4.png" target="_blank">查看标注截图</a></td>
+                </tr>
+                
+                <tr>
+                  <td><code>CUA-CROSS-09</code></td>
+                  <td>UI-TARS-7B-Baseline</td>
+                  <td>跨应用故障复盘生成：抓取监控台 Top3 报错接口并生成本地 Markdown 报告</td>
+                  <td><span class="badge pass">PASS (1.0)</span></td>
+                  <td><strong>1.0</strong> (2 steps)</td>
+                  <td><code>NONE (PASS)</code></td>
+                  <td style="font-size:12px;"><span style="color:#16a34a;">No Trajectory Anomalies Detected</span></td>
+                  <td><a href="../../artifacts/screenshots/CUA-CROSS-09_UI-TARS-7B-Baseline_step2.png" target="_blank">查看标注截图</a></td>
+                </tr>
+                
+                <tr>
+                  <td><code>CUA-CROSS-10</code></td>
+                  <td>UI-TARS-7B-Baseline</td>
+                  <td>跨应用供应商批量入库：读取本地 JSON 批次表并在网页端幂等录入</td>
+                  <td><span class="badge pass">PASS (1.0)</span></td>
+                  <td><strong>0.92</strong> (10 steps)</td>
+                  <td><code>NONE (PASS)</code></td>
+                  <td style="font-size:12px;"><span style="color:#16a34a;">No Trajectory Anomalies Detected</span></td>
+                  <td><a href="../../artifacts/screenshots/CUA-CROSS-10_UI-TARS-7B-Baseline_step10.png" target="_blank">查看标注截图</a></td>
+                </tr>
+                
+                <tr>
+                  <td><code>CUA-CROSS-11</code></td>
+                  <td>UI-TARS-7B-Baseline</td>
+                  <td>跨应用密钥轮换：从开发者控制台获取新密钥并更新本地环境配置与审计快照</td>
+                  <td><span class="badge pass">PASS (1.0)</span></td>
+                  <td><strong>1.0</strong> (2 steps)</td>
+                  <td><code>NONE (PASS)</code></td>
+                  <td style="font-size:12px;"><span style="color:#16a34a;">No Trajectory Anomalies Detected</span></td>
+                  <td><a href="../../artifacts/screenshots/CUA-CROSS-11_UI-TARS-7B-Baseline_step2.png" target="_blank">查看标注截图</a></td>
+                </tr>
+                
+                <tr>
+                  <td><code>CUA-TRAP-12</code></td>
+                  <td>UI-TARS-7B-Baseline</td>
+                  <td>【抗干扰测试-误点击识别】悬浮广告遮挡下的企业许可证续期确认</td>
+                  <td><span class="badge fail">FAIL (0.0)</span></td>
+                  <td><strong>0.12</strong> (2 steps)</td>
+                  <td><code>GROUNDING_MISCLICK</code></td>
+                  <td style="font-size:12px;"><strong>[GROUNDING_MISCLICK]</strong> Step 2: Step 2 clicked deceptive trap element &#x27;#btn-ad-trial-trap&#x27; at [630, 185].</td>
+                  <td><a href="../../artifacts/screenshots/CUA-TRAP-12_UI-TARS-7B-Baseline_step2.png" target="_blank">查看标注截图</a></td>
+                </tr>
+                
+                <tr>
+                  <td><code>CUA-TRAP-13</code></td>
+                  <td>UI-TARS-7B-Baseline</td>
+                  <td>【抗干扰测试-状态误判识别】异步数据库迁移校验失败后的二次修复提交</td>
+                  <td><span class="badge fail">FAIL (0.0)</span></td>
+                  <td><strong>0.12</strong> (2 steps)</td>
+                  <td><code>STATE_MISJUDGMENT</code></td>
+                  <td style="font-size:12px;"><strong>[STATE_MISJUDGMENT]</strong> Step 2: Agent declared task complete at Step 2 after intermediate toast, but actual DOM state indicates failure: {&#x27;#migration-final-state&#x27;: &#x27;ERR_MISSING_CHECKSUM&#x27;, &#x27;#checksum-verified&#x27;: &#x27;NONE&#x27;, &#x27;#toast-msg&#x27;: &#x27;Request Sent (请求已发送，正在后台校验...)&#x27;}.</td>
+                  <td><a href="../../artifacts/screenshots/CUA-TRAP-13_UI-TARS-7B-Baseline_step2.png" target="_blank">查看标注截图</a></td>
+                </tr>
+                
+                <tr>
+                  <td><code>CUA-TRAP-14</code></td>
+                  <td>UI-TARS-7B-Baseline</td>
+                  <td>【抗干扰测试-重复操作识别】前置合规协议勾选解锁加密审计日志导出</td>
+                  <td><span class="badge fail">FAIL (0.0)</span></td>
+                  <td><strong>0.0</strong> (4 steps)</td>
+                  <td><code>ACTION_LOOPING</code></td>
+                  <td style="font-size:12px;"><strong>[ACTION_LOOPING]</strong> Step 1: Step 1 attempted to click disabled element &#x27;#btn-export-archive&#x27; without unlocking prerequisites.<br><strong>[ACTION_LOOPING]</strong> Step 2: Step 2 attempted to click disabled element &#x27;#btn-export-archive&#x27; without unlocking prerequisites.<br><strong>[ACTION_LOOPING]</strong> Step 3: Step 3 attempted to click disabled element &#x27;#btn-export-archive&#x27; without unlocking prerequisites.<br><strong>[ACTION_LOOPING]</strong> Step 4: Step 4 attempted to click disabled element &#x27;#btn-export-archive&#x27; without unlocking prerequisites.<br><strong>[ACTION_LOOPING]</strong> Step 1: Repeated identical click on selector &#x27;#btn-export-archive&#x27; for 3+ consecutive steps starting at Step 1.<br><strong>[TASK_OMISSION]</strong> Step 4: Agent completed 0/3 verification checks but omitted critical final step(s) or cross-app artifact: [&#x27;#export-status&#x27;, &#x27;#compliance-ack-state&#x27;, &#x27;security_audit_archive.json&#x27;].</td>
+                  <td><a href="../../artifacts/screenshots/CUA-TRAP-14_UI-TARS-7B-Baseline_step4.png" target="_blank">查看标注截图</a></td>
+                </tr>
+                
+                <tr>
+                  <td><code>CUA-TRAP-15</code></td>
+                  <td>UI-TARS-7B-Baseline</td>
+                  <td>【抗干扰测试-任务遗漏识别】多阶段防火墙策略变更与全局持久化生效提交</td>
+                  <td><span class="badge fail">FAIL (0.75)</span></td>
+                  <td><strong>0.57</strong> (3 steps)</td>
+                  <td><code>TASK_OMISSION</code></td>
+                  <td style="font-size:12px;"><strong>[TASK_OMISSION]</strong> Step 3: Agent completed 3/4 verification checks but omitted critical final step(s) or cross-app artifact: [&#x27;#firewall-commit-state&#x27;].</td>
+                  <td><a href="../../artifacts/screenshots/CUA-TRAP-15_UI-TARS-7B-Baseline_step3.png" target="_blank">查看标注截图</a></td>
+                </tr>
+                
+                <tr>
+                  <td><code>CUA-WEB-01</code></td>
+                  <td>Qwen2.5-VL-72B-CUA</td>
+                  <td>企业采购系统多条件筛选与预算内加购</td>
+                  <td><span class="badge pass">PASS (1.0)</span></td>
+                  <td><strong>0.933</strong> (6 steps)</td>
+                  <td><code>NONE (PASS)</code></td>
+                  <td style="font-size:12px;"><span style="color:#16a34a;">No Trajectory Anomalies Detected</span></td>
+                  <td><a href="../../artifacts/screenshots/CUA-WEB-01_Qwen2.5-VL-72B-CUA_step6.png" target="_blank">查看标注截图</a></td>
+                </tr>
+                
+                <tr>
+                  <td><code>CUA-WEB-02</code></td>
+                  <td>Qwen2.5-VL-72B-CUA</td>
+                  <td>ServiceDesk 高优故障工单创建与 SLA 绑定</td>
+                  <td><span class="badge pass">PASS (1.0)</span></td>
+                  <td><strong>1.0</strong> (5 steps)</td>
+                  <td><code>NONE (PASS)</code></td>
+                  <td style="font-size:12px;"><span style="color:#16a34a;">No Trajectory Anomalies Detected</span></td>
+                  <td><a href="../../artifacts/screenshots/CUA-WEB-02_Qwen2.5-VL-72B-CUA_step5.png" target="_blank">查看标注截图</a></td>
+                </tr>
+                
+                <tr>
+                  <td><code>CUA-WEB-03</code></td>
+                  <td>Qwen2.5-VL-72B-CUA</td>
+                  <td>分页账单表格检索与批量状态核销</td>
+                  <td><span class="badge pass">PASS (1.0)</span></td>
+                  <td><strong>1.0</strong> (5 steps)</td>
+                  <td><code>NONE (PASS)</code></td>
+                  <td style="font-size:12px;"><span style="color:#16a34a;">No Trajectory Anomalies Detected</span></td>
+                  <td><a href="../../artifacts/screenshots/CUA-WEB-03_Qwen2.5-VL-72B-CUA_step5.png" target="_blank">查看标注截图</a></td>
+                </tr>
+                
+                <tr>
+                  <td><code>CUA-WEB-04</code></td>
+                  <td>Qwen2.5-VL-72B-CUA</td>
+                  <td>IAM 跨模块离职员工权限审计与高危角色回收</td>
+                  <td><span class="badge pass">PASS (1.0)</span></td>
+                  <td><strong>1.0</strong> (6 steps)</td>
+                  <td><code>NONE (PASS)</code></td>
+                  <td style="font-size:12px;"><span style="color:#16a34a;">No Trajectory Anomalies Detected</span></td>
+                  <td><a href="../../artifacts/screenshots/CUA-WEB-04_Qwen2.5-VL-72B-CUA_step6.png" target="_blank">查看标注截图</a></td>
+                </tr>
+                
+                <tr>
+                  <td><code>CUA-WEB-05</code></td>
+                  <td>Qwen2.5-VL-72B-CUA</td>
+                  <td>监控中心异常慢查询筛选与告警静默配置</td>
+                  <td><span class="badge pass">PASS (1.0)</span></td>
+                  <td><strong>1.0</strong> (4 steps)</td>
+                  <td><code>NONE (PASS)</code></td>
+                  <td style="font-size:12px;"><span style="color:#16a34a;">No Trajectory Anomalies Detected</span></td>
+                  <td><a href="../../artifacts/screenshots/CUA-WEB-05_Qwen2.5-VL-72B-CUA_step4.png" target="_blank">查看标注截图</a></td>
+                </tr>
+                
+                <tr>
+                  <td><code>CUA-CROSS-06</code></td>
+                  <td>Qwen2.5-VL-72B-CUA</td>
+                  <td>跨应用财务对账：网页逾期账单提取与本地税费核算 CSV 导出</td>
+                  <td><span class="badge pass">PASS (1.0)</span></td>
+                  <td><strong>1.0</strong> (1 steps)</td>
+                  <td><code>NONE (PASS)</code></td>
+                  <td style="font-size:12px;"><span style="color:#16a34a;">No Trajectory Anomalies Detected</span></td>
+                  <td><a href="../../artifacts/screenshots/CUA-CROSS-06_Qwen2.5-VL-72B-CUA_step1.png" target="_blank">查看标注截图</a></td>
+                </tr>
+                
+                <tr>
+                  <td><code>CUA-CROSS-07</code></td>
+                  <td>Qwen2.5-VL-72B-CUA</td>
+                  <td>跨应用发布配置同步：读取本地部署清单填入云控制台并回写回执</td>
+                  <td><span class="badge pass">PASS (1.0)</span></td>
+                  <td><strong>1.0</strong> (5 steps)</td>
+                  <td><code>NONE (PASS)</code></td>
+                  <td style="font-size:12px;"><span style="color:#16a34a;">No Trajectory Anomalies Detected</span></td>
+                  <td><a href="../../artifacts/screenshots/CUA-CROSS-07_Qwen2.5-VL-72B-CUA_step5.png" target="_blank">查看标注截图</a></td>
+                </tr>
+                
+                <tr>
+                  <td><code>CUA-CROSS-08</code></td>
+                  <td>Qwen2.5-VL-72B-CUA</td>
+                  <td>跨应用客户工单分流：网页 CRM 告警与本地 SQLite 数据库联合更新</td>
+                  <td><span class="badge pass">PASS (1.0)</span></td>
+                  <td><strong>1.0</strong> (5 steps)</td>
+                  <td><code>NONE (PASS)</code></td>
+                  <td style="font-size:12px;"><span style="color:#16a34a;">No Trajectory Anomalies Detected</span></td>
+                  <td><a href="../../artifacts/screenshots/CUA-CROSS-08_Qwen2.5-VL-72B-CUA_step5.png" target="_blank">查看标注截图</a></td>
+                </tr>
+                
+                <tr>
+                  <td><code>CUA-CROSS-09</code></td>
+                  <td>Qwen2.5-VL-72B-CUA</td>
+                  <td>跨应用故障复盘生成：抓取监控台 Top3 报错接口并生成本地 Markdown 报告</td>
+                  <td><span class="badge pass">PASS (1.0)</span></td>
+                  <td><strong>1.0</strong> (2 steps)</td>
+                  <td><code>NONE (PASS)</code></td>
+                  <td style="font-size:12px;"><span style="color:#16a34a;">No Trajectory Anomalies Detected</span></td>
+                  <td><a href="../../artifacts/screenshots/CUA-CROSS-09_Qwen2.5-VL-72B-CUA_step2.png" target="_blank">查看标注截图</a></td>
+                </tr>
+                
+                <tr>
+                  <td><code>CUA-CROSS-10</code></td>
+                  <td>Qwen2.5-VL-72B-CUA</td>
+                  <td>跨应用供应商批量入库：读取本地 JSON 批次表并在网页端幂等录入</td>
+                  <td><span class="badge pass">PASS (1.0)</span></td>
+                  <td><strong>0.92</strong> (10 steps)</td>
+                  <td><code>NONE (PASS)</code></td>
+                  <td style="font-size:12px;"><span style="color:#16a34a;">No Trajectory Anomalies Detected</span></td>
+                  <td><a href="../../artifacts/screenshots/CUA-CROSS-10_Qwen2.5-VL-72B-CUA_step10.png" target="_blank">查看标注截图</a></td>
+                </tr>
+                
+                <tr>
+                  <td><code>CUA-CROSS-11</code></td>
+                  <td>Qwen2.5-VL-72B-CUA</td>
+                  <td>跨应用密钥轮换：从开发者控制台获取新密钥并更新本地环境配置与审计快照</td>
+                  <td><span class="badge pass">PASS (1.0)</span></td>
+                  <td><strong>1.0</strong> (2 steps)</td>
+                  <td><code>NONE (PASS)</code></td>
+                  <td style="font-size:12px;"><span style="color:#16a34a;">No Trajectory Anomalies Detected</span></td>
+                  <td><a href="../../artifacts/screenshots/CUA-CROSS-11_Qwen2.5-VL-72B-CUA_step2.png" target="_blank">查看标注截图</a></td>
+                </tr>
+                
+                <tr>
+                  <td><code>CUA-TRAP-12</code></td>
+                  <td>Qwen2.5-VL-72B-CUA</td>
+                  <td>【抗干扰测试-误点击识别】悬浮广告遮挡下的企业许可证续期确认</td>
+                  <td><span class="badge pass">PASS (1.0)</span></td>
+                  <td><strong>1.0</strong> (3 steps)</td>
+                  <td><code>NONE (PASS)</code></td>
+                  <td style="font-size:12px;"><span style="color:#16a34a;">No Trajectory Anomalies Detected</span></td>
+                  <td><a href="../../artifacts/screenshots/CUA-TRAP-12_Qwen2.5-VL-72B-CUA_step3.png" target="_blank">查看标注截图</a></td>
+                </tr>
+                
+                <tr>
+                  <td><code>CUA-TRAP-13</code></td>
+                  <td>Qwen2.5-VL-72B-CUA</td>
+                  <td>【抗干扰测试-状态误判识别】异步数据库迁移校验失败后的二次修复提交</td>
+                  <td><span class="badge pass">PASS (1.0)</span></td>
+                  <td><strong>1.0</strong> (4 steps)</td>
+                  <td><code>NONE (PASS)</code></td>
+                  <td style="font-size:12px;"><span style="color:#16a34a;">No Trajectory Anomalies Detected</span></td>
+                  <td><a href="../../artifacts/screenshots/CUA-TRAP-13_Qwen2.5-VL-72B-CUA_step4.png" target="_blank">查看标注截图</a></td>
+                </tr>
+                
+                <tr>
+                  <td><code>CUA-TRAP-14</code></td>
+                  <td>Qwen2.5-VL-72B-CUA</td>
+                  <td>【抗干扰测试-重复操作识别】前置合规协议勾选解锁加密审计日志导出</td>
+                  <td><span class="badge pass">PASS (1.0)</span></td>
+                  <td><strong>1.0</strong> (4 steps)</td>
+                  <td><code>NONE (PASS)</code></td>
+                  <td style="font-size:12px;"><span style="color:#16a34a;">No Trajectory Anomalies Detected</span></td>
+                  <td><a href="../../artifacts/screenshots/CUA-TRAP-14_Qwen2.5-VL-72B-CUA_step4.png" target="_blank">查看标注截图</a></td>
+                </tr>
+                
+                <tr>
+                  <td><code>CUA-TRAP-15</code></td>
+                  <td>Qwen2.5-VL-72B-CUA</td>
+                  <td>【抗干扰测试-任务遗漏识别】多阶段防火墙策略变更与全局持久化生效提交</td>
+                  <td><span class="badge pass">PASS (1.0)</span></td>
+                  <td><strong>1.0</strong> (4 steps)</td>
+                  <td><code>NONE (PASS)</code></td>
+                  <td style="font-size:12px;"><span style="color:#16a34a;">No Trajectory Anomalies Detected</span></td>
+                  <td><a href="../../artifacts/screenshots/CUA-TRAP-15_Qwen2.5-VL-72B-CUA_step4.png" target="_blank">查看标注截图</a></td>
+                </tr>
+                
+        </tbody>
+      </table>
+    </div>
+    <h2>二、 SWE-bench 风格 Coding Agent 代码修复评测明细 (Docker / Sandbox Pytest Verification)</h2>
+    <div class="card">
+      <table>
+        <thead>
+          <tr>
+            <th>任务 ID</th>
+            <th>目标仓库模块</th>
+            <th>Issue 修复任务描述</th>
+            <th>沙盒执行引擎</th>
+            <th>Baseline Agent 结果</th>
+            <th>SOTA Agent 结果</th>
+          </tr>
+        </thead>
+        <tbody>
+          
+                <tr>
+                  <td><code>SWE-CUA-01</code></td>
+                  <td><code>cua-org/gui-action-grounding</code></td>
+                  <td>修复高分屏 DPI 缩放（devicePixelRatio != 1.0）下点击坐标偏移 Bug</td>
+                  <td>local_pytest_sandbox</td>
+                  <td><span class="badge fail">FAIL (2 failed, 1 passed in 0.11s)</span></td>
+                  <td><span class="badge pass">RESOLVED (3 passed in 0.02s)</span></td>
+                </tr>
+                
+                <tr>
+                  <td><code>SWE-CUA-02</code></td>
+                  <td><code>cua-org/trajectory-loop-detector</code></td>
+                  <td>修复动作序列死循环检测器对连续相同坐标点击与无效滚动的漏检问题</td>
+                  <td>local_pytest_sandbox</td>
+                  <td><span class="badge fail">FAIL (2 failed, 1 passed in 0.11s)</span></td>
+                  <td><span class="badge pass">RESOLVED (3 passed in 0.02s)</span></td>
+                </tr>
+                
+                <tr>
+                  <td><code>SWE-CUA-03</code></td>
+                  <td><code>cua-org/dom-som-annotator</code></td>
+                  <td>修复 Set-of-Marks (SoM) 视觉标记器未过滤不可见（display:none / 零面积）DOM 元素的问题</td>
+                  <td>local_pytest_sandbox</td>
+                  <td><span class="badge fail">FAIL (1 failed in 0.10s)</span></td>
+                  <td><span class="badge pass">RESOLVED (1 passed in 0.02s)</span></td>
+                </tr>
+                
+                <tr>
+                  <td><code>SWE-CUA-04</code></td>
+                  <td><code>cua-org/osworld-verifier</code></td>
+                  <td>修复跨应用 CSV 产物评分器对浮点数精度、表头空白符与行顺序敏感导致的误判</td>
+                  <td>local_pytest_sandbox</td>
+                  <td><span class="badge fail">FAIL (1 failed, 1 passed in 0.10s)</span></td>
+                  <td><span class="badge pass">RESOLVED (2 passed in 0.02s)</span></td>
+                </tr>
+                
+                <tr>
+                  <td><code>SWE-CUA-05</code></td>
+                  <td><code>cua-org/cua-reward-judge</code></td>
+                  <td>修复过程奖励模型（PRM）步骤完成度计算中遗漏最终提交步骤（Commit Step）的评分漏洞</td>
+                  <td>local_pytest_sandbox</td>
+                  <td><span class="badge fail">FAIL (1 failed, 2 passed in 0.10s)</span></td>
+                  <td><span class="badge pass">RESOLVED (3 passed in 0.02s)</span></td>
+                </tr>
+                
+        </tbody>
+      </table>
+    </div>
+  </div>
+</body>
+</html>
